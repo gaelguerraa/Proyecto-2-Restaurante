@@ -14,11 +14,6 @@
             <artifactId>SistemaVideojuegosDominio</artifactId>
             <version>1.0</version>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>SistemaRestauranteDominio</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
     <properties>
         <maven.compiler.source>23</maven.compiler.source>

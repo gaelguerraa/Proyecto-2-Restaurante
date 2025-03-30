@@ -4,7 +4,11 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.sistemarestaurantedominio.NewEntity</class>
     <class>sistemarestaurantedominio.Producto</class>
-    <class>sistemarestaurantedominio.DetallesComanda</class>
+    <class>sistemarestaurantedominio.DetalleComanda</class>
+    <class>sistemarestaurantedominio.Ingrediente</class>
+    <class>sistemarestaurantedominio.Mesa</class>
+    <class>sistemarestaurantedominio.IngredienteProducto</class>
+    <class>sistemarestaurantedominio.Comanda</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sistema_restaurante?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

@@ -25,7 +25,7 @@ public class NuevoProductoDTO {
         return nombre;
     }
 
-    public Float getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 

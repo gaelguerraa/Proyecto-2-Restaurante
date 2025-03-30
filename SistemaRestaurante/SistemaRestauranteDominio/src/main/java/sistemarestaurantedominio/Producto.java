@@ -15,17 +15,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author gael_
  */
 @Entity
+@Table(name="productos")
 public class Producto implements Serializable {
 
    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_producto")
     private Long id;
     
     @Column(name = "nombre", nullable=false)
@@ -37,10 +40,14 @@ public class Producto implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column (name = "tipo", nullable=false)
     private TipoProducto tipo;
-
+    
+    /*Falta el cascade*/
+    @OneToMany(mappedBy = "producto")
+    private List<IngredienteProducto> ingredientes;
+    
     @OneToMany(mappedBy = "producto", cascade = CascadeType.PERSIST)
     private List<DetallesComanda> detallesComanda;
-    
+
     public Producto() {
     }
 
@@ -72,6 +79,14 @@ public class Producto implements Serializable {
 
     public void setTipo(TipoProducto tipo) {
         this.tipo = tipo;
+    }
+
+    public List<IngredienteProducto> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<IngredienteProducto> ingredientes) {
+        this.ingredientes = ingredientes;
     }
             
            
