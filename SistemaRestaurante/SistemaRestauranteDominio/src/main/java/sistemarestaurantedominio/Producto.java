@@ -5,7 +5,10 @@
 package sistemarestaurantedominio;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,10 +20,57 @@ import javax.persistence.Id;
 @Entity
 public class Producto implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+   
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(name = "nombre", nullable=false)
+    private String nombre;
+    
+    @Column (name = "precio", nullable=false )
+    private double precio;
+    
+    @Enumerated(EnumType.STRING)
+    @Column (name = "tipo", nullable=false)
+    private TipoProducto tipo;
+
+    public Producto() {
+    }
+
+    public Producto(String nombre, double precio, TipoProducto tipo) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tipo = tipo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public TipoProducto getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoProducto tipo) {
+        this.tipo = tipo;
+    }
+            
+           
+    
+    
 
     public Long getId() {
         return id;
@@ -52,7 +102,7 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sistemarestaurantedominio.Producto[ id=" + id + " ]";
+        return "sistemarestaurantedominio.Producto[ id=" + id + " ]";
     }
     
 }
