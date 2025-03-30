@@ -7,6 +7,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>SistemaRestauranteDominio</module>
+        <module>SistemaRestaurantePersistencia</module>
+        <module>SistemaRestauranteNegocio</module>
+        <module>SistemaRestaurantePresentacion</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
