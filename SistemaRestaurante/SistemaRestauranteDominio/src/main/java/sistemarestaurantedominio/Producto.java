@@ -32,7 +32,7 @@ public class Producto implements Serializable {
     private String nombre;
     
     @Column (name = "precio", nullable=false )
-    private double precio;
+    private Float precio;
     
     @Enumerated(EnumType.STRING)
     @Column (name = "tipo", nullable=false)
@@ -44,7 +44,7 @@ public class Producto implements Serializable {
     public Producto() {
     }
 
-    public Producto(String nombre, double precio, TipoProducto tipo) {
+    public Producto(String nombre, Float precio, TipoProducto tipo) {
         this.nombre = nombre;
         this.precio = precio;
         this.tipo = tipo;
@@ -62,7 +62,7 @@ public class Producto implements Serializable {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(Float precio) {
         this.precio = precio;
     }
 

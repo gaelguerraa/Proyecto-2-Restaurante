@@ -12,10 +12,10 @@ import sistemarestaurantedominio.TipoProducto;
  */
 public class NuevoProductoDTO {
     private String nombre;
-    private double precio;
+    private Float precio;
     private TipoProducto tipo;
 
-    public NuevoProductoDTO(String nombre, double precio, TipoProducto tipo) {
+    public NuevoProductoDTO(String nombre, Float precio, TipoProducto tipo) {
         this.nombre = nombre;
         this.precio = precio;
         this.tipo = tipo;
@@ -25,7 +25,7 @@ public class NuevoProductoDTO {
         return nombre;
     }
 
-    public double getPrecio() {
+    public Float getPrecio() {
         return precio;
     }
 
