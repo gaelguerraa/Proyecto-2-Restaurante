@@ -9,11 +9,11 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -21,62 +21,34 @@ import javax.persistence.OneToMany;
  * @author gael_
  */
 @Entity
-public class Producto implements Serializable {
+public class DetallesComanda implements Serializable {
 
-   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "nombre", nullable=false)
-    private String nombre;
+    @Column (name="cantidad", nullable=false)
+    private Integer cantidadProducto;
     
-    @Column (name = "precio", nullable=false )
-    private double precio;
+    @Column (name="precioUnitario", nullable = false, precision = 10, scale = 2)
+    private double precioUnitarioProducto;
     
-    @Enumerated(EnumType.STRING)
-    @Column (name = "tipo", nullable=false)
-    private TipoProducto tipo;
-
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.PERSIST)
-    private List<DetallesComanda> detallesComanda;
+    @Column (name = "importeTotal", nullable = false, precision = 10, scale = 2)
+    private double importeTotal;
     
-    public Producto() {
-    }
+    @Column(name = "nota", nullable = true, length = 100)
+    private String nota;
+    
+    @ManyToOne
+    @JoinColumn(name = "idProducto", nullable = false)
+    private Producto producto;
+    
+//    @ManyToOne(mappedBy = "comada", cascade = {CascadeType.PERSIST})
+//    private Comanda comanda;
 
-    public Producto(String nombre, double precio, TipoProducto tipo) {
-        this.nombre = nombre;
-        this.precio = precio;
-        this.tipo = tipo;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
-    public TipoProducto getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoProducto tipo) {
-        this.tipo = tipo;
-    }
-            
-           
     
     
+    //private Comanda comanda;
 
     public Long getId() {
         return id;
@@ -96,10 +68,10 @@ public class Producto implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Producto)) {
+        if (!(object instanceof DetallesComanda)) {
             return false;
         }
-        Producto other = (Producto) object;
+        DetallesComanda other = (DetallesComanda) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -108,7 +80,7 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return "sistemarestaurantedominio.Producto[ id=" + id + " ]";
+        return "sistemarestaurantedominio.DetallesComandas[ id=" + id + " ]";
     }
     
 }
