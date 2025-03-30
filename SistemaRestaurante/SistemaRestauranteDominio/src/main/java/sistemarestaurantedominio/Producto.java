@@ -31,7 +31,7 @@ public class Producto implements Serializable {
     @Column(name = "nombre", nullable=false)
     private String nombre;
     
-    @Column (name = "precio", nullable=false )
+    @Column (name = "precio", nullable=false, precision = 10, scale = 2 )
     private Float precio;
     
     @Enumerated(EnumType.STRING)
