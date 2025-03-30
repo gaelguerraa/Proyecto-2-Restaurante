@@ -91,6 +91,14 @@ public class Producto implements Serializable {
     public void setIngredientes(List<IngredienteProducto> ingredientes) {
         this.ingredientes = ingredientes;
     }
+
+    public List<DetallesComanda> getDetallesComanda() {
+        return detallesComanda;
+    }
+
+    public void setDetallesComanda(List<DetallesComanda> detallesComanda) {
+        this.detallesComanda = detallesComanda;
+    }
             
            
     
