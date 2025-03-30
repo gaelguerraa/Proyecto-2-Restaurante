@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package com.sistemarestaurantenegocio;
+package sistemarestaurantepresentacion;
 
 /**
  *
  * @author gael_
  */
-public class SistemaRestauranteNegocio {
+public class SistemaRestaurantePresentacion {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");

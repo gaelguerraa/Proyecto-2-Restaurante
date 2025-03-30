@@ -8,6 +8,13 @@
     </parent>
     <artifactId>SistemaRestauranteNegocio</artifactId>
     <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>itson</groupId>
+            <artifactId>SistemaVideojuegosDominio</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
     <properties>
         <maven.compiler.source>23</maven.compiler.source>
         <maven.compiler.target>23</maven.compiler.target>
