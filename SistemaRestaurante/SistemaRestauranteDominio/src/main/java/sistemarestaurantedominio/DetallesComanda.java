@@ -28,25 +28,36 @@ public class DetallesComanda implements Serializable {
     @Column (name="cantidad", nullable=false)
     private Integer cantidadProducto;
     
-    @Column (name="precioUnitario", nullable = false, precision = 10, scale = 2)
-    private double precioUnitarioProducto;
+    @Column (name="precio_unitario", nullable = false, precision = 10, scale = 2)
+    private Float precioUnitarioProducto;
     
-    @Column (name = "importeTotal", nullable = false, precision = 10, scale = 2)
-    private double importeTotal;
+    @Column (name = "importe_total", nullable = false, precision = 10, scale = 2)
+    private Float importeTotal;
     
     @Column(name = "nota", nullable = true, length = 100)
     private String nota;
     
+    //muchos DetallesComandas estan asociadas a un producto
     @ManyToOne
-    @JoinColumn(name = "idProducto", nullable = false)
+    @JoinColumn(name = "id_producto", nullable = false)
     private Producto producto;
     
-//    @ManyToOne(mappedBy = "comada", cascade = {CascadeType.PERSIST})
-//    private Comanda comanda;
+    //muchos DetallesComandas estan asociadas a una comanda
+    @ManyToOne
+    @JoinColumn(name = "id_comanda", nullable = true)
+    private Comanda comanda;
 
-    
-    
-    //private Comanda comanda;
+    public DetallesComanda() {
+    }
+
+    public DetallesComanda(Integer cantidadProducto, Float precioUnitarioProducto, Float importeTotal, String nota, Producto producto, Comanda comanda) {
+        this.cantidadProducto = cantidadProducto;
+        this.precioUnitarioProducto = precioUnitarioProducto;
+        this.importeTotal = importeTotal;
+        this.nota = nota;
+        this.producto = producto;
+        this.comanda = comanda;
+    }
 
     public Long getId() {
         return id;
@@ -55,6 +66,58 @@ public class DetallesComanda implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Integer getCantidadProducto() {
+        return cantidadProducto;
+    }
+
+    public void setCantidadProducto(Integer cantidadProducto) {
+        this.cantidadProducto = cantidadProducto;
+    }
+
+    public Float getPrecioUnitarioProducto() {
+        return precioUnitarioProducto;
+    }
+
+    public void setPrecioUnitarioProducto(Float precioUnitarioProducto) {
+        this.precioUnitarioProducto = precioUnitarioProducto;
+    }
+
+    public Float getImporteTotal() {
+        return importeTotal;
+    }
+
+    public void setImporteTotal(Float importeTotal) {
+        this.importeTotal = importeTotal;
+    }
+
+    public String getNota() {
+        return nota;
+    }
+
+    public void setNota(String nota) {
+        this.nota = nota;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public Comanda getComanda() {
+        return comanda;
+    }
+
+    public void setComanda(Comanda comanda) {
+        this.comanda = comanda;
+    }
+
+    
+    
+      
 
     @Override
     public int hashCode() {

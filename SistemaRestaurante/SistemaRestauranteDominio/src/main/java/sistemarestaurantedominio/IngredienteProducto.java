@@ -22,19 +22,20 @@ import javax.persistence.Table;
 @Table(name="ingredientes_productos")
 public class IngredienteProducto implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_ingrediente_producto")
     private Long id;
     
     @Column(name="cantidad_ingredientes", nullable=false)
     private Float cantidadIngrediente;
     
+    //muchos IngredienteProducto estan asociados a un ingrediente
     @ManyToOne()
     @JoinColumn(name="id_ingrediente", nullable=false)
     private Ingrediente ingrediente;
     
+    //muchos IngredienteProducto estan asociados a un ingrediente
     @ManyToOne()
     @JoinColumn(name="id_producto", nullable=false)
     private Producto producto;
@@ -43,6 +44,12 @@ public class IngredienteProducto implements Serializable {
     
     
     public IngredienteProducto() {
+    }
+
+    public IngredienteProducto(Float cantidadIngrediente, Ingrediente ingrediente, Producto producto) {
+        this.cantidadIngrediente = cantidadIngrediente;
+        this.ingrediente = ingrediente;
+        this.producto = producto;
     }
     
     

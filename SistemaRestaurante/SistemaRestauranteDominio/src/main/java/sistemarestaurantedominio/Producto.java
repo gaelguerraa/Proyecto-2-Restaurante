@@ -41,10 +41,13 @@ public class Producto implements Serializable {
     @Column (name = "tipo", nullable=false)
     private TipoProducto tipo;
     
-    /*Falta el cascade*/
-    @OneToMany(mappedBy = "producto")
+    //relacion con IngredientesProducto(un producto puede tener varios ingredientes)
+    //No se borra el producto si se borra el IngredienteProducto
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.PERSIST)
     private List<IngredienteProducto> ingredientes;
     
+    //un producto puede aparecer en varias detalles comandas, si se borra un producto detalleComanda no se borrara
+    //SI SE BORRA UN PRODUCTO QUE ESTA EN DETALLECOMANDA SALTARA UN ERROR DE VIOLACION DE LLAVE FORANEA
     @OneToMany(mappedBy = "producto", cascade = CascadeType.PERSIST)
     private List<DetallesComanda> detallesComanda;
 

@@ -6,6 +6,7 @@ package sistemarestaurantedominio;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.eclipse.persistence.jpa.config.Cascade;
 
 /**
  *
@@ -22,9 +24,8 @@ import javax.persistence.Table;
 @Table(name="mesas")
 public class Mesa implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @Column(name="numero_mesa", nullable=false)
@@ -33,8 +34,8 @@ public class Mesa implements Serializable {
     @Column(name="capacidad", nullable=false)
     private Integer capacidad;
     
-    /*Falta el cascade*/
-    @OneToMany(mappedBy = "numeroMesa")
+    //Una mesa aparece en varias comandas. si se borra una mesa la comanda asociada a ella no se va a borrar
+    @OneToMany(mappedBy = "numeroMesa", cascade = CascadeType.PERSIST)
     private List<Comanda> comandas;
     
     

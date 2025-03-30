@@ -6,6 +6,8 @@ package sistemarestaurantedominio;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -21,9 +24,9 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Comanda implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_comanda")
     private Long id;
     
@@ -42,12 +45,14 @@ public class Comanda implements Serializable {
     /* Relacion con clienteFrecuente
     private ClienteFrecuente clienteFrecuente;*/
     
+    //muchas comandas pueden estar asociadas a una mesa
     @ManyToOne()
     @JoinColumn(name="numeroMesa", nullable=false)
     private Mesa numeroMesa;
     
-    /* Falta clase ComandaProductos (relacion con producto)
-    private List<ComandaProductos> detallesComanda;*/
+    //una comanda tiene varias DetallesComanda, si se guarda o borra comanda lo mismo pasa con DetallesComanda  
+    @OneToMany(mappedBy = "comanda", cascade = CascadeType.ALL)
+    private List<DetallesComanda> detallesComanda;
 
     public Comanda() {
     }
@@ -100,6 +105,14 @@ public class Comanda implements Serializable {
 
     public void setNumeroMesa(Mesa numeroMesa) {
         this.numeroMesa = numeroMesa;
+    }
+
+    public List<DetallesComanda> getDetallesComanda() {
+        return detallesComanda;
+    }
+
+    public void setDetallesComanda(List<DetallesComanda> detallesComanda) {
+        this.detallesComanda = detallesComanda;
     }
     
     

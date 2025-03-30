@@ -6,6 +6,7 @@ package sistemarestaurantedominio;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,10 +20,9 @@ import javax.persistence.Table;
  * @author jalt2
  */
 @Entity
-@Table(name="ingredientes")
+@Table(name = "ingredientes")
 public class Ingrediente implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     
     /*Atributos*/
     @Id
@@ -33,11 +33,11 @@ public class Ingrediente implements Serializable {
     @Column(name="nombre", nullable=false)
     private String nombre;
     
-    @Column(name="unidadMedida", nullable=false)
+    @Column(name="unidad_medida", nullable=false)
     private UnidadMedidaIngrediente unidadMedida;
     
-    /*Falta el cascade*/
-    @OneToMany(mappedBy = "ingrediente")
+    //Un ingretiene aparece varias veces en IngredienteProducto. si un ingrediente se borra el producto no se borrara.
+    @OneToMany(mappedBy = "ingrediente", cascade = CascadeType.PERSIST)
     private List<IngredienteProducto> productos;
     
     /*Constructores*/
