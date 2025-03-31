@@ -69,6 +69,11 @@ public class frmBuscarCliente extends javax.swing.JFrame {
 
         boxTipoFiltro.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         boxTipoFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Telefono", "Correo" }));
+        boxTipoFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxTipoFiltroActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setBackground(new java.awt.Color(171, 118, 46));
         btnBuscar.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
@@ -157,6 +162,10 @@ public class frmBuscarCliente extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void boxTipoFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxTipoFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_boxTipoFiltroActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

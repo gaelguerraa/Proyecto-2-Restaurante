@@ -18,11 +18,11 @@ public class NuevoProductoDTO {
     private TipoProducto tipo;
     private List<IngredienteProducto> ingredientes;
 
-    public NuevoProductoDTO(String nombre, Float precio, TipoProducto tipo, List<IngredienteProducto> ingredientes) {
+    public NuevoProductoDTO(String nombre, Float precio, TipoProducto tipo) {
         this.nombre = nombre;
         this.precio = precio;
         this.tipo = tipo;
-        this.ingredientes = ingredientes;
+
     }
 
     public String getNombre() {
