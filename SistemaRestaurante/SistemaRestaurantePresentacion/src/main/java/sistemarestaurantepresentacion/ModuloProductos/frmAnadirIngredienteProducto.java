@@ -25,6 +25,34 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         LlenarComboBoxMedida();
         LlenarComboBoxIngrediente();
     }
+    
+        private void LlenarComboBoxProducto(){
+        ProductosDAO productosDAO = new ProductosDAO();
+        List<Producto> productos = productosDAO.obtenerProductos();
+        
+        jComboBoxProducto.removeAllItems();
+        
+        for(Producto producto : productos){
+            jComboBoxProducto.addItem(producto.getNombre());
+        }
+    }
+    
+   private void LlenarComboBoxMedida(){
+        for(UnidadMedidaIngrediente medida : UnidadMedidaIngrediente.values()){
+            jComboBoxMedida.addItem(medida.toString());
+        }
+    }
+   
+    private void LlenarComboBoxIngrediente(){
+        IngredientesDAO ingredienteDAO = new IngredientesDAO();
+        List<Ingrediente> ingredientes = ingredienteDAO.obtenerIngredientes();
+        
+        jComboBoxIngrediente.removeAllItems();
+        
+        for(Ingrediente ingrediente : ingredientes){
+            jComboBoxIngrediente.addItem(ingrediente.getNombre());
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -160,33 +188,7 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     
-    private void LlenarComboBoxProducto(){
-        ProductosDAO productosDAO = new ProductosDAO();
-        List<Producto> productos = productosDAO.obtenerProductos();
-        
-        jComboBoxProducto.removeAllItems();
-        
-        for(Producto producto : productos){
-            jComboBoxProducto.addItem(producto.getNombre());
-        }
-    }
-    
-   private void LlenarComboBoxMedida(){
-        for(UnidadMedidaIngrediente medida : UnidadMedidaIngrediente.values()){
-            jComboBoxMedida.addItem(medida.toString());
-        }
-    }
-   
-    private void LlenarComboBoxIngrediente(){
-        IngredientesDAO ingredienteDAO = new IngredientesDAO();
-        List<Ingrediente> ingredientes = ingredienteDAO.obtenerIngredientes();
-        
-        jComboBoxIngrediente.removeAllItems();
-        
-        for(Ingrediente ingrediente : ingredientes){
-            jComboBoxIngrediente.addItem(ingrediente.getNombre());
-        }
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonAnadirIngrediente;

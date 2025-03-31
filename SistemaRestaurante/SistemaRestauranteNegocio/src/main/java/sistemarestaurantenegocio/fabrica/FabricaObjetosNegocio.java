@@ -4,10 +4,21 @@
  */
 package sistemarestaurantenegocio.fabrica;
 
+import sistemarestaurantenegocio.IProductosBO;
+import sistemarestaurantenegocio.implementaciones.ProductosBO;
+import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
+import sistemarestaurantepersistencia.interfaces.IProductosDAO;
+
 /**
  *
  * @author gael_
  */
 public class FabricaObjetosNegocio {
-    
+    public static IProductosBO crearProductosBO(){
+        IProductosDAO productosDAO = new ProductosDAO();
+        IProductosBO productosBO = new ProductosBO(productosDAO);
+        return productosBO;
+    }
 }
+
+

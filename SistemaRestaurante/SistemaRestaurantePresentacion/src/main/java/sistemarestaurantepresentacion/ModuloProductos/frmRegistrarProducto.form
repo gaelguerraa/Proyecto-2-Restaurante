@@ -163,6 +163,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="CONTINUAR"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonContinuarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -49,6 +49,11 @@
             <artifactId>SistemaRestaurantePersistencia</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>SistemaRestauranteNegocio</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <properties>
         <maven.compiler.source>23</maven.compiler.source>

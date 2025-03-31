@@ -5,7 +5,12 @@
 package sistemarestaurantepresentacion.ModuloProductos;
 
 
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import sistemarestaurantedominio.TipoProducto;
+import sistemarestaurantedominio.dtos.NuevoProductoDTO;
+import sistemarestaurantenegocio.IProductosBO;
+import sistemarestaurantenegocio.excepciones.NegocioException;
 
 
 /**
@@ -14,14 +19,47 @@ import sistemarestaurantedominio.TipoProducto;
  */
 public class frmRegistrarProducto extends javax.swing.JFrame {
 
+    private IProductosBO productosBO;
+    private static final Logger LOG = Logger.getLogger(frmRegistrarProducto.class.getName());
+    
+    
     /**
      * Creates new form frmRegistrarProducto
      */
     public frmRegistrarProducto() {
         initComponents();
+        this.productosBO=productosBO;
         LlenarComboBoxTipoProducto();
 
 
+    }
+    
+    private void LlenarComboBoxTipoProducto(){
+        for(TipoProducto tipo : TipoProducto.values()){
+            jComboBoxTipo.addItem(tipo.toString());
+        }
+    }
+    
+    private void guardarProducto(){
+        String nombre = this.jTextFieldNombre.getText();
+        Float precio = Float.parseFloat(this.jTextFieldPrecio.getText());
+        TipoProducto tipo = (TipoProducto) this.jComboBoxTipo.getSelectedItem();
+        NuevoProductoDTO nuevoProducto = new NuevoProductoDTO(nombre, precio, tipo);
+        
+        try{
+            this.productosBO.registrar(nuevoProducto);
+            JOptionPane.showMessageDialog(this, "Exito al regisrar el producto", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            limpiarFormulario();
+            
+        } catch(NegocioException e){
+            LOG.severe("No fue posible registrar el producto " + e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    private void limpiarFormulario(){
+        this.jTextFieldNombre.setText("");
+        this.jTextFieldPrecio.setText("");
     }
 
     /**
@@ -83,6 +121,11 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         BotonContinuar.setBackground(new java.awt.Color(171, 118, 46));
         BotonContinuar.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         BotonContinuar.setText("CONTINUAR");
+        BotonContinuar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonContinuarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,7 +180,7 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRegresarActionPerformed
-        // TODO add your handling code here:
+        this.limpiarFormulario();
     }//GEN-LAST:event_BotonRegresarActionPerformed
 
     private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
@@ -148,11 +191,14 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxTipoActionPerformed
 
-    private void LlenarComboBoxTipoProducto(){
-        for(TipoProducto tipo : TipoProducto.values()){
-            jComboBoxTipo.addItem(tipo.toString());
-        }
-    }
+    private void BotonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonContinuarActionPerformed
+        this.guardarProducto();
+        frmAnadirIngredienteProducto frm = new frmAnadirIngredienteProducto();
+        frm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_BotonContinuarActionPerformed
+
+    
     
     
     
