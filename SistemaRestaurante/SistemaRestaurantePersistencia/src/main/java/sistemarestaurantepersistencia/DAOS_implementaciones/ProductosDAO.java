@@ -24,7 +24,7 @@ public class ProductosDAO implements IProductosDAO{
         producto.setNombre(NuevoProducto.getNombre());
         producto.setPrecio(NuevoProducto.getPrecio());
         producto.setTipo(NuevoProducto.getTipo());
-        producto.setIngredientes(NuevoProducto.getIngredientes);
+        producto.setIngredientes(NuevoProducto.getIngredientes());
         
         em.persist(producto);
         em.getTransaction().commit();
