@@ -51,6 +51,7 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         jComboBoxMedida = new javax.swing.JComboBox<>();
         BotonRegistrarProducto = new javax.swing.JButton();
         BotonAnadirIngrediente = new javax.swing.JButton();
+        BotonRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 153, 0));
@@ -106,6 +107,15 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         BotonAnadirIngrediente.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         BotonAnadirIngrediente.setText("AÑADIR INGREDIENTE");
 
+        BotonRegresar.setBackground(new java.awt.Color(255, 153, 0));
+        BotonRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BotonRegresar.setText("REGRESAR");
+        BotonRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonRegresarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,10 +128,7 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(61, 61, 61)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelNombre)
-                                .addGap(262, 262, 262)
-                                .addComponent(jLabelCantidad))
+                            .addComponent(jLabelNombre)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelPrecio)
@@ -131,37 +138,45 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
                                     .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(BotonRegistrarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(76, 76, 76)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelIngrediente)
-                                    .addComponent(jLabelMedida)
-                                    .addComponent(jTextFieldCantidad)
-                                    .addComponent(jComboBoxIngrediente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBoxMedida, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))))))
-                .addContainerGap(199, Short.MAX_VALUE))
+                                    .addComponent(jTextFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabelMedida)
+                                            .addComponent(jComboBoxIngrediente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jComboBoxMedida, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                                            .addComponent(jLabelCantidad))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                                        .addComponent(BotonRegresar)))))))
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabelRegistrarProducto)
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelNombre)
-                    .addComponent(jLabelCantidad))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabelNombre))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelIngrediente)))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextFieldNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                    .addComponent(jTextFieldCantidad))
+                    .addComponent(jComboBoxIngrediente))
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPrecio)
-                    .addComponent(jLabelIngrediente))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                    .addComponent(jComboBoxIngrediente))
+                    .addComponent(jLabelCantidad))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelTipo)
                     .addComponent(jLabelMedida))
@@ -170,10 +185,12 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
                     .addComponent(jComboBoxTipo, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
                     .addComponent(jComboBoxMedida))
                 .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(BotonRegistrarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
-                    .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BotonRegistrarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(BotonRegresar)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -190,6 +207,10 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
     private void jComboBoxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTipoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxTipoActionPerformed
+
+    private void BotonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRegresarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonRegresarActionPerformed
 
     private void LlenarComboBoxTipoProducto(){
         for(TipoProducto tipo : TipoProducto.values()){
@@ -217,41 +238,13 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmRegistrarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmRegistrarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmRegistrarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmRegistrarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new frmRegistrarProducto().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonAnadirIngrediente;
     private javax.swing.JButton BotonRegistrarProducto;
+    private javax.swing.JButton BotonRegresar;
     private javax.swing.JComboBox<String> jComboBoxIngrediente;
     private javax.swing.JComboBox<String> jComboBoxMedida;
     private javax.swing.JComboBox<String> jComboBoxTipo;

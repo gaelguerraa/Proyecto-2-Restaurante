@@ -35,11 +35,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jLabelNombre" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="262" max="-2" attributes="0"/>
-                              <Component id="jLabelCantidad" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jLabelNombre" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabelPrecio" min="-2" max="-2" attributes="0"/>
@@ -50,19 +46,26 @@
                                   <Component id="BotonRegistrarProducto" alignment="0" min="-2" pref="257" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabelIngrediente" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabelMedida" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldCantidad" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jComboBoxIngrediente" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jComboBoxMedida" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="BotonAnadirIngrediente" pref="257" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldCantidad" min="-2" pref="257" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jLabelMedida" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jComboBoxIngrediente" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jComboBoxMedida" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="BotonAnadirIngrediente" pref="257" max="32767" attributes="0"/>
+                                          <Component id="jLabelCantidad" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace pref="71" max="32767" attributes="0"/>
+                                      <Component id="BotonRegresar" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="199" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -71,27 +74,32 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               <Component id="jLabelRegistrarProducto" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabelNombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabelCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="jLabelNombre" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabelIngrediente" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jTextFieldNombre" pref="46" max="32767" attributes="0"/>
-                  <Component id="jTextFieldCantidad" max="32767" attributes="0"/>
+                  <Component id="jComboBoxIngrediente" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabelPrecio" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabelIngrediente" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jTextFieldPrecio" pref="46" max="32767" attributes="0"/>
-                  <Component id="jComboBoxIngrediente" max="32767" attributes="0"/>
+                  <Component id="jLabelCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jTextFieldPrecio" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
+                  <Component id="jTextFieldCantidad" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" pref="30" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabelTipo" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabelMedida" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -101,12 +109,15 @@
                   <Component id="jComboBoxTipo" pref="45" max="32767" attributes="0"/>
                   <Component id="jComboBoxMedida" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="BotonRegistrarProducto" pref="52" max="32767" attributes="0"/>
-                  <Component id="BotonAnadirIngrediente" max="32767" attributes="0"/>
+              <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="BotonRegistrarProducto" min="-2" pref="52" max="-2" attributes="0"/>
+                  <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                      <Component id="BotonAnadirIngrediente" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
+                      <Component id="BotonRegresar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace pref="54" max="32767" attributes="0"/>
+              <EmptySpace pref="30" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -249,6 +260,20 @@
         </Property>
         <Property name="text" type="java.lang.String" value="A&#xd1;ADIR INGREDIENTE"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="BotonRegresar">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="99" red="ff" type="rgb"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="14" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="REGRESAR"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonRegresarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
