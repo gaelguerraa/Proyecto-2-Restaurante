@@ -4,7 +4,10 @@
  */
 package sistemarestaurantepersistencia.DAOS_implementaciones;
 
+import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import sistemarestaurantedominio.Ingrediente;
 import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.dtos.NuevoProductoDTO;
 import sistemarestaurantepersistencia.interfaces.IProductosDAO;
@@ -31,5 +34,13 @@ public class ProductosDAO implements IProductosDAO{
         return producto;
         
     }
-    
+
+    @Override
+    public List<Producto> obtenerProductos() {
+         EntityManager em = ManejadorConexiones.getEntityManager();
+         em.getTransaction().begin();
+         
+        TypedQuery<Producto> query = em.createQuery("SELECT p FROM Producto p", Producto.class);
+        return query.getResultList();
+    }
 }

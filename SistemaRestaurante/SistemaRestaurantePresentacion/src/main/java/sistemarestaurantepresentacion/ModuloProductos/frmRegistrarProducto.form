@@ -34,38 +34,23 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                      <Component id="BotonRegresar" min="-2" pref="257" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
+                      <Component id="BotonContinuar" min="-2" pref="257" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="259" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabelNombre" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabelPrecio" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldPrecio" min="-2" pref="248" max="-2" attributes="0"/>
-                                  <Component id="jComboBoxTipo" min="-2" pref="248" max="-2" attributes="0"/>
-                                  <Component id="jLabelTipo" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldNombre" alignment="0" min="-2" pref="248" max="-2" attributes="0"/>
-                                  <Component id="BotonRegistrarProducto" alignment="0" min="-2" pref="257" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabelIngrediente" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldCantidad" min="-2" pref="257" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jLabelMedida" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jComboBoxIngrediente" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jComboBoxMedida" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="BotonAnadirIngrediente" pref="257" max="32767" attributes="0"/>
-                                          <Component id="jLabelCantidad" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace pref="71" max="32767" attributes="0"/>
-                                      <Component id="BotonRegresar" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
+                          <Component id="jLabelNombre" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldNombre" min="-2" pref="248" max="-2" attributes="0"/>
+                          <Component id="jLabelPrecio" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldPrecio" alignment="0" min="-2" pref="248" max="-2" attributes="0"/>
+                          <Component id="jLabelTipo" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBoxTipo" alignment="0" min="-2" pref="248" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+              <EmptySpace pref="198" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -74,50 +59,24 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               <Component id="jLabelRegistrarProducto" min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                      <Component id="jLabelNombre" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabelIngrediente" min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <Component id="jLabelNombre" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jTextFieldNombre" pref="46" max="32767" attributes="0"/>
-                  <Component id="jComboBoxIngrediente" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabelPrecio" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabelCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="jTextFieldNombre" min="-2" pref="46" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+              <Component id="jLabelPrecio" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jTextFieldPrecio" min="-2" pref="46" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jTextFieldPrecio" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
-                  <Component id="jTextFieldCantidad" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" pref="30" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabelTipo" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabelMedida" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jComboBoxTipo" pref="45" max="32767" attributes="0"/>
-                  <Component id="jComboBoxMedida" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
+              <Component id="jLabelTipo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jComboBoxTipo" min="-2" pref="45" max="-2" attributes="0"/>
+              <EmptySpace pref="51" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="BotonRegistrarProducto" min="-2" pref="52" max="-2" attributes="0"/>
-                  <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                      <Component id="BotonAnadirIngrediente" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
-                      <Component id="BotonRegresar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="BotonRegresar" min="-2" pref="52" max="-2" attributes="0"/>
+                  <Component id="BotonContinuar" alignment="1" min="-2" pref="52" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace pref="29" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -147,14 +106,6 @@
         <Property name="text" type="java.lang.String" value="Tipo:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabelCantidad">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI Light" size="18" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Cantidad:"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldNombre">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldNombreActionPerformed"/>
@@ -166,22 +117,6 @@
           <Font name="Segoe UI Light" size="18" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Precio:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabelIngrediente">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI Light" size="18" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Ingrediente:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabelMedida">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI Light" size="18" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Medida:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldPrecio">
@@ -204,76 +139,30 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextFieldCantidad">
-    </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBoxIngrediente">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBoxMedida">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JButton" name="BotonRegistrarProducto">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="2e" green="76" red="ab" type="rgb"/>
-        </Property>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI Historic" size="18" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="REGISTRAR PRODUCTO"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonRegistrarProductoActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="BotonAnadirIngrediente">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="2e" green="76" red="ab" type="rgb"/>
-        </Property>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI Historic" size="18" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="A&#xd1;ADIR INGREDIENTE"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="BotonRegresar">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="99" red="ff" type="rgb"/>
+          <Color blue="2e" green="76" red="ab" type="rgb"/>
         </Property>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="14" style="1"/>
+          <Font name="Segoe UI Historic" size="18" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="REGRESAR"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonRegresarActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="BotonContinuar">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="2e" green="76" red="ab" type="rgb"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI Historic" size="18" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="CONTINUAR"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

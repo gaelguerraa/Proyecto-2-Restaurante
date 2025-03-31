@@ -4,11 +4,9 @@
  */
 package sistemarestaurantepresentacion.ModuloProductos;
 
-import java.util.List;
-import sistemarestaurantedominio.Ingrediente;
+
 import sistemarestaurantedominio.TipoProducto;
-import sistemarestaurantedominio.UnidadMedidaIngrediente;
-import sistemarestaurantepersistencia.DAOS_implementaciones.IngredientesDAO;
+
 
 /**
  *
@@ -22,8 +20,7 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
     public frmRegistrarProducto() {
         initComponents();
         LlenarComboBoxTipoProducto();
-        LlenarComboBoxMedida();
-        LlenarComboBoxIngrediente();
+
 
     }
 
@@ -39,19 +36,12 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         jLabelRegistrarProducto = new javax.swing.JLabel();
         jLabelNombre = new javax.swing.JLabel();
         jLabelTipo = new javax.swing.JLabel();
-        jLabelCantidad = new javax.swing.JLabel();
         jTextFieldNombre = new javax.swing.JTextField();
         jLabelPrecio = new javax.swing.JLabel();
-        jLabelIngrediente = new javax.swing.JLabel();
-        jLabelMedida = new javax.swing.JLabel();
         jTextFieldPrecio = new javax.swing.JTextField();
         jComboBoxTipo = new javax.swing.JComboBox<>();
-        jTextFieldCantidad = new javax.swing.JTextField();
-        jComboBoxIngrediente = new javax.swing.JComboBox<>();
-        jComboBoxMedida = new javax.swing.JComboBox<>();
-        BotonRegistrarProducto = new javax.swing.JButton();
-        BotonAnadirIngrediente = new javax.swing.JButton();
         BotonRegresar = new javax.swing.JButton();
+        BotonContinuar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 153, 0));
@@ -65,9 +55,6 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         jLabelTipo.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         jLabelTipo.setText("Tipo:");
 
-        jLabelCantidad.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
-        jLabelCantidad.setText("Cantidad:");
-
         jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldNombreActionPerformed(evt);
@@ -77,12 +64,6 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         jLabelPrecio.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         jLabelPrecio.setText("Precio:");
 
-        jLabelIngrediente.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
-        jLabelIngrediente.setText("Ingrediente:");
-
-        jLabelMedida.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
-        jLabelMedida.setText("Medida:");
-
         jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,31 +71,18 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxIngrediente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBoxMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        BotonRegistrarProducto.setBackground(new java.awt.Color(171, 118, 46));
-        BotonRegistrarProducto.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
-        BotonRegistrarProducto.setText("REGISTRAR PRODUCTO");
-        BotonRegistrarProducto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonRegistrarProductoActionPerformed(evt);
-            }
-        });
-
-        BotonAnadirIngrediente.setBackground(new java.awt.Color(171, 118, 46));
-        BotonAnadirIngrediente.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
-        BotonAnadirIngrediente.setText("AÑADIR INGREDIENTE");
-
-        BotonRegresar.setBackground(new java.awt.Color(255, 153, 0));
-        BotonRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BotonRegresar.setBackground(new java.awt.Color(171, 118, 46));
+        BotonRegresar.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         BotonRegresar.setText("REGRESAR");
         BotonRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonRegresarActionPerformed(evt);
             }
         });
+
+        BotonContinuar.setBackground(new java.awt.Color(171, 118, 46));
+        BotonContinuar.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
+        BotonContinuar.setText("CONTINUAR");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -127,78 +95,50 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
                         .addComponent(jLabelRegistrarProducto))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(61, 61, 61)
+                        .addComponent(BotonRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(76, 76, 76)
+                        .addComponent(BotonContinuar, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(259, 259, 259)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelNombre)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelPrecio)
-                                    .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabelTipo)
-                                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(BotonRegistrarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(76, 76, 76)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelIngrediente)
-                                    .addComponent(jTextFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabelMedida)
-                                            .addComponent(jComboBoxIngrediente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jComboBoxMedida, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-                                            .addComponent(jLabelCantidad))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
-                                        .addComponent(BotonRegresar)))))))
-                .addGap(29, 29, 29))
+                            .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelPrecio)
+                            .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelTipo)
+                            .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabelRegistrarProducto)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabelNombre))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelIngrediente)))
+                .addGap(27, 27, 27)
+                .addComponent(jLabelNombre)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                    .addComponent(jComboBoxIngrediente))
-                .addGap(3, 3, 3)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelPrecio)
-                    .addComponent(jLabelCantidad))
+                .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addComponent(jLabelPrecio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 30, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelTipo)
-                    .addComponent(jLabelMedida))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBoxTipo, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-                    .addComponent(jComboBoxMedida))
-                .addGap(40, 40, 40)
+                .addComponent(jLabelTipo)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BotonRegistrarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(BotonRegresar)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(BotonRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BotonContinuar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void BotonRegistrarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRegistrarProductoActionPerformed
+    private void BotonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRegresarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BotonRegistrarProductoActionPerformed
+    }//GEN-LAST:event_BotonRegresarActionPerformed
 
     private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
         // TODO add your handling code here:
@@ -208,32 +148,15 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxTipoActionPerformed
 
-    private void BotonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRegresarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BotonRegresarActionPerformed
-
     private void LlenarComboBoxTipoProducto(){
         for(TipoProducto tipo : TipoProducto.values()){
             jComboBoxTipo.addItem(tipo.toString());
         }
     }
     
-    private void LlenarComboBoxMedida(){
-        for(UnidadMedidaIngrediente medida : UnidadMedidaIngrediente.values()){
-            jComboBoxMedida.addItem(medida.toString());
-        }
-    }
     
-    private void LlenarComboBoxIngrediente(){
-        IngredientesDAO ingredienteDAO = new IngredientesDAO();
-        List<Ingrediente> ingredientes = ingredienteDAO.obtenerIngredientes();
-        
-        jComboBoxIngrediente.removeAllItems();
-        
-        for(Ingrediente ingrediente : ingredientes){
-            jComboBoxIngrediente.addItem(ingrediente.getNombre());
-        }
-    }
+    
+   
     
     /**
      * @param args the command line arguments
@@ -242,20 +165,13 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BotonAnadirIngrediente;
-    private javax.swing.JButton BotonRegistrarProducto;
+    private javax.swing.JButton BotonContinuar;
     private javax.swing.JButton BotonRegresar;
-    private javax.swing.JComboBox<String> jComboBoxIngrediente;
-    private javax.swing.JComboBox<String> jComboBoxMedida;
     private javax.swing.JComboBox<String> jComboBoxTipo;
-    private javax.swing.JLabel jLabelCantidad;
-    private javax.swing.JLabel jLabelIngrediente;
-    private javax.swing.JLabel jLabelMedida;
     private javax.swing.JLabel jLabelNombre;
     private javax.swing.JLabel jLabelPrecio;
     private javax.swing.JLabel jLabelRegistrarProducto;
     private javax.swing.JLabel jLabelTipo;
-    private javax.swing.JTextField jTextFieldCantidad;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTextField jTextFieldPrecio;
     // End of variables declaration//GEN-END:variables
