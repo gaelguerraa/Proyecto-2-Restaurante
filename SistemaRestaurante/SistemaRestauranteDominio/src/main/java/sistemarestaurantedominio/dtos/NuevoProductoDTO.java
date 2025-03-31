@@ -16,7 +16,6 @@ public class NuevoProductoDTO {
     private String nombre;
     private Float precio;
     private TipoProducto tipo;
-    private List<IngredienteProducto> ingredientes;
 
     public NuevoProductoDTO(String nombre, Float precio, TipoProducto tipo) {
         this.nombre = nombre;
@@ -37,13 +36,6 @@ public class NuevoProductoDTO {
         return tipo;
     }
 
-    public List<IngredienteProducto> getIngredientes() {
-        return ingredientes;
-    }
 
-    public void setIngredientes(List<IngredienteProducto> ingredientes) {
-        this.ingredientes = ingredientes;
-    }
-    
     
 }
