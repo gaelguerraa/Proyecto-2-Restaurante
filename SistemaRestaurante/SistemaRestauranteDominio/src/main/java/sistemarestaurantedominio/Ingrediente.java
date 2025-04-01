@@ -36,6 +36,9 @@ public class Ingrediente implements Serializable {
     @Column(name="unidad_medida", nullable=false)
     private UnidadMedidaIngrediente unidadMedida;
     
+    @Column(name = "stock", nullable = false)
+    private Float stock;
+    
     //Un ingretiene aparece varias veces en IngredienteProducto. si un ingrediente se borra el producto no se borrara.
     @OneToMany(mappedBy = "ingrediente", cascade = CascadeType.PERSIST)
     private List<IngredienteProducto> productos;
@@ -44,9 +47,10 @@ public class Ingrediente implements Serializable {
     public Ingrediente() {
     }
 
-    public Ingrediente(String nombre, UnidadMedidaIngrediente unidadMedida) {
+    public Ingrediente(String nombre, UnidadMedidaIngrediente unidadMedida, Float stock) {
         this.nombre = nombre;
         this.unidadMedida = unidadMedida;
+        this.stock = stock;
     }
     
     
@@ -83,6 +87,14 @@ public class Ingrediente implements Serializable {
 
     public void setProductos(List<IngredienteProducto> productos) {
         this.productos = productos;
+    }
+
+    public Float getStock() {
+        return stock;
+    }
+
+    public void setStock(Float stock) {
+        this.stock = stock;
     }
     
     

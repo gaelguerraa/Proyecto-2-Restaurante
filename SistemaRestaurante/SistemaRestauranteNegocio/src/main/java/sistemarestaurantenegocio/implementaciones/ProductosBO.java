@@ -38,9 +38,8 @@ public class ProductosBO implements IProductosBO {
 
     @Override
     public List<Producto> consultarProducto() throws NegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.productosDAO.obtenerProductos();
     }
-    
     
     
 }
