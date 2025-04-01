@@ -5,6 +5,7 @@
 package sistemarestaurantepersistencia.DAOS_implementaciones;
 
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import sistemarestaurantedominio.Producto;
+import sistemarestaurantedominio.TipoProducto;
 import sistemarestaurantedominio.dtos.NuevoProductoDTO;
 
 /**
@@ -44,14 +46,11 @@ public class ProductosDAOTest {
      */
     @Test
     public void testGuardar() {
-        System.out.println("guardar");
-        NuevoProductoDTO NuevoProducto = null;
-        ProductosDAO instance = new ProductosDAO();
-        Producto expResult = null;
-        Producto result = instance.guardar(NuevoProducto);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ProductosDAO productosDAO= new ProductosDAO(); 
+        NuevoProductoDTO nuevoProducto = new NuevoProductoDTO("Tortilla", 10.50f, TipoProducto.PLATILLO);
+        
+        Producto productoGuardado = productosDAO.guardar(nuevoProducto);
+        assertNotNull(productoGuardado.getNombre());
     }
 
     /**
@@ -59,13 +58,29 @@ public class ProductosDAOTest {
      */
     @Test
     public void testObtenerProductos() {
-        System.out.println("obtenerProductos");
-        ProductosDAO instance = new ProductosDAO();
-        List<Producto> expResult = null;
-        List<Producto> result = instance.obtenerProductos();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        EntityManager em = ManejadorConexiones.getEntityManager();
+        em.getTransaction().begin();
+        ProductosDAO productoDAO = new ProductosDAO();
+
+        em.getTransaction().begin();
+        Producto producto1 = new Producto("Pizza", 120.0f, TipoProducto.PLATILLO);
+        Producto producto2 = new Producto("Coca Cola", 20.0f, TipoProducto.BEBIDA);
+        em.persist(producto1);
+        em.persist(producto2);
+        em.getTransaction().commit();
+
+         List<Producto> productos = productoDAO.obtenerProductos();
+
+        assertNotNull(productos);
+        assertFalse(productos.isEmpty());
+        assertEquals(2, productos.size());
+
+        em.getTransaction().begin();
+        em.createQuery("DELETE FROM Producto").executeUpdate();
+        em.getTransaction().commit();
+
+        em.close();
+        em.close();   
     }
     
 }

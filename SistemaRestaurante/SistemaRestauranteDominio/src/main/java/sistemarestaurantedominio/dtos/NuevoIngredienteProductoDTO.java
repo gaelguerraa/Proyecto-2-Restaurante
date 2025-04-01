@@ -4,6 +4,8 @@
  */
 package sistemarestaurantedominio.dtos;
 
+import sistemarestaurantedominio.Ingrediente;
+import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.UnidadMedidaIngrediente;
 
 /**
@@ -11,30 +13,31 @@ import sistemarestaurantedominio.UnidadMedidaIngrediente;
  * @author gael_
  */
 public class NuevoIngredienteProductoDTO {
-    private long idProducto;
-    private long igIngrediente;
+    private Producto producto;
+    private Ingrediente ingrediente;    
     private Float cantidadIngrediente;
     private UnidadMedidaIngrediente Unidadmedida;        
 
     public NuevoIngredienteProductoDTO() {
     }
 
-    public long getIdProducto() {
-        return idProducto;
+    public Producto getProducto() {
+        return producto;
     }
 
-    public void setIdProducto(long idProducto) {
-        this.idProducto = idProducto;
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
-    public long getIgIngrediente() {
-        return igIngrediente;
+    public Ingrediente getIngrediente() {
+        return ingrediente;
     }
 
-    public void setIgIngrediente(long igIngrediente) {
-        this.igIngrediente = igIngrediente;
+    public void setIngrediente(Ingrediente ingrediente) {
+        this.ingrediente = ingrediente;
     }
 
+    
     public Float getCantidadIngrediente() {
         return cantidadIngrediente;
     }
