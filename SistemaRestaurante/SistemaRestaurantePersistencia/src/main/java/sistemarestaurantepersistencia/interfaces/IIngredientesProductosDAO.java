@@ -4,10 +4,13 @@
  */
 package sistemarestaurantepersistencia.interfaces;
 
+import sistemarestaurantedominio.IngredienteProducto;
+import sistemarestaurantedominio.dtos.NuevoIngredienteProductoDTO;
+
 /**
  *
  * @author gael_
  */
 public interface IIngredientesProductosDAO {
-    
+    public abstract IngredienteProducto registrarIngredienteProducto(NuevoIngredienteProductoDTO ingredienteProducto);
 }
