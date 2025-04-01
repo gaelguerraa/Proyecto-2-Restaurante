@@ -6,7 +6,6 @@ package sistemarestaurantepersistencia.DAOS_implementaciones;
 
 import javax.persistence.EntityManager;
 import sistemarestaurantedominio.IngredienteProducto;
-import static sistemarestaurantedominio.IngredienteProducto_.producto;
 import sistemarestaurantedominio.dtos.NuevoIngredienteProductoDTO;
 import sistemarestaurantepersistencia.interfaces.IIngredientesProductosDAO;
 

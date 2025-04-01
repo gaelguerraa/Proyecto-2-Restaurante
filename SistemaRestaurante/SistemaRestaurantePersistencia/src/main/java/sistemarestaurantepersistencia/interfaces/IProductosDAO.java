@@ -6,6 +6,7 @@ package sistemarestaurantepersistencia.interfaces;
 
 import java.util.List;
 import sistemarestaurantedominio.Producto;
+import sistemarestaurantedominio.TipoProducto;
 import sistemarestaurantedominio.dtos.NuevoProductoDTO;
 
 /**
@@ -16,4 +17,8 @@ public interface IProductosDAO {
     public abstract Producto guardar(NuevoProductoDTO NuevoVideojuego);
     
     public abstract List<Producto> obtenerProductos();
+    
+    public abstract List<Producto> obtenerProductosFiltroNombre(String filtroBusqueda);
+    
+    public abstract List<Producto> obtenerProductosPorTipo(TipoProducto tipo);
 }
