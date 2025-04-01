@@ -24,41 +24,41 @@ import javax.persistence.OneToMany;
 @Entity
 public class Comanda implements Serializable {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_comanda")
+    @Column(name = "id_comanda")
     private Long id;
-    
-    @Column(name="folio", nullable=false)
+
+    @Column(name = "folio", nullable = false)
     private String folio;
-    
-    @Column(name="estado", nullable=false)
+
+    @Column(name = "estado", nullable = false)
     private EstadoComanda estado;
-    
-    @Column(name="fecha_hora", nullable=false)
+
+    @Column(name = "fecha_hora", nullable = false)
     private LocalDateTime fechaHora;
-    
-    @Column(name="total", nullable=false)
+
+    @Column(name = "total", nullable = false)
     private Float total;
-    
+
     /* Relacion con clienteFrecuente
     private ClienteFrecuente clienteFrecuente;*/
-    
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", nullable = true)
+    private ClienteFrecuente cliente;
+
     //muchas comandas pueden estar asociadas a una mesa
     @ManyToOne()
-    @JoinColumn(name="numeroMesa", nullable=false)
+    @JoinColumn(name = "numeroMesa", nullable = false)
     private Mesa numeroMesa;
-    
+
     //una comanda tiene varias DetallesComanda, si se guarda o borra comanda lo mismo pasa con DetallesComanda  
     @OneToMany(mappedBy = "comanda", cascade = CascadeType.ALL)
     private List<DetallesComanda> detallesComanda;
 
     public Comanda() {
     }
-    
-    
-    
+
     public Long getId() {
         return id;
     }
@@ -114,9 +114,7 @@ public class Comanda implements Serializable {
     public void setDetallesComanda(List<DetallesComanda> detallesComanda) {
         this.detallesComanda = detallesComanda;
     }
-    
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -141,5 +139,5 @@ public class Comanda implements Serializable {
     public String toString() {
         return "sistemarestaurantedominio.Comanda[ id=" + id + " ]";
     }
-    
+
 }
