@@ -40,22 +40,22 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         }
     }
     
-//    private void guardarProducto(){
-//        String nombre = this.jTextFieldNombre.getText();
-//        Float precio = Float.parseFloat(this.jTextFieldPrecio.getText());
-//        TipoProducto tipo = (TipoProducto) this.jComboBoxTipo.getSelectedItem();
-//        NuevoProductoDTO nuevoProducto = new NuevoProductoDTO(nombre, precio, tipo);
-//        
-//        try{
-//            this.productosBO.registrar(nuevoProducto);
-//            JOptionPane.showMessageDialog(this, "Exito al regisrar el producto", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-//            limpiarFormulario();
-//            
-//        } catch(NegocioException e){
-//            LOG.severe("No fue posible registrar el producto " + e.getMessage());
-//            JOptionPane.showMessageDialog(this, e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
-//        }
-//    }
+    private void guardarProducto(){
+        String nombre = this.jTextFieldNombre.getText();
+        Float precio = Float.parseFloat(this.jTextFieldPrecio.getText());
+        TipoProducto tipo = (TipoProducto) this.jComboBoxTipo.getSelectedItem();
+        NuevoProductoDTO nuevoProducto = new NuevoProductoDTO(nombre, precio, tipo);
+        
+        try{
+            this.productosBO.registrar(nuevoProducto);
+            JOptionPane.showMessageDialog(this, "Exito al regisrar el producto", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            limpiarFormulario();
+            
+        } catch(NegocioException e){
+            LOG.severe("No fue posible registrar el producto " + e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
     
     private void limpiarFormulario(){
         this.jTextFieldNombre.setText("");
@@ -192,27 +192,9 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxTipoActionPerformed
 
     private void BotonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonContinuarActionPerformed
-        String nombre = this.jTextFieldNombre.getText();
-        Float precio = Float.parseFloat(this.jTextFieldPrecio.getText());
-        TipoProducto tipo = (TipoProducto) this.jComboBoxTipo.getSelectedItem();
-        
-        NuevoProductoDTO nuevoProducto = new NuevoProductoDTO(nombre, precio, tipo);
-        
-        try{
-            this.productosBO.registrar(nuevoProducto);
-            JOptionPane.showMessageDialog(this, "Éxito al registrar el producto", "Información", JOptionPane.INFORMATION_MESSAGE);
-
-         // Abre la ventana de añadir ingredientes y le pasa el producto
-        frmAnadirIngredienteProducto frmAnadir = new frmAnadirIngredienteProducto(nuevoProducto);
-        frmAnadir.setVisible(true);
+        guardarProducto();
         this.dispose(); // Cierra la ventana actual
-            
-        } catch (NegocioException e){
-             LOG.severe("No fue posible registrar el producto " + e.getMessage());
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
-        }
-        
-        
+
     }//GEN-LAST:event_BotonContinuarActionPerformed
 
     
