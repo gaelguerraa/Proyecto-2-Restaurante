@@ -86,9 +86,9 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
 
         
         if (ingredienteSeleccionado != null) {
-        NuevoIngredienteProductoDTO nuevoIP = new NuevoIngredienteProductoDTO(productoSeleccionado, ingredienteSeleccionado, cantidad);
+            NuevoIngredienteProductoDTO nuevoIP = new NuevoIngredienteProductoDTO(productoSeleccionado,  ingredienteSeleccionado,  cantidad);
     } else {
-        JOptionPane.showMessageDialog(this, "Debe seleccionar un ingrediente válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un ingrediente válido.", "Error", JOptionPane.ERROR_MESSAGE);
     }
         
     }

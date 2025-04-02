@@ -13,7 +13,7 @@ import sistemarestaurantepersistencia.interfaces.IIngredientesProductosDAO;
  *
  * @author gael_
  */
-public class IngedientesProductosDAO implements IIngredientesProductosDAO{
+public class IngredientesProductosDAO implements IIngredientesProductosDAO{
 
     @Override
     public IngredienteProducto registrarIngredienteProducto(NuevoIngredienteProductoDTO ingredienteProducto) {
