@@ -5,9 +5,14 @@
 package sistemarestaurantepresentacion.ModuloProductos;
 
 import java.util.List;
+import javax.swing.JOptionPane;
 import sistemarestaurantedominio.Ingrediente;
+import static sistemarestaurantedominio.IngredienteProducto_.ingrediente;
+import static sistemarestaurantedominio.IngredienteProducto_.producto;
 import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.UnidadMedidaIngrediente;
+import sistemarestaurantedominio.dtos.NuevoIngredienteProductoDTO;
+import sistemarestaurantedominio.dtos.NuevoProductoDTO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.IngredientesDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
 
@@ -17,31 +22,19 @@ import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
  */
 public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
 
+    private NuevoProductoDTO productoSeleccionado;
+
     /**
      * Creates new form frmAnadirIngredienteProducto
      */
-    public frmAnadirIngredienteProducto() {
+    public frmAnadirIngredienteProducto(NuevoProductoDTO producto) {
         initComponents();
-        LlenarComboBoxMedida();
+        this.productoSeleccionado = producto;
         LlenarComboBoxIngrediente();
     }
     
-        private void LlenarComboBoxProducto(){
-        ProductosDAO productosDAO = new ProductosDAO();
-        List<Producto> productos = productosDAO.obtenerProductos();
-        
-        jComboBoxProducto.removeAllItems();
-        
-        for(Producto producto : productos){
-            jComboBoxProducto.addItem(producto.getNombre());
-        }
-    }
-    
-   private void LlenarComboBoxMedida(){
-        for(UnidadMedidaIngrediente medida : UnidadMedidaIngrediente.values()){
-            jComboBoxMedida.addItem(medida.toString());
-        }
-    }
+
+
    
     private void LlenarComboBoxIngrediente(){
         IngredientesDAO ingredienteDAO = new IngredientesDAO();
@@ -49,10 +42,44 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         
         jComboBoxIngrediente.removeAllItems();
         
+        
         for(Ingrediente ingrediente : ingredientes){
-            jComboBoxIngrediente.addItem(ingrediente.getNombre());
-        }
+        String nombreCompleto = ingrediente.getNombre() + " - " + ingrediente.getUnidadMedida();
+        jComboBoxIngrediente.addItem(nombreCompleto);
     }
+    }
+    
+    public Ingrediente enviarIngredienteSeleccionado(){
+        String seleccionado = (String) jComboBoxIngrediente.getSelectedItem();
+        
+        if (seleccionado != null) {
+            IngredientesDAO ingredienteDAO = new IngredientesDAO();
+            List<Ingrediente> ingredientes = ingredienteDAO.obtenerIngredientes();
+
+            for (Ingrediente ingrediente : ingredientes) {
+                String nombreCompleto = ingrediente.getNombre() + " - " + ingrediente.getUnidadMedida();
+                if (nombreCompleto.equals(seleccionado)) {
+                    return ingrediente;
+                }
+            }
+        }    
+    }
+    
+    private void anadirIngredienteProducto(){
+        
+        Float cantidad = Float.parseFloat(this.jTextFieldCantidad.getText());
+        Ingrediente ingredienteSeleccionado = enviarIngredienteSeleccionado();
+
+        
+        if (ingredienteSeleccionado != null) {
+        NuevoIngredienteProductoDTO nuevoIP = new NuevoIngredienteProductoDTO(productoSeleccionado, ingredienteSeleccionado, cantidad);
+    } else {
+        JOptionPane.showMessageDialog(this, "Debe seleccionar un ingrediente válido.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+        
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -64,14 +91,10 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabelANADIRINGREDIENTES = new javax.swing.JLabel();
-        jLabelSeleccionarProducto = new javax.swing.JLabel();
         jLabelIngrediente = new javax.swing.JLabel();
         jLabelCantidad = new javax.swing.JLabel();
-        jLabelMedida = new javax.swing.JLabel();
-        jComboBoxProducto = new javax.swing.JComboBox<>();
         jComboBoxIngrediente = new javax.swing.JComboBox<>();
         jTextFieldCantidad = new javax.swing.JTextField();
-        jComboBoxMedida = new javax.swing.JComboBox<>();
         BotonAnadirIngrediente = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
@@ -80,19 +103,11 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         jLabelANADIRINGREDIENTES.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
         jLabelANADIRINGREDIENTES.setText("AÑADIR INGREDIENTES");
 
-        jLabelSeleccionarProducto.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
-        jLabelSeleccionarProducto.setText("Seleccionar Producto:");
-
         jLabelIngrediente.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         jLabelIngrediente.setText("Ingrediente:");
 
         jLabelCantidad.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         jLabelCantidad.setText("Cantidad:");
-
-        jLabelMedida.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
-        jLabelMedida.setText("Medida");
-
-        jComboBoxProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jComboBoxIngrediente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -101,8 +116,6 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
                 jTextFieldCantidadActionPerformed(evt);
             }
         });
-
-        jComboBoxMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         BotonAnadirIngrediente.setBackground(new java.awt.Color(171, 118, 46));
         BotonAnadirIngrediente.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
@@ -116,61 +129,55 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(171, 118, 46));
         jButton1.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         jButton1.setText("REGISTRAR PRODUCTO");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(107, 107, 107)
-                .addComponent(jLabelANADIRINGREDIENTES)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(107, 107, 107)
+                        .addComponent(jLabelANADIRINGREDIENTES))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(271, 271, 271)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabelIngrediente)
+                                .addComponent(jLabelCantidad)
+                                .addComponent(jComboBoxIngrediente, 0, 175, Short.MAX_VALUE))
+                            .addComponent(jTextFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(118, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelIngrediente)
-                    .addComponent(jLabelSeleccionarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelCantidad)
-                    .addComponent(jLabelMedida)
-                    .addComponent(jComboBoxProducto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBoxIngrediente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldCantidad)
-                    .addComponent(jComboBoxMedida, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
-                .addGap(88, 88, 88))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(238, 238, 238))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabelANADIRINGREDIENTES)
-                .addGap(42, 42, 42)
-                .addComponent(jLabelSeleccionarProducto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBoxProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelIngrediente)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBoxIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabelIngrediente)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBoxIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabelCantidad)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelMedida)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBoxMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addGap(55, 55, 55)
+                .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         pack();
@@ -184,6 +191,10 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonAnadirIngredienteActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -194,13 +205,9 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
     private javax.swing.JButton BotonAnadirIngrediente;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBoxIngrediente;
-    private javax.swing.JComboBox<String> jComboBoxMedida;
-    private javax.swing.JComboBox<String> jComboBoxProducto;
     private javax.swing.JLabel jLabelANADIRINGREDIENTES;
     private javax.swing.JLabel jLabelCantidad;
     private javax.swing.JLabel jLabelIngrediente;
-    private javax.swing.JLabel jLabelMedida;
-    private javax.swing.JLabel jLabelSeleccionarProducto;
     private javax.swing.JTextField jTextFieldCantidad;
     // End of variables declaration//GEN-END:variables
 }

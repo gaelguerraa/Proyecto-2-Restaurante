@@ -13,19 +13,19 @@ import sistemarestaurantedominio.UnidadMedidaIngrediente;
  * @author gael_
  */
 public class NuevoIngredienteProductoDTO {
-    private Producto producto;
+    private NuevoProductoDTO producto;
     private Ingrediente ingrediente;    
     private Float cantidadIngrediente;
-    private UnidadMedidaIngrediente Unidadmedida;        
+       
 
-    public NuevoIngredienteProductoDTO() {
+    public NuevoIngredienteProductoDTO(NuevoProductoDTO productoSeleccionado, Ingrediente ingredienteSeleccionado, Float cantidad) {
     }
 
-    public Producto getProducto() {
+    public NuevoProductoDTO getNuevoProductoDTO() {
         return producto;
     }
 
-    public void setProducto(Producto producto) {
+    public void setNuevoProductoDTO(NuevoProductoDTO producto) {
         this.producto = producto;
     }
 
@@ -46,14 +46,7 @@ public class NuevoIngredienteProductoDTO {
         this.cantidadIngrediente = cantidadIngrediente;
     }
 
-    public UnidadMedidaIngrediente getUnidadmedida() {
-        return Unidadmedida;
-    }
 
-    public void setUnidadmedida(UnidadMedidaIngrediente Unidadmedida) {
-        this.Unidadmedida = Unidadmedida;
-    }
-    
     
     
 }
