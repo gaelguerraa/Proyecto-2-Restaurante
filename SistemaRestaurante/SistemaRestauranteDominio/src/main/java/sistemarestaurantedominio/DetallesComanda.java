@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import sistemarestaurantedominio.Producto;
 
 /**
@@ -19,6 +20,7 @@ import sistemarestaurantedominio.Producto;
  * @author gael_
  */
 @Entity
+@Table(name = "detalles_comandas")
 public class DetallesComanda implements Serializable {
 
     @Id
