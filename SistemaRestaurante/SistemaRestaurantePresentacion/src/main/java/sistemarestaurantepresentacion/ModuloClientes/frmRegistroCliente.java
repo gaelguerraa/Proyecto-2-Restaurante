@@ -9,7 +9,7 @@ package sistemarestaurantepresentacion.ModuloClientes;
  * @author jorge
  */
 public class frmRegistroCliente extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form frmRegistroCliente
      */
