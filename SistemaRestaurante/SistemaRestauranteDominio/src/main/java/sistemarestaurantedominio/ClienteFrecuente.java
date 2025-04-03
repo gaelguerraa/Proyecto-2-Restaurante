@@ -16,7 +16,7 @@ public class ClienteFrecuente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cliente")
-    private Integer id;
+    private Long id;
 
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
@@ -42,11 +42,11 @@ public class ClienteFrecuente implements Serializable {
     @Column(name = "fecha_registro", nullable = false)
     private LocalDateTime fechaRegistro;
 
-    public Integer getIdCliente() {
+    public Long getIdCliente() {
         return id;
     }
 
-    public void setIdCliente(Integer idCliente) {
+    public void setIdCliente(Long idCliente) {
         this.id = idCliente;
     }
 
