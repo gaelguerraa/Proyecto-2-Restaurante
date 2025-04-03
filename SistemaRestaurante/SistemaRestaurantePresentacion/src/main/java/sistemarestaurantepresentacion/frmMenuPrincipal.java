@@ -4,12 +4,16 @@
  */
 package sistemarestaurantepresentacion;
 
+import sistemarestaurantepresentacion.ModuloProductos.frmRegistrarProducto;
+
 /**
  *
  * @author jorge
  */
 public class frmMenuPrincipal extends javax.swing.JFrame {
 
+    private static frmRegistrarProducto registrarProducto = null;
+    
     /**
      * Creates new form frmMenuPrincipal
      */
@@ -163,7 +167,8 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnComandasActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
-        // TODO add your handling code here:
+     
+    
     }//GEN-LAST:event_btnProductosActionPerformed
 
     /**

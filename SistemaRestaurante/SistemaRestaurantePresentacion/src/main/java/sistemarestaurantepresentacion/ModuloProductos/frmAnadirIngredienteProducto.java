@@ -5,14 +5,18 @@
 package sistemarestaurantepresentacion.ModuloProductos;
 
 import java.util.List;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sistemarestaurantedominio.Ingrediente;
 import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.UnidadMedidaIngrediente;
 import sistemarestaurantedominio.dtos.NuevoIngredienteProductoDTO;
 import sistemarestaurantedominio.dtos.NuevoProductoDTO;
+import sistemarestaurantenegocio.IIngredientesProductosBO;
+import sistemarestaurantenegocio.excepciones.NegocioException;
 import sistemarestaurantepersistencia.DAOS_implementaciones.IngredientesDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
+import sistemarestaurantepresentacion.frmMenuPrincipal;
 
 /**
  *
@@ -20,7 +24,9 @@ import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
  */
 public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
 
-
+    private IIngredientesProductosBO ingredientesProductosBO;
+     private static final Logger LOG = Logger.getLogger(frmAnadirIngredienteProducto.class.getName());
+    
     /**
      * Creates new form frmAnadirIngredienteProducto
      */
@@ -83,17 +89,26 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         Producto productoSeleccionado = (Producto) this.jComboBoxProducto.getSelectedItem();
         Ingrediente ingredienteSeleccionado = enviarIngredienteSeleccionado();
         Float cantidad = Float.parseFloat(this.jTextFieldCantidad.getText());
+        NuevoIngredienteProductoDTO nuevoIP = new NuevoIngredienteProductoDTO(productoSeleccionado,  ingredienteSeleccionado,  cantidad);
 
+        try{
+            this.ingredientesProductosBO.registrarIngredienteProductoBO(nuevoIP);
+            JOptionPane.showMessageDialog(this, "Exito al regisrar el ingrediente-producto ", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            limpiarFormulario();
+                        
+        } catch(NegocioException e){
+            LOG.severe("No fue posible registrar el ingrediente-producto " + e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
+        }
         
-        if (ingredienteSeleccionado != null) {
-            NuevoIngredienteProductoDTO nuevoIP = new NuevoIngredienteProductoDTO(productoSeleccionado,  ingredienteSeleccionado,  cantidad);
-    } else {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar un ingrediente válido.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
+        
         
     }
     
-    
+    private void limpiarFormulario(){
+        this.jTextFieldCantidad.setText("");
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,7 +125,7 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         jComboBoxIngrediente = new javax.swing.JComboBox<>();
         jTextFieldCantidad = new javax.swing.JTextField();
         BotonAnadirIngrediente = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        BotonRegistrarProducto = new javax.swing.JButton();
         jLabelProducto = new javax.swing.JLabel();
         jComboBoxProducto = new javax.swing.JComboBox<>();
 
@@ -142,12 +157,12 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(171, 118, 46));
-        jButton1.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
-        jButton1.setText("REGISTRAR PRODUCTO");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BotonRegistrarProducto.setBackground(new java.awt.Color(171, 118, 46));
+        BotonRegistrarProducto.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        BotonRegistrarProducto.setText("REGISTRAR PRODUCTO");
+        BotonRegistrarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BotonRegistrarProductoActionPerformed(evt);
             }
         });
 
@@ -169,7 +184,7 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BotonRegistrarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(238, 238, 238))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -202,7 +217,7 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
                 .addGap(44, 44, 44)
                 .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(BotonRegistrarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(65, 65, 65))
         );
 
@@ -217,9 +232,11 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         anadirIngredienteProducto();
     }//GEN-LAST:event_BotonAnadirIngredienteActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void BotonRegistrarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRegistrarProductoActionPerformed
+        this.dispose(); // Cierra la ventana actual
+        frmMenuPrincipal menu = new frmMenuPrincipal(); // Crea una nueva instancia del menú principal
+        menu.setVisible(true); // Muestra el menú principal
+    }//GEN-LAST:event_BotonRegistrarProductoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -229,7 +246,7 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonAnadirIngrediente;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton BotonRegistrarProducto;
     private javax.swing.JComboBox<String> jComboBoxIngrediente;
     private javax.swing.JComboBox<String> jComboBoxProducto;
     private javax.swing.JLabel jLabelANADIRINGREDIENTES;

@@ -6,6 +6,7 @@ package sistemarestaurantenegocio;
 
 import sistemarestaurantedominio.IngredienteProducto;
 import sistemarestaurantedominio.dtos.NuevoIngredienteProductoDTO;
+import sistemarestaurantenegocio.excepciones.NegocioException;
 
 /**
  *
@@ -14,6 +15,6 @@ import sistemarestaurantedominio.dtos.NuevoIngredienteProductoDTO;
 public interface IIngredientesProductosBO {
     
     
-    public abstract IngredienteProducto registrarIngredienteProducto(NuevoIngredienteProductoDTO ingredienteProducto);
+    public abstract IngredienteProducto registrarIngredienteProductoBO(NuevoIngredienteProductoDTO ingredienteProducto)throws NegocioException;
     
 }

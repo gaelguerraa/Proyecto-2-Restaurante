@@ -22,6 +22,18 @@ import sistemarestaurantepersistencia.interfaces.IProductosDAO;
  */
 public class ProductosDAO implements IProductosDAO{
 
+    
+    /**
+     * Guarda un nuevo producto en la base de datos.
+     * 
+     * Este método recibe un objeto de tipo {@link NuevoProductoDTO}, crea un nuevo
+     * objeto {@link Producto} con los datos proporcionados, y lo persiste en la
+     * base de datos. Luego de guardar el producto, se realiza un commit a la 
+     * transacción y se devuelve el producto guardado.
+     * 
+     * @param NuevoProducto Objeto que contiene la información del producto a guardar.
+     * @return El producto guardado con los datos de {@link NuevoProductoDTO}.
+     */
     @Override
     public Producto guardar(NuevoProductoDTO NuevoProducto) {
         EntityManager em = ManejadorConexiones.getEntityManager();
@@ -39,6 +51,16 @@ public class ProductosDAO implements IProductosDAO{
         
     }
 
+    /**
+     * Obtiene todos los productos almacenados en la base de datos.
+     * 
+     * Este método crea una consulta para obtener todos los registros de productos
+     * en la base de datos, los cuales son retornados como una lista de objetos
+     * {@link Producto}.
+     * 
+     * @return Lista de objetos {@link Producto} que representan todos los productos
+     *         almacenados en la base de datos.
+     */
     @Override
     public List<Producto> obtenerProductos() {
          EntityManager em = ManejadorConexiones.getEntityManager();
@@ -48,6 +70,17 @@ public class ProductosDAO implements IProductosDAO{
         return query.getResultList();
     }
 
+    /**
+     * Obtiene una lista de productos cuyo nombre contiene el filtro de búsqueda
+     * proporcionado.
+     * 
+     * Este método utiliza Criteria API para realizar una consulta dinámica en la base
+     * de datos, filtrando productos cuyo nombre contenga el texto dado en el parámetro
+     * {@code filtroBusqueda}. Retorna una lista de objetos {@link Producto}.
+     * 
+     * @param filtroBusqueda Texto con el cual se filtrarán los productos por su nombre.
+     * @return Lista de productos cuyo nombre contiene el filtro de búsqueda.
+     */
     @Override
     public List<Producto> obtenerProductosFiltroNombre(String filtroBusqueda) {
         EntityManager em = ManejadorConexiones.getEntityManager();
@@ -61,6 +94,16 @@ public class ProductosDAO implements IProductosDAO{
         return productos;
     }
 
+    /**
+     * Obtiene una lista de productos filtrados por el tipo proporcionado.
+     * 
+     * Este método utiliza Criteria API para realizar una consulta que filtra los
+     * productos de acuerdo a su tipo, el cual se pasa como parámetro. Retorna una
+     * lista de objetos {@link Producto} que coinciden con el tipo indicado.
+     * 
+     * @param tipo El tipo de producto que se usará como filtro para la consulta.
+     * @return Lista de productos cuyo tipo coincide con el tipo proporcionado.
+     */
     @Override
     public List<Producto> obtenerProductosPorTipo(TipoProducto tipo) {
         

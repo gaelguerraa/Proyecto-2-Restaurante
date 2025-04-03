@@ -26,7 +26,7 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
     /**
      * Creates new form frmRegistrarProducto
      */
-    public frmRegistrarProducto() {
+    public frmRegistrarProducto(IProductosBO productosBO) {
         initComponents();
         this.productosBO=productosBO;
         LlenarComboBoxTipoProducto();
@@ -194,6 +194,8 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
     private void BotonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonContinuarActionPerformed
         guardarProducto();
         this.dispose(); // Cierra la ventana actual
+        frmAnadirIngredienteProducto registrarIngredienteProducto = new frmAnadirIngredienteProducto();
+        registrarIngredienteProducto.setVisible(true);
 
     }//GEN-LAST:event_BotonContinuarActionPerformed
 

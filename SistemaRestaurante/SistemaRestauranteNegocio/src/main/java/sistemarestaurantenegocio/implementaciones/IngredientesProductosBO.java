@@ -21,7 +21,7 @@ public class IngredientesProductosBO implements IIngredientesProductosBO {
     private final Float LIMITE = 1000.0f;
     
     public IngredientesProductosBO(IngredientesProductosDAO ingredientesProductosDAO){
-        this.ingredientesProductosDAO=ingredientesProductosDAO;
+        this.ingredientesProductosDAO = ingredientesProductosDAO;
     }
 
     @Override
@@ -35,6 +35,7 @@ public class IngredientesProductosBO implements IIngredientesProductosBO {
         if(nuevoIngredienteProducto.getCantidadIngrediente() >= LIMITE){
             throw new NegocioException("La cantidad es muy alta.");
         }
+        
         return this.ingredientesProductosDAO.registrarIngredienteProducto(nuevoIngredienteProducto);
     }
 }
