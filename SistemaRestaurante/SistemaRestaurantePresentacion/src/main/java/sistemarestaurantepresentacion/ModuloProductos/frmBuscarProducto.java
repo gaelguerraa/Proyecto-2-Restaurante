@@ -7,7 +7,6 @@ package sistemarestaurantepresentacion.ModuloProductos;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import static sistemarestaurantedominio.Ingrediente_.productos;
 import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.TipoProducto;
 import sistemarestaurantenegocio.IProductosBO;

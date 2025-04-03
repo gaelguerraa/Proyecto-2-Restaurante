@@ -4,17 +4,24 @@
  */
 package sistemarestaurantepresentacion.ModuloClientes;
 
+import sistemarestaurantenegocio.IClientesFrecuentesBO;
+
 /**
  *
  * @author jorge
  */
 public class frmRegistroCliente extends javax.swing.JFrame {
-    
+    private IClientesFrecuentesBO clientesFrecuentesBO;
     /**
      * Creates new form frmRegistroCliente
      */
-    public frmRegistroCliente() {
+    public frmRegistroCliente(IClientesFrecuentesBO clientesFrecuentesBO) {
         initComponents();
+        this.clientesFrecuentesBO = clientesFrecuentesBO;
+    }
+    
+    private void registrar(){
+        
     }
 
     /**
