@@ -120,6 +120,24 @@ public class ProductosDAO implements IProductosDAO{
       return productosTipo;
 
     }
+
+    @Override
+    public List<Producto> obtenerProductosPorTipoNombre(String filtroBusqueda, TipoProducto tipo) {
+        EntityManager em = ManejadorConexiones.getEntityManager();
+      CriteriaBuilder builder = em.getCriteriaBuilder();
+      CriteriaQuery<Producto> criteria = builder.createQuery(Producto.class);
+      Root<Producto> entidadProducto = criteria.from(Producto.class);
+      
+      criteria.select(entidadProducto).where(
+                builder.and(
+                        builder.like(entidadProducto.get("nombre"), "%" + filtroBusqueda + "%"),
+                        builder.equal(entidadProducto.get("tipo"), tipo)
+                )
+        );
+      
+        TypedQuery<Producto> query = em.createQuery(criteria);
+        return query.getResultList();
+    }
     
     
     

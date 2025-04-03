@@ -21,4 +21,6 @@ public interface IProductosDAO {
     public abstract List<Producto> obtenerProductosFiltroNombre(String filtroBusqueda);
     
     public abstract List<Producto> obtenerProductosPorTipo(TipoProducto tipo);
+    
+    public abstract List<Producto> obtenerProductosPorTipoNombre(String filtroBusqueda, TipoProducto tipo);
 }

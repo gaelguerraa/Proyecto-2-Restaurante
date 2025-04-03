@@ -123,6 +123,22 @@ public class ProductosDAOTest {
                 .allMatch(p -> p.getTipo() == TipoProducto.PLATILLO);
         assertTrue(todosSonPlatillos);
     }
+    
+    @Test
+    public void testObtenerProductosPorTipoYNombre(){
+         EntityManager em = ManejadorConexiones.getEntityManager();
+        ProductosDAO productosDAO = new ProductosDAO();
+        em.getTransaction().begin();
+        em.persist(new Producto("Camarones", 94.50f, TipoProducto.PLATILLO));
+        em.persist(new Producto("Pasta", 175.00f, TipoProducto.PLATILLO));
+        em.persist(new Producto("Frijoles", 9.00f, TipoProducto.PLATILLO));
+        em.persist(new Producto("Pepsi", 15.00f, TipoProducto.BEBIDA));
+        em.getTransaction().commit();
+        
+        List<Producto> resultado = productosDAO.obtenerProductosPorTipoNombre("Pepsi", TipoProducto.BEBIDA);
+        assertNotNull(resultado);
+        
+    }
 
     
 }

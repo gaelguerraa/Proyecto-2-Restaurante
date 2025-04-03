@@ -6,6 +6,7 @@ package sistemarestaurantenegocio.implementaciones;
 
 import java.util.List;
 import sistemarestaurantedominio.Producto;
+import sistemarestaurantedominio.TipoProducto;
 import sistemarestaurantedominio.dtos.NuevoProductoDTO;
 import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
@@ -70,8 +71,23 @@ public class ProductosBO implements IProductosBO {
      * @throws NegocioException Si ocurre algún error al consultar los productos.
      */
     @Override
-    public List<Producto> consultarProducto() throws NegocioException {
+    public List<Producto> consultarProducto() {
         return this.productosDAO.obtenerProductos();
+    }
+    
+    @Override
+     public List<Producto> obtenerProductosFiltroNombre(String filtroBusqueda){
+         return this.productosDAO.obtenerProductosFiltroNombre(filtroBusqueda);
+     }
+    
+    @Override 
+    public List<Producto> obtenerProductosPorTipo(TipoProducto tipo){
+        return this.productosDAO.obtenerProductosPorTipo(tipo);
+    }
+    
+    @Override
+    public List<Producto> obtenerProductosPorTipoNombre(String filtroBusqueda, TipoProducto tipo){
+        return this.productosDAO.obtenerProductosPorTipoNombre(filtroBusqueda, tipo);
     }
     
     
