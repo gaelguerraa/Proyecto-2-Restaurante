@@ -4,11 +4,17 @@
  */
 package sistemarestaurantenegocio.implementaciones;
 
+import java.util.List;
+import sistemarestaurantedominio.Ingrediente;
 import sistemarestaurantedominio.IngredienteProducto;
+import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.dtos.NuevoIngredienteProductoDTO;
 import sistemarestaurantenegocio.IIngredientesProductosBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
+import sistemarestaurantepersistencia.DAOS_implementaciones.IngredientesDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.IngredientesProductosDAO;
+import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
+import sistemarestaurantepersistencia.interfaces.IIngredientesProductosDAO;
 
 /**
  *
@@ -16,26 +22,42 @@ import sistemarestaurantepersistencia.DAOS_implementaciones.IngredientesProducto
  */
 public class IngredientesProductosBO implements IIngredientesProductosBO {
     
-    private IngredientesProductosDAO ingredientesProductosDAO;
+    private IIngredientesProductosDAO ingredientesProductosDAO;
+    private IngredientesDAO ingredientesDAO;
+    private ProductosDAO productosDAO;
+
+    
     private final Float CERO = 0.0f;
     private final Float LIMITE = 1000.0f;
     
-    public IngredientesProductosBO(IngredientesProductosDAO ingredientesProductosDAO){
+    public IngredientesProductosBO(IIngredientesProductosDAO ingredientesProductosDAO,
+                                    IngredientesDAO ingredientesDAO,
+                                    ProductosDAO productosDAO){
         this.ingredientesProductosDAO = ingredientesProductosDAO;
+        this.ingredientesDAO = ingredientesDAO;
+        this.productosDAO = productosDAO;
     }
 
     @Override
-    public IngredienteProducto registrarIngredienteProductoBO(NuevoIngredienteProductoDTO nuevoIngredienteProducto) throws NegocioException {
-        if(nuevoIngredienteProducto.getCantidadIngrediente() == null){
-            throw new NegocioException("La cantidad del ingrediente no puede ser nula.");
-        }
-        if(nuevoIngredienteProducto.getCantidadIngrediente() <= CERO){
-            throw new NegocioException("La cantidad no puede ser cero o menor a cero.");
-        }
-        if(nuevoIngredienteProducto.getCantidadIngrediente() >= LIMITE){
-            throw new NegocioException("La cantidad es muy alta.");
-        }
+    public void registrarIngredienteProductoBO(NuevoIngredienteProductoDTO nuevoIngredienteProducto) throws NegocioException {
+
+        Producto producto = nuevoIngredienteProducto.getProducto();
+        Ingrediente ingrediente = nuevoIngredienteProducto.getIngrediente();
         
-        return this.ingredientesProductosDAO.registrarIngredienteProducto(nuevoIngredienteProducto);
+        if (producto == null || ingrediente == null) {
+            throw new NegocioException("Producto o Ingrediente inválido.");
+        }
+ 
+        ingredientesProductosDAO.registrarIngredienteProducto(nuevoIngredienteProducto);
+    }
+        
+    @Override
+    public List<Producto> obtenerProductos() {
+        return productosDAO.obtenerProductos();
+    }
+
+    @Override
+    public List<Ingrediente> obtenerIngredientes() {
+        return ingredientesDAO.obtenerIngredientes();
     }
 }

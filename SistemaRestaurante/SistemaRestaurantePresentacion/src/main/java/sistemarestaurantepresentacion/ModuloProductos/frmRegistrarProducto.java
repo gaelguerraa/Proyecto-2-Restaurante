@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sistemarestaurantedominio.TipoProducto;
 import sistemarestaurantedominio.dtos.NuevoProductoDTO;
+import sistemarestaurantenegocio.IIngredientesProductosBO;
 import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
 
@@ -193,9 +194,6 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
 
     private void BotonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonContinuarActionPerformed
         guardarProducto();
-        this.dispose(); // Cierra la ventana actual
-        frmAnadirIngredienteProducto registrarIngredienteProducto = new frmAnadirIngredienteProducto();
-        registrarIngredienteProducto.setVisible(true);
 
     }//GEN-LAST:event_BotonContinuarActionPerformed
 

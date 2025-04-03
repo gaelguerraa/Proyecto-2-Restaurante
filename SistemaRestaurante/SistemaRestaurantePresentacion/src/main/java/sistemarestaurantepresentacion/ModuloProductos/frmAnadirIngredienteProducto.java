@@ -30,7 +30,8 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
     /**
      * Creates new form frmAnadirIngredienteProducto
      */
-    public frmAnadirIngredienteProducto() {
+    public frmAnadirIngredienteProducto(IIngredientesProductosBO ingredientesProductosBO) {
+        this.ingredientesProductosBO=ingredientesProductosBO;
         initComponents();
         LlenarComboBoxProductos();
         LlenarComboBoxIngrediente();
@@ -38,41 +39,37 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
     
 
 
-    private void LlenarComboBoxProductos(){
-        ProductosDAO productosDAO = new ProductosDAO();
-        List<Producto> productos = productosDAO.obtenerProductos();
+        private void LlenarComboBoxProductos() {
+        List<Producto> productos = ingredientesProductosBO.obtenerProductos();
         
         jComboBoxProducto.removeAllItems();
         
         if (productos.isEmpty()) {
             jComboBoxProducto.addItem("No hay productos disponibles");
-        return;
+            return;
         }
 
         for (Producto producto : productos) {
-            jComboBoxProducto.addItem(producto.getNombre()); 
+            jComboBoxProducto.addItem(producto.getNombre());
         }
     }
    
-    private void LlenarComboBoxIngrediente(){
-        IngredientesDAO ingredienteDAO = new IngredientesDAO();
-        List<Ingrediente> ingredientes = ingredienteDAO.obtenerIngredientes();
-        
+      private void LlenarComboBoxIngrediente() {
+        List<Ingrediente> ingredientes = ingredientesProductosBO.obtenerIngredientes();
+
         jComboBoxIngrediente.removeAllItems();
-        
-        
-        for(Ingrediente ingrediente : ingredientes){
-        String nombreCompleto = ingrediente.getNombre() + " - " + ingrediente.getUnidadMedida();
-        jComboBoxIngrediente.addItem(nombreCompleto);
-    }
+
+        for (Ingrediente ingrediente : ingredientes) {
+            String nombreCompleto = ingrediente.getNombre() + " - " + ingrediente.getUnidadMedida();
+            jComboBoxIngrediente.addItem(nombreCompleto);
+        }
     }
     
-    public Ingrediente enviarIngredienteSeleccionado(){
+      public Ingrediente enviarIngredienteSeleccionado() {
         String seleccionado = (String) jComboBoxIngrediente.getSelectedItem();
         
         if (seleccionado != null) {
-            IngredientesDAO ingredienteDAO = new IngredientesDAO();
-            List<Ingrediente> ingredientes = ingredienteDAO.obtenerIngredientes();
+            List<Ingrediente> ingredientes = ingredientesProductosBO.obtenerIngredientes();
 
             for (Ingrediente ingrediente : ingredientes) {
                 String nombreCompleto = ingrediente.getNombre() + " - " + ingrediente.getUnidadMedida();
@@ -84,6 +81,8 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         return null;
     }
     
+    
+    
     private void anadirIngredienteProducto(){
         
         Producto productoSeleccionado = (Producto) this.jComboBoxProducto.getSelectedItem();
@@ -92,7 +91,7 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         NuevoIngredienteProductoDTO nuevoIP = new NuevoIngredienteProductoDTO(productoSeleccionado,  ingredienteSeleccionado,  cantidad);
 
         try{
-            this.ingredientesProductosBO.registrarIngredienteProductoBO(nuevoIP);
+            ingredientesProductosBO.registrarIngredienteProductoBO(nuevoIP);
             JOptionPane.showMessageDialog(this, "Exito al regisrar el ingrediente-producto ", "Informacion", JOptionPane.INFORMATION_MESSAGE);
             limpiarFormulario();
                         

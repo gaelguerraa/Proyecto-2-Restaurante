@@ -4,7 +4,10 @@
  */
 package sistemarestaurantenegocio;
 
+import java.util.List;
+import sistemarestaurantedominio.Ingrediente;
 import sistemarestaurantedominio.IngredienteProducto;
+import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.dtos.NuevoIngredienteProductoDTO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
 
@@ -15,6 +18,10 @@ import sistemarestaurantenegocio.excepciones.NegocioException;
 public interface IIngredientesProductosBO {
     
     
-    public abstract IngredienteProducto registrarIngredienteProductoBO(NuevoIngredienteProductoDTO ingredienteProducto)throws NegocioException;
+    public abstract void registrarIngredienteProductoBO(NuevoIngredienteProductoDTO nuevoIngredienteProducto) throws NegocioException;
+    
+    public abstract List<Producto> obtenerProductos();
+    
+    public List<Ingrediente> obtenerIngredientes();
     
 }

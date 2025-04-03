@@ -44,7 +44,7 @@ public class ClientesFrecuentesDAOTest {
     @Test
     public void testRegistrarClienteFrecuente() {
         ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
-        NuevoClienteFrecuenteDTO nuevoClienteFrecuente = new NuevoClienteFrecuenteDTO("Jorge", "Cuevas", "Gastelum", "6441222916", "jorge@hotmail.com", 0.0, 0);
+        NuevoClienteFrecuenteDTO nuevoClienteFrecuente = new NuevoClienteFrecuenteDTO("Jorge", "Romero", "Gastelum", "5441222916", "jorge@pemex.com", 0.0, 0);
         ClienteFrecuente clienteRegistrado = clientesFrecuentesDAO.registrarClienteFrecuente(nuevoClienteFrecuente);
         
         assertNotNull(clienteRegistrado.getIdCliente());

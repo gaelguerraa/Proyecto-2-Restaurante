@@ -74,11 +74,7 @@ public class ProductosDAOTest {
         assertFalse(productos.isEmpty());
 
 
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Producto").executeUpdate();
-        em.getTransaction().commit();
-
-        em.close();   
+       em.close();   
     }
     
      @Test
