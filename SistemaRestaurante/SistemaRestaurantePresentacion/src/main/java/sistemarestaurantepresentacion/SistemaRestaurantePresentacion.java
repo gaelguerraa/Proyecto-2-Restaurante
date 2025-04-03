@@ -1,8 +1,11 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
 package sistemarestaurantepresentacion;
+
+import sistemarestaurantenegocio.IClientesFrecuentesBO;
+import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
+import sistemarestaurantepresentacion.ModuloClientes.frmBuscarCliente;
 
 /**
  *
@@ -11,6 +14,10 @@ package sistemarestaurantepresentacion;
 public class SistemaRestaurantePresentacion {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+
+        //PARA TESTEAR EL BUSCADOR CLIENTES
+//        IClientesFrecuentesBO clientesBO = FabricaObjetosNegocio.crearClientesFrecuentesBO();
+//        frmBuscarCliente formBuscarClientes = new frmBuscarCliente(clientesBO);
+//        formBuscarClientes.setVisible(true);
     }
 }

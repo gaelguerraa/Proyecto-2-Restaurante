@@ -4,17 +4,71 @@
  */
 package sistemarestaurantepresentacion.ModuloClientes;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import sistemarestaurantedominio.ClienteFrecuente;
+import sistemarestaurantenegocio.IClientesFrecuentesBO;
+
 /**
  *
  * @author jorge
  */
 public class frmBuscarCliente extends javax.swing.JFrame {
-
+    private IClientesFrecuentesBO clientesFrecuentesBO;
+    
     /**
      * Creates new form frmBuscarCliente
      */
-    public frmBuscarCliente() {
+    public frmBuscarCliente(IClientesFrecuentesBO clientesFrecuentesBO) {
         initComponents();
+        this.clientesFrecuentesBO = clientesFrecuentesBO;
+        this.llenarTablaClientes();
+    }
+    
+    public void llenarTablaClientes(){
+        String opcionSeleccionada = (String) boxTipoFiltro.getSelectedItem();
+        String textoFiltro = txtTextoFiltrar.getText();
+        if(opcionSeleccionada.equals("Nombre")){
+            List<ClienteFrecuente> clientes = clientesFrecuentesBO.consultarClientesNombre(textoFiltro);
+            DefaultTableModel modeloTabla = (DefaultTableModel)this.tblClientes.getModel();
+           //Limpia la tabla
+           modeloTabla.setRowCount(0);
+           for(ClienteFrecuente cliente : clientes){
+               Object[] fila = {
+                   cliente.getNombre(),
+                   cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno(),
+                   cliente.getTelefono(),
+                   cliente.getCorreo()
+               };
+               modeloTabla.addRow(fila);
+           }
+        }
+        else if(opcionSeleccionada.equals("Telefono")){
+            ClienteFrecuente cliente = clientesFrecuentesBO.consultarClienteTelefono(textoFiltro);
+            DefaultTableModel modeloTabla = (DefaultTableModel)this.tblClientes.getModel();
+            //Limpia la tabla
+            modeloTabla.setRowCount(0);
+            Object[] fila = {
+                   cliente.getNombre(),
+                   cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno(),
+                   cliente.getTelefono(),
+                   cliente.getCorreo()
+               };
+               modeloTabla.addRow(fila);
+        }
+        else if(opcionSeleccionada.equals("Correo")){
+            ClienteFrecuente cliente = clientesFrecuentesBO.consultarClienteCorreo(textoFiltro);
+            DefaultTableModel modeloTabla = (DefaultTableModel)this.tblClientes.getModel();
+            //Limpia la tabla
+            modeloTabla.setRowCount(0);
+            Object[] fila = {
+                   cliente.getNombre(),
+                   cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno(),
+                   cliente.getTelefono(),
+                   cliente.getCorreo()
+               };
+               modeloTabla.addRow(fila);
+        }
     }
 
     /**
@@ -35,7 +89,7 @@ public class frmBuscarCliente extends javax.swing.JFrame {
         boxTipoFiltro = new javax.swing.JComboBox<>();
         btnBuscar = new javax.swing.JButton();
         tblTablaClientes = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblClientes = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -85,10 +139,15 @@ public class frmBuscarCliente extends javax.swing.JFrame {
         btnBuscar.setBackground(new java.awt.Color(171, 118, 46));
         btnBuscar.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
         btnBuscar.setText("BUSCAR");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         tblTablaClientes.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -111,12 +170,12 @@ public class frmBuscarCliente extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblTablaClientes.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        tblTablaClientes.setViewportView(tblClientes);
+        if (tblClientes.getColumnModel().getColumnCount() > 0) {
+            tblClientes.getColumnModel().getColumn(0).setResizable(false);
+            tblClientes.getColumnModel().getColumn(1).setResizable(false);
+            tblClientes.getColumnModel().getColumn(2).setResizable(false);
+            tblClientes.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -153,10 +212,10 @@ public class frmBuscarCliente extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtTextoFiltrar)
                         .addGap(1, 1, 1))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(boxTipoFiltro)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(boxTipoFiltro)))
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tblTablaClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -186,6 +245,10 @@ public class frmBuscarCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_boxTipoFiltroActionPerformed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        this.llenarTablaClientes();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxTipoFiltro;
@@ -195,7 +258,7 @@ public class frmBuscarCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblClientes;
     private javax.swing.JScrollPane tblTablaClientes;
     private javax.swing.JTextField txtTextoFiltrar;
     // End of variables declaration//GEN-END:variables

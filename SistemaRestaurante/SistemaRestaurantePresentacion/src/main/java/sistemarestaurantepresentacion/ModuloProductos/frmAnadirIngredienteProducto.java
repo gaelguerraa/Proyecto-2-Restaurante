@@ -14,8 +14,6 @@ import sistemarestaurantedominio.dtos.NuevoIngredienteProductoDTO;
 import sistemarestaurantedominio.dtos.NuevoProductoDTO;
 import sistemarestaurantenegocio.IIngredientesProductosBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
-import sistemarestaurantepersistencia.DAOS_implementaciones.IngredientesDAO;
-import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
 import sistemarestaurantepresentacion.frmMenuPrincipal;
 
 /**

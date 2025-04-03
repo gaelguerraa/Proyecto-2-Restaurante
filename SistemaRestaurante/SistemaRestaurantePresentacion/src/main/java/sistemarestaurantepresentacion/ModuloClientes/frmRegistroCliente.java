@@ -4,17 +4,24 @@
  */
 package sistemarestaurantepresentacion.ModuloClientes;
 
+import sistemarestaurantenegocio.IClientesFrecuentesBO;
+
 /**
  *
  * @author jorge
  */
 public class frmRegistroCliente extends javax.swing.JFrame {
-    
+    private IClientesFrecuentesBO clientesFrecuentesBO;
     /**
      * Creates new form frmRegistroCliente
      */
-    public frmRegistroCliente() {
+    public frmRegistroCliente(IClientesFrecuentesBO clientesFrecuentesBO) {
         initComponents();
+        this.clientesFrecuentesBO = clientesFrecuentesBO;
+    }
+    
+    private void registrar(){
+        
     }
 
     /**
@@ -43,7 +50,6 @@ public class frmRegistroCliente extends javax.swing.JFrame {
         btnRegistrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(850, 550));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(241, 209, 165));
