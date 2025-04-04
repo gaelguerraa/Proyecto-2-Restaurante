@@ -20,6 +20,7 @@ import sistemarestaurantenegocio.excepciones.NegocioException;
  */
 public class frmRegistrarProducto extends javax.swing.JFrame {
 
+    private ControladorProductos controlador;
     private IProductosBO productosBO;
     private static final Logger LOG = Logger.getLogger(frmRegistrarProducto.class.getName());
     
@@ -27,7 +28,8 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
     /**
      * Creates new form frmRegistrarProducto
      */
-    public frmRegistrarProducto(IProductosBO productosBO) {
+    public frmRegistrarProducto(IProductosBO productosBO, ControladorProductos controlador) {
+        this.controlador = controlador;
         initComponents();
         this.productosBO=productosBO;
         LlenarComboBoxTipoProducto();
@@ -37,14 +39,16 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
     
     private void LlenarComboBoxTipoProducto(){
         for(TipoProducto tipo : TipoProducto.values()){
-            jComboBoxTipo.addItem(tipo.toString());
+            jComboBoxTipo.addItem(tipo.name());
         }
     }
     
     private void guardarProducto(){
         String nombre = this.jTextFieldNombre.getText();
         Float precio = Float.parseFloat(this.jTextFieldPrecio.getText());
-        TipoProducto tipo = (TipoProducto) this.jComboBoxTipo.getSelectedItem();
+        String tipoSeleccionado = (String) this.jComboBoxTipo.getSelectedItem();
+        TipoProducto tipo = TipoProducto.valueOf(tipoSeleccionado); // Convierte el String a TipoProducto
+//        TipoProducto tipo = (TipoProducto) this.jComboBoxTipo.getSelectedItem();
         NuevoProductoDTO nuevoProducto = new NuevoProductoDTO(nombre, precio, tipo);
         
         try{
@@ -103,7 +107,6 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         jLabelPrecio.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         jLabelPrecio.setText("Precio:");
 
-        jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxTipoActionPerformed(evt);
@@ -194,6 +197,8 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
 
     private void BotonContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonContinuarActionPerformed
         guardarProducto();
+        controlador.mostrarMenuProductos();
+        this.limpiarFormulario();
 
     }//GEN-LAST:event_BotonContinuarActionPerformed
 

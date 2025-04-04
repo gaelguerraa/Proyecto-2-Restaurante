@@ -12,4 +12,6 @@ public enum TipoProducto {
     PLATILLO,
     POSTRE,
     BEBIDA
+    
+    
 }

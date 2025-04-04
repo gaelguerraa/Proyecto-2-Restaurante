@@ -4,18 +4,112 @@
  */
 package sistemarestaurantepresentacion.ModuloProductos;
 
+import java.util.List;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import sistemarestaurantedominio.Producto;
+import sistemarestaurantedominio.TipoProducto;
+import sistemarestaurantenegocio.IProductosBO;
+
 /**
  *
  * @author gael_
  */
 public class frmBuscarProductos extends javax.swing.JFrame {
 
+    private IProductosBO productosBO;
+    private static final Logger LOG = Logger.getLogger(frmBuscarProductos.class.getName());
+    
     /**
      * Creates new form frmBuscarProductos
      */
-    public frmBuscarProductos() {
+    public frmBuscarProductos(IProductosBO productosBO) {
+        this.productosBO=productosBO;
         initComponents();
+        LlenarComboBoxTipoProducto();
+        buscarProductos();
     }
+    
+    private void LlenarComboBoxTipoProducto(){
+        for(TipoProducto tipo : TipoProducto.values()){
+            ComboBoxFiltro.addItem(tipo.toString());
+        }
+    }
+    
+    private void buscarProductos(){
+        String nombreFiltro = txtFiltro.getText().trim();
+        String tipoSeleccionado = (String) ComboBoxFiltro.getSelectedItem();
+        List<Producto> productos;
+        
+        if (!nombreFiltro.isEmpty() && tipoSeleccionado != null) {
+        productos = productosBO.obtenerProductosPorTipoNombre(nombreFiltro, TipoProducto.valueOf(tipoSeleccionado));
+        } else if (!nombreFiltro.isEmpty()) {
+            productos = productosBO.obtenerProductosFiltroNombre(nombreFiltro);
+        } else if (tipoSeleccionado != null) {
+            productos = productosBO.obtenerProductosPorTipo(TipoProducto.valueOf(tipoSeleccionado));
+        } else {
+            return; // No se hace nada si ambos filtros están vacíos.
+        }
+        actualizarTabla(productos);
+    }
+    
+    private void actualizarTabla(List<Producto> productos) {
+        DefaultTableModel modelo = (DefaultTableModel) TablaProductos.getModel();
+        modelo.setRowCount(0); 
+        
+        for (Producto producto : productos) {
+            modelo.addRow(new Object[]{
+                producto.getNombre(),
+                producto.getTipo(),
+                producto.getPrecio()
+            });
+        }
+    }
+    
+    private Producto devolverProducto(){
+        int filaSeleccionada = TablaProductos.getSelectedRow();
+        
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un producto de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+  
+        }
+        Producto productoSelec = (Producto) TablaProductos.getValueAt(filaSeleccionada,0);
+        
+        return productoSelec;
+      }  
+
+//    private void seleccionarProducto() {
+//        int filaSeleccionada = TablaProductos.getSelectedRow();
+//
+//        if (filaSeleccionada == -1) {
+//            JOptionPane.showMessageDialog(this, "Seleccione un producto de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+//
+//        // Obtener los valores de la fila seleccionada
+//        String nombre = (String) TablaProductos.getValueAt(filaSeleccionada, 0);
+//            Producto productoSeleccionado = null;
+//            List<Producto> productos = productosBO.consultarProducto();
+//        for (Producto p : productos) {
+//            if (p.getNombre().equals(nombre)) {
+//                productoSeleccionado = p;
+//                break;
+//            }
+//        }
+//        
+//        if (productoSeleccionado == null) {
+//            JOptionPane.showMessageDialog(this, "Producto no encontrado en la lista.", "Error", JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
+
+//        // Enviar el producto a otra clase (modifica según tu necesidad)
+//        frmOtraClase otroFormulario = new frmOtraClase(productoSeleccionado);
+//        otroFormulario.setVisible(true);
+//        this.dispose();  // Cierra la ventana actual si es necesario
+        
+        
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,57 +120,192 @@ public class frmBuscarProductos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        LabelTitulo = new javax.swing.JLabel();
+        LabelTipo = new javax.swing.JLabel();
+        LabelNombre = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaProductos = new javax.swing.JTable();
+        BotonSeleccionarProducto = new javax.swing.JButton();
+        ComboBoxFiltro = new javax.swing.JComboBox<>();
+        txtFiltro = new javax.swing.JTextField();
+        BotonBuscar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(850, 561));
+
+        jPanel2.setBackground(new java.awt.Color(241, 209, 165));
+
+        jPanel3.setBackground(new java.awt.Color(241, 209, 165));
+
+        LabelTitulo.setFont(new java.awt.Font("Segoe UI Semibold", 1, 36)); // NOI18N
+        LabelTitulo.setText("BUSCAR PRODUCTOS");
+
+        LabelTipo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        LabelTipo.setText("TIPO:");
+
+        LabelNombre.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        LabelNombre.setText("NOMBRE:");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(LabelTipo)
+                .addGap(131, 131, 131)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(LabelNombre))
+                    .addComponent(LabelTitulo))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(LabelTitulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LabelTipo)
+                    .addComponent(LabelNombre))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        TablaProductos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre:", "Tipo:", "Precio:"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class, java.lang.Float.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(TablaProductos);
+
+        BotonSeleccionarProducto.setBackground(new java.awt.Color(171, 118, 46));
+        BotonSeleccionarProducto.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        BotonSeleccionarProducto.setText("SELECCIONAR PRODUCTO");
+        BotonSeleccionarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonSeleccionarProductoActionPerformed(evt);
+            }
+        });
+
+        txtFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFiltroActionPerformed(evt);
+            }
+        });
+
+        BotonBuscar.setBackground(new java.awt.Color(171, 118, 46));
+        BotonBuscar.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        BotonBuscar.setText("BUSCAR");
+        BotonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonBuscarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(ComboBoxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(48, 48, 48)
+                                .addComponent(BotonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 766, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(276, 276, 276)
+                        .addComponent(BotonSeleccionarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ComboBoxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BotonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BotonSeleccionarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void BotonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonBuscarActionPerformed
+
+    private void txtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFiltroActionPerformed
+
+    private void BotonSeleccionarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonSeleccionarProductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonSeleccionarProductoActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmBuscarProductos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmBuscarProductos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmBuscarProductos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmBuscarProductos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new frmBuscarProductos().setVisible(true);
-            }
-        });
-    }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BotonBuscar;
+    private javax.swing.JButton BotonSeleccionarProducto;
+    private javax.swing.JComboBox<String> ComboBoxFiltro;
+    private javax.swing.JLabel LabelNombre;
+    private javax.swing.JLabel LabelTipo;
+    private javax.swing.JLabel LabelTitulo;
+    private javax.swing.JTable TablaProductos;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
 }

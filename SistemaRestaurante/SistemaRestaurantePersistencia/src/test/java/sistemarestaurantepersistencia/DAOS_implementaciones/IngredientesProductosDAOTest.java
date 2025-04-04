@@ -49,13 +49,14 @@ public class IngredientesProductosDAOTest {
        EntityManager em = ManejadorConexiones.getEntityManager(); 
        IngredientesProductosDAO ipDAO = new IngredientesProductosDAO();
        
-       Producto producto = new Producto("Pizza", 100.0f, TipoProducto.PLATILLO);
-       Ingrediente ingrediente = new Ingrediente("Queso", UnidadMedidaIngrediente.GRAMOS, 10.0f);
+       Producto producto = new Producto("Pizza Zanahoriaa", 107.0f, TipoProducto.PLATILLO);
+       Ingrediente ingrediente = new Ingrediente("Zanahoriaa", UnidadMedidaIngrediente.GRAMOS, 16.0f);
+       
 
        NuevoIngredienteProductoDTO nipDTO = new NuevoIngredienteProductoDTO();
        nipDTO.setProducto(producto);
        nipDTO.setIngrediente(ingrediente);
-       nipDTO.setCantidadIngrediente(1.0f);
+       nipDTO.setCantidadIngrediente(7.0f);
        
        em.getTransaction().begin();
        
