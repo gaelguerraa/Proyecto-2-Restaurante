@@ -9,7 +9,13 @@ public interface IClientesFrecuentesBO {
     
     public abstract List<ClienteFrecuente> consultarClientesNombre(String nombre);
     
+    public abstract ClienteFrecuente consultarClienteID(Long idCliente);
+    
     public abstract ClienteFrecuente consultarClienteTelefono(String telefono);
     
     public abstract ClienteFrecuente consultarClienteCorreo(String correo);
+    
+    public abstract String encriptarTelefono(String telefono);
+    
+    public abstract String desencriptarTelefono(String telefono);
 }

@@ -4,6 +4,7 @@
  */
 package sistemarestaurantepresentacion;
 
+import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
 import sistemarestaurantepresentacion.ModuloProductos.frmRegistrarProducto;
 
 /**
@@ -19,6 +20,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
      */
     public frmMenuPrincipal() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -117,6 +119,11 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         btnClientes.setBackground(new java.awt.Color(171, 118, 46));
         btnClientes.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         btnClientes.setText("CLIENTES");
+        btnClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClientesActionPerformed(evt);
+            }
+        });
         jPanel4.add(btnClientes);
 
         btnReportes.setBackground(new java.awt.Color(171, 118, 46));
@@ -170,6 +177,12 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
      
     
     }//GEN-LAST:event_btnProductosActionPerformed
+
+    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
+        ControlNavegacionClientes control = new ControlNavegacionClientes();
+        control.iniciarMenu();
+        this.dispose();
+    }//GEN-LAST:event_btnClientesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

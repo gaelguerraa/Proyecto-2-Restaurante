@@ -4,17 +4,23 @@
  */
 package sistemarestaurantepresentacion.ModuloClientes;
 
+import sistemarestaurantedominio.ClienteFrecuente;
+
 /**
  *
  * @author jorge
  */
 public class frmMenuClientes extends javax.swing.JFrame {
 
+    private ControlNavegacionClientes control;
+
     /**
      * Creates new form frmMenuClientes
      */
-    public frmMenuClientes() {
+    public frmMenuClientes(ControlNavegacionClientes control) {
+        this.control = control;
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -64,6 +70,11 @@ public class frmMenuClientes extends javax.swing.JFrame {
         btnRegistrar.setBackground(new java.awt.Color(171, 118, 46));
         btnRegistrar.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
         btnRegistrar.setText("REGISTRAR");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         btnConsultar.setBackground(new java.awt.Color(171, 118, 46));
         btnConsultar.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
@@ -144,12 +155,18 @@ public class frmMenuClientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        // TODO add your handling code here:
+
+        control.consultar();
+
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        // TODO add your handling code here:
+        control.salir();
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        control.registrar();
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
