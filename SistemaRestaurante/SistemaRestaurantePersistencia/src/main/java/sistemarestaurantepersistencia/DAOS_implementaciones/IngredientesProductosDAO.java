@@ -15,6 +15,12 @@ import sistemarestaurantepersistencia.interfaces.IIngredientesProductosDAO;
  */
 public class IngredientesProductosDAO implements IIngredientesProductosDAO{
 
+    /**
+    * Registra una relación entre un ingrediente y un producto.
+    *
+    * @param ingredienteProducto DTO con los datos del ingrediente y producto a registrar.
+    * @return El objeto IngredienteProducto registrado.
+    */
     @Override
     public IngredienteProducto registrarIngredienteProducto(NuevoIngredienteProductoDTO ingredienteProducto) {
         EntityManager em = ManejadorConexiones.getEntityManager();

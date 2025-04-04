@@ -136,27 +136,6 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
          
     }    
     
-    //VIEJOOOOO
-//    private void anadirIngredienteProducto(){
-//        
-//        //Cambiar Producto productoSeleccionado = (Producto) this.jComboBoxProducto.getSelectedItem();
-//        Ingrediente ingredienteSeleccionado = enviarIngredienteSeleccionado();
-//        Float cantidad = Float.parseFloat(this.jTextFieldCantidad.getText());
-//        NuevoIngredienteProductoDTO nuevoIP = new NuevoIngredienteProductoDTO(productoSeleccionado,  ingredienteSeleccionado,  cantidad);
-//
-//        try{
-//            ingredientesProductosBO.registrarIngredienteProductoBO(nuevoIP);
-//            JOptionPane.showMessageDialog(this, "Exito al regisrar el ingrediente-producto ", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-//            limpiarFormulario();
-//                        
-//        } catch(NegocioException e){
-//            LOG.severe("No fue posible registrar el ingrediente-producto " + e.getMessage());
-//            JOptionPane.showMessageDialog(this, e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
-//        }
-//        
-//        
-//        
-//    }
     
     private void limpiarFormulario(){
         this.jTextFieldCantidad.setText("");

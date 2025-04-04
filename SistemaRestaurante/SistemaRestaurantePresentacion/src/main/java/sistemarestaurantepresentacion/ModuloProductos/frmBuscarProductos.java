@@ -49,7 +49,7 @@ public class frmBuscarProductos extends javax.swing.JFrame {
         } else if (tipoSeleccionado != null) {
             productos = productosBO.obtenerProductosPorTipo(TipoProducto.valueOf(tipoSeleccionado));
         } else {
-            return; // No se hace nada si ambos filtros están vacíos.
+            return; 
         }
         actualizarTabla(productos);
     }

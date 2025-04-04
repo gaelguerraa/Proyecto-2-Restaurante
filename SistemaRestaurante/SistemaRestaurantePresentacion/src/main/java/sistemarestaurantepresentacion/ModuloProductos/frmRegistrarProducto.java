@@ -43,24 +43,41 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         }
     }
     
-    private void guardarProducto(){
-        String nombre = this.jTextFieldNombre.getText();
-        Float precio = Float.parseFloat(this.jTextFieldPrecio.getText());
-        String tipoSeleccionado = (String) this.jComboBoxTipo.getSelectedItem();
-        TipoProducto tipo = TipoProducto.valueOf(tipoSeleccionado); // Convierte el String a TipoProducto
-//        TipoProducto tipo = (TipoProducto) this.jComboBoxTipo.getSelectedItem();
-        NuevoProductoDTO nuevoProducto = new NuevoProductoDTO(nombre, precio, tipo);
+    private void guardarProducto() {
         
-        try{
+        try {
+            String nombre = this.jTextFieldNombre.getText().trim();
+            if (nombre.isEmpty()) {
+                throw new NegocioException("El nombre del producto no puede estar vacío.");
+            }
+
+            String precioTexto = this.jTextFieldPrecio.getText().trim();
+            if (precioTexto.isEmpty()) {
+                throw new NegocioException("El precio del producto no puede estar vacío.");
+            }
+
+            Float precio;
+            try {
+                precio = Float.parseFloat(precioTexto);
+            } catch (NumberFormatException e) {
+                throw new NegocioException("El precio debe ser un número válido.");
+            }
+
+            String tipoSeleccionado = (String) this.jComboBoxTipo.getSelectedItem();
+            TipoProducto tipo = TipoProducto.valueOf(tipoSeleccionado);
+
+            NuevoProductoDTO nuevoProducto = new NuevoProductoDTO(nombre, precio, tipo);
             this.productosBO.registrar(nuevoProducto);
-            JOptionPane.showMessageDialog(this, "Exito al regisrar el producto", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+
+            JOptionPane.showMessageDialog(this, "Éxito al registrar el producto", "Información", JOptionPane.INFORMATION_MESSAGE);
             limpiarFormulario();
-            
-        } catch(NegocioException e){
-            LOG.severe("No fue posible registrar el producto " + e.getMessage());
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Informacion", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (NegocioException e) {
+            LOG.severe("No fue posible registrar el producto: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     
     private void limpiarFormulario(){
         this.jTextFieldNombre.setText("");

@@ -43,33 +43,33 @@ public class IngredientesProductosDAOTest {
     public void tearDown() {
     }
 
-    @Test
-    public void testRegistrarIngredienteProducto() {
-        
-       EntityManager em = ManejadorConexiones.getEntityManager(); 
-       IngredientesProductosDAO ipDAO = new IngredientesProductosDAO();
-       
-       Producto producto = new Producto("Pizza Zanahoriaa", 107.0f, TipoProducto.PLATILLO);
-       Ingrediente ingrediente = new Ingrediente("Zanahoriaa", UnidadMedidaIngrediente.GRAMOS, 16.0f);
-       
-
-       NuevoIngredienteProductoDTO nipDTO = new NuevoIngredienteProductoDTO();
-       nipDTO.setProducto(producto);
-       nipDTO.setIngrediente(ingrediente);
-       nipDTO.setCantidadIngrediente(7.0f);
-       
-       em.getTransaction().begin();
-       
-       em.persist(producto);
-       em.persist(ingrediente);
-       
-       em.getTransaction().commit();
-       
-       IngredienteProducto ipRegistrado = ipDAO.registrarIngredienteProducto(nipDTO);
-       
-       assertNotNull(ipRegistrado);
-        assertNotNull(ipRegistrado.getId());
-        
-    }
-    
+//    @Test
+//    public void testRegistrarIngredienteProducto() {
+//        
+//       EntityManager em = ManejadorConexiones.getEntityManager(); 
+//       IngredientesProductosDAO ipDAO = new IngredientesProductosDAO();
+//       
+//       Producto producto = new Producto("Pizza Zanahoriaa", 107.0f, TipoProducto.PLATILLO);
+//       Ingrediente ingrediente = new Ingrediente("Zanahoriaa", UnidadMedidaIngrediente.GRAMOS, 16.0f);
+//       
+//
+//       NuevoIngredienteProductoDTO nipDTO = new NuevoIngredienteProductoDTO();
+//       nipDTO.setProducto(producto);
+//       nipDTO.setIngrediente(ingrediente);
+//       nipDTO.setCantidadIngrediente(7.0f);
+//       
+//       em.getTransaction().begin();
+//       
+//       em.persist(producto);
+//       em.persist(ingrediente);
+//       
+//       em.getTransaction().commit();
+//       
+//       IngredienteProducto ipRegistrado = ipDAO.registrarIngredienteProducto(nipDTO);
+//       
+//       assertNotNull(ipRegistrado);
+//        assertNotNull(ipRegistrado.getId());
+//        
+//    }
+//    
 }

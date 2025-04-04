@@ -10,10 +10,10 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import sistemarestaurantedominio.Ingrediente;
 import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.TipoProducto;
 import sistemarestaurantedominio.dtos.NuevoProductoDTO;
+import sistemarestaurantedominio.dtos.ProductoIngredienteDTO;
 import sistemarestaurantepersistencia.interfaces.IProductosDAO;
 
 /**
@@ -121,6 +121,13 @@ public class ProductosDAO implements IProductosDAO{
 
     }
 
+      /**
+     * Obtiene una lista de productos filtrados por nombre y tipo.
+     *
+     * @param filtroBusqueda El texto que debe aparecer en el nombre del producto.
+     * @param tipo El tipo de producto a filtrar.
+     * @return Lista de productos que coinciden con los filtros.
+     */
     @Override
     public List<Producto> obtenerProductosPorTipoNombre(String filtroBusqueda, TipoProducto tipo) {
         EntityManager em = ManejadorConexiones.getEntityManager();
@@ -139,6 +146,23 @@ public class ProductosDAO implements IProductosDAO{
         return query.getResultList();
     }
     
+    //calar
+    @Override
+    public List<ProductoIngredienteDTO> obtenerProductosJoin(){
+        EntityManager em = ManejadorConexiones.getEntityManager();
+        String jpqlQuery = """
+                           SELECT new sistemarestaurantedominio.dtos.ProductoIngredienteDTO(
+                           P.nombre, P.tipo, I.nombre, I.unidadMedida, IP.cantidadIngrediente
+                           )
+                           FROM Producto P
+                           JOIN IngredienteProducto IP ON IP.producto = P
+                           JOIN Ingrediente I ON I = IP.ingrediente
+                           
+                           """;
+        
+        TypedQuery<ProductoIngredienteDTO> query = em.createQuery(jpqlQuery, ProductoIngredienteDTO.class);
+        return query.getResultList();
+    }
     
     
  
