@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package sistemarestaurantepresentacion.ModuloClientes;
 
 import java.util.List;
@@ -9,18 +5,17 @@ import javax.swing.table.DefaultTableModel;
 import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
 
-/**
- *
- * @author jorge
- */
 public class frmBuscarCliente extends javax.swing.JFrame {
+
     private IClientesFrecuentesBO clientesFrecuentesBO;
     private String telefonoCliente;
     private ClienteFrecuente clienteSeleccionado;
     private ControlNavegacionClientes control;
-    
+
     /**
-     * Creates new form frmBuscarCliente
+     * Constructor que contiene un event listener para obtener el cliente al que se seleccione
+     * @param clientesFrecuentesBO Recibe un bo de clientes frecuentes
+     * @param control Recibe un control de navegacion
      */
     public frmBuscarCliente(IClientesFrecuentesBO clientesFrecuentesBO, ControlNavegacionClientes control) {
         initComponents();
@@ -38,53 +33,62 @@ public class frmBuscarCliente extends javax.swing.JFrame {
             }
         });
     }
-    
-    public void llenarTablaClientes(){
+
+    /**
+     * Metodo que carga la tabla con los clientes segun los parametros que se tengan
+     */
+    public void llenarTablaClientes() {
         String opcionSeleccionada = (String) boxTipoFiltro.getSelectedItem();
         String textoFiltro = txtTextoFiltrar.getText();
-        if(opcionSeleccionada.equals("Nombre")){
+        if (opcionSeleccionada.equals("Nombre")) {
             List<ClienteFrecuente> clientes = clientesFrecuentesBO.consultarClientesNombre(textoFiltro);
-            DefaultTableModel modeloTabla = (DefaultTableModel)this.tblClientes.getModel();
-           //Limpia la tabla
-           modeloTabla.setRowCount(0);
-           for(ClienteFrecuente cliente : clientes){
-               Object[] fila = {
-                   cliente.getNombre(),
-                   cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno(),
-                   cliente.getTelefono(),
-                   cliente.getCorreo()
-               };
-               modeloTabla.addRow(fila);
-           }
-        }
-        else if(opcionSeleccionada.equals("Telefono")){
-            ClienteFrecuente cliente = clientesFrecuentesBO.consultarClienteTelefono(textoFiltro);
-            DefaultTableModel modeloTabla = (DefaultTableModel)this.tblClientes.getModel();
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tblClientes.getModel();
             //Limpia la tabla
             modeloTabla.setRowCount(0);
-            Object[] fila = {
-                   cliente.getNombre(),
-                   cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno(),
-                   cliente.getTelefono(),
-                   cliente.getCorreo()
-               };
-               modeloTabla.addRow(fila);
-        }
-        else if(opcionSeleccionada.equals("Correo")){
-            ClienteFrecuente cliente = clientesFrecuentesBO.consultarClienteCorreo(textoFiltro);
-            DefaultTableModel modeloTabla = (DefaultTableModel)this.tblClientes.getModel();
+            for (ClienteFrecuente cliente : clientes) {
+                Object[] fila = {
+                    cliente.getNombre(),
+                    cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno(),
+                    cliente.getTelefono(),
+                    cliente.getCorreo()
+                };
+                modeloTabla.addRow(fila);
+            }
+        } else if (opcionSeleccionada.equals("Telefono")) {
+            List<ClienteFrecuente> clientes = clientesFrecuentesBO.consultarClientesTelefono(textoFiltro);
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tblClientes.getModel();
             //Limpia la tabla
             modeloTabla.setRowCount(0);
-            Object[] fila = {
-                   cliente.getNombre(),
-                   cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno(),
-                   cliente.getTelefono(),
-                   cliente.getCorreo()
-               };
-               modeloTabla.addRow(fila);
+            for (ClienteFrecuente cliente : clientes) {
+                Object[] fila = {
+                    cliente.getNombre(),
+                    cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno(),
+                    cliente.getTelefono(),
+                    cliente.getCorreo()
+                };
+                modeloTabla.addRow(fila);
+            }
+        } else if (opcionSeleccionada.equals("Correo")) {
+            List<ClienteFrecuente> clientes = clientesFrecuentesBO.consultarClientesCorreo(textoFiltro);
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tblClientes.getModel();
+            //Limpia la tabla
+            modeloTabla.setRowCount(0);
+            for (ClienteFrecuente cliente : clientes) {
+                Object[] fila = {
+                    cliente.getNombre(),
+                    cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno(),
+                    cliente.getTelefono(),
+                    cliente.getCorreo()
+                };
+                modeloTabla.addRow(fila);
+            }
         }
     }
-    
+
+    /**
+     * Metodo que es llamado desde comanda para acceder directamente al buscador y obtener un cliente
+     * @return Regresa un ClienteFrecuente al seleccionarlo
+     */
     public ClienteFrecuente mostrarYObtenerClienteSeleccionado() {
         this.setVisible(true);
         // Esperar a que el usuario cierre el frame o seleccione un cliente
@@ -95,6 +99,7 @@ public class frmBuscarCliente extends javax.swing.JFrame {
                 e.printStackTrace();
             }
         }
+        this.dispose();
         return clienteSeleccionado;
     }
 
@@ -280,7 +285,7 @@ public class frmBuscarCliente extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         control.regresarMenuClientesConsulta();
-        
+
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void boxTipoFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxTipoFiltroActionPerformed

@@ -179,6 +179,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
+        // MODULO CLIENTES
         ControlNavegacionClientes control = new ControlNavegacionClientes();
         control.iniciarMenu();
         this.dispose();

@@ -26,15 +26,21 @@ public class SistemaRestaurantePresentacion {
     
         
 
-        IIngredientesProductosBO ingredientesProductosBO = FabricaObjetosNegocio.crearIngredientesProductosBO();
-        IProductosBO productosBO = FabricaObjetosNegocio.crearProductosBO();
-        
-        ControladorProductos controlador = new ControladorProductos(ingredientesProductosBO, productosBO);
+//
+//        IIngredientesProductosBO ingredientesProductosBO = FabricaObjetosNegocio.crearIngredientesProductosBO();
+//        IProductosBO productosBO = FabricaObjetosNegocio.crearProductosBO();
+//        
+//        ControladorProductos controlador = new ControladorProductos(ingredientesProductosBO, productosBO);
 
 
         // Crear y mostrar el formulario del menú de productos
-        frmMenuProductos menuProductos = new frmMenuProductos(controlador);
-        menuProductos.setVisible(true);  
+//        frmMenuProductos menuProductos = new frmMenuProductos(controlador);
+//        menuProductos.setVisible(true);  
+
+        frmMenuPrincipal menu = new frmMenuPrincipal();
+        menu.setVisible(true);
+        
+
 
     }
 }
