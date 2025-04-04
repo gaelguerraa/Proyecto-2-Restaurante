@@ -15,14 +15,28 @@ import sistemarestaurantenegocio.IClientesFrecuentesBO;
  */
 public class frmBuscarCliente extends javax.swing.JFrame {
     private IClientesFrecuentesBO clientesFrecuentesBO;
+    private String telefonoCliente;
+    private ClienteFrecuente clienteSeleccionado;
+    private ControlNavegacionClientes control;
     
     /**
      * Creates new form frmBuscarCliente
      */
-    public frmBuscarCliente(IClientesFrecuentesBO clientesFrecuentesBO) {
+    public frmBuscarCliente(IClientesFrecuentesBO clientesFrecuentesBO, ControlNavegacionClientes control) {
         initComponents();
         this.clientesFrecuentesBO = clientesFrecuentesBO;
+        this.control = control;
+        setLocationRelativeTo(null);
         this.llenarTablaClientes();
+        tblClientes.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = tblClientes.getSelectedRow();
+                if (selectedRow != -1) {
+                    this.telefonoCliente = (String) tblClientes.getValueAt(selectedRow, 2);
+                    this.clienteSeleccionado = clientesFrecuentesBO.consultarClienteTelefono(telefonoCliente);
+                }
+            }
+        });
     }
     
     public void llenarTablaClientes(){
@@ -70,6 +84,19 @@ public class frmBuscarCliente extends javax.swing.JFrame {
                modeloTabla.addRow(fila);
         }
     }
+    
+    public ClienteFrecuente mostrarYObtenerClienteSeleccionado() {
+        this.setVisible(true);
+        // Esperar a que el usuario cierre el frame o seleccione un cliente
+        while (clienteSeleccionado == null) {
+            try {
+                Thread.sleep(100);  // Espera para que el usuario seleccione el cliente
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return clienteSeleccionado;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -90,6 +117,7 @@ public class frmBuscarCliente extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         tblTablaClientes = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
+        btnInformacion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -178,15 +206,20 @@ public class frmBuscarCliente extends javax.swing.JFrame {
             tblClientes.getColumnModel().getColumn(3).setResizable(false);
         }
 
+        btnInformacion.setBackground(new java.awt.Color(171, 118, 46));
+        btnInformacion.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        btnInformacion.setText("VER INFORMACION");
+        btnInformacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInformacionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(294, 294, 294)
-                .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(306, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,10 +231,16 @@ public class frmBuscarCliente extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(boxTipoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTextoFiltrar)
+                        .addComponent(txtTextoFiltrar, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnInformacion, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(296, 296, 296))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,10 +256,12 @@ public class frmBuscarCliente extends javax.swing.JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tblTablaClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(tblTablaClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnInformacion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRegresar)
-                .addGap(30, 30, 30))
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -238,7 +279,8 @@ public class frmBuscarCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        // TODO add your handling code here:
+        control.regresarMenuClientesConsulta();
+        
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void boxTipoFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxTipoFiltroActionPerformed
@@ -249,10 +291,15 @@ public class frmBuscarCliente extends javax.swing.JFrame {
         this.llenarTablaClientes();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void btnInformacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacionActionPerformed
+        control.verInformacionCliente(clientesFrecuentesBO.consultarClienteTelefono(telefonoCliente));
+    }//GEN-LAST:event_btnInformacionActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxTipoFiltro;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnInformacion;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -4,17 +4,36 @@
  */
 package sistemarestaurantepresentacion.ModuloClientes;
 
+import sistemarestaurantedominio.ClienteFrecuente;
+import sistemarestaurantedominio.dtos.NuevoClienteFrecuenteDTO;
+import sistemarestaurantenegocio.IClientesFrecuentesBO;
+
 /**
  *
  * @author jorge
  */
 public class frmInformacionCliente extends javax.swing.JFrame {
-
+    private IClientesFrecuentesBO clientesFrecuentesBO;
+    private NuevoClienteFrecuenteDTO cliente;
+    private ControlNavegacionClientes control;
     /**
      * Creates new form frmInformacionCliente
      */
-    public frmInformacionCliente() {
+    public frmInformacionCliente(IClientesFrecuentesBO clientesFrecuentesBO, ClienteFrecuente cliente, ControlNavegacionClientes control) {
         initComponents();
+        this.control = control;
+        this.clientesFrecuentesBO = clientesFrecuentesBO;
+        this.cargarInformacion(cliente);
+        setLocationRelativeTo(null);
+        
+    }
+    
+    public void cargarInformacion(ClienteFrecuente cliente){
+        this.txtNombre.setText(cliente.getNombre());
+        this.txtApellidoP.setText(cliente.getApellidoPaterno());
+        this.txtApellidoM.setText(cliente.getApellidoMaterno());
+        this.txtCorreo.setText(cliente.getCorreo());
+        this.txtTelefono.setText(cliente.getTelefono());
     }
 
     /**
@@ -45,8 +64,8 @@ public class frmInformacionCliente extends javax.swing.JFrame {
         txtTelefono = new javax.swing.JTextField();
         txtCorreo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
+        btnMenuPrincipal = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         lblFechaUltimaVisita = new javax.swing.JLabel();
@@ -176,16 +195,21 @@ public class frmInformacionCliente extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         jLabel6.setText("Correo");
 
-        jButton1.setBackground(new java.awt.Color(171, 118, 46));
-        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
-        jButton1.setText("BUSCAR OTRO CLIENTE");
-
-        jButton2.setBackground(new java.awt.Color(171, 118, 46));
-        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
-        jButton2.setText("MENU PRINCIPAL");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnRegresar.setBackground(new java.awt.Color(171, 118, 46));
+        btnRegresar.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        btnRegresar.setText("BUSCAR OTRO CLIENTE");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnRegresarActionPerformed(evt);
+            }
+        });
+
+        btnMenuPrincipal.setBackground(new java.awt.Color(171, 118, 46));
+        btnMenuPrincipal.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        btnMenuPrincipal.setText("MENU PRINCIPAL");
+        btnMenuPrincipal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuPrincipalActionPerformed(evt);
             }
         });
 
@@ -205,8 +229,8 @@ public class frmInformacionCliente extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(305, 305, 305)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnMenuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(57, 57, 57)
@@ -282,9 +306,9 @@ public class frmInformacionCliente extends javax.swing.JFrame {
                     .addComponent(jLabel10)
                     .addComponent(lblFechaUltimaVisita))
                 .addGap(38, 38, 38)
-                .addComponent(jButton1)
+                .addComponent(btnRegresar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(btnMenuPrincipal)
                 .addGap(0, 32, Short.MAX_VALUE))
         );
 
@@ -318,14 +342,18 @@ public class frmInformacionCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCorreoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnMenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuPrincipalActionPerformed
+        control.regresarMenuPrincipal();
+    }//GEN-LAST:event_btnMenuPrincipalActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        control.buscarOtroCliente();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnMenuPrincipal;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

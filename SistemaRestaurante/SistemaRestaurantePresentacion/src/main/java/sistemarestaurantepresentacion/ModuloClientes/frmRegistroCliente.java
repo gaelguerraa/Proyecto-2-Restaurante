@@ -4,6 +4,9 @@
  */
 package sistemarestaurantepresentacion.ModuloClientes;
 
+import javax.swing.JOptionPane;
+import sistemarestaurantedominio.ClienteFrecuente;
+import sistemarestaurantedominio.dtos.NuevoClienteFrecuenteDTO;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
 
 /**
@@ -12,17 +15,43 @@ import sistemarestaurantenegocio.IClientesFrecuentesBO;
  */
 public class frmRegistroCliente extends javax.swing.JFrame {
     private IClientesFrecuentesBO clientesFrecuentesBO;
+    private ControlNavegacionClientes control;
     /**
      * Creates new form frmRegistroCliente
      */
-    public frmRegistroCliente(IClientesFrecuentesBO clientesFrecuentesBO) {
+    public frmRegistroCliente(IClientesFrecuentesBO clientesFrecuentesBO, ControlNavegacionClientes control) {
         initComponents();
         this.clientesFrecuentesBO = clientesFrecuentesBO;
+        this.control = control;
+        setLocationRelativeTo(null);
     }
     
     private void registrar(){
+        String nombre = this.txtNombre.getText();
+        String apellidoPaterno = this.txtApellidoP.getText();
+        String apellidoMaterno = this.txtApellidoM.getText();
+        String telefono = this.txtTelefono.getText();
+        String correo = this.txtCorreo.getText();
+        //excepciones simples de formato antes de crear al cliente
+        NuevoClienteFrecuenteDTO cliente = new NuevoClienteFrecuenteDTO(nombre, apellidoPaterno, apellidoMaterno, telefono, correo, 0.0, 0);
+        // try
+        clientesFrecuentesBO.registrarCliente(cliente);
+        JOptionPane.showMessageDialog(this, "Se Registro el cliente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+        // catch
+        this.limpiarFormulario();
         
     }
+    
+    private void limpiarFormulario(){
+        this.txtNombre.setText("");
+        this.txtApellidoP.setText("");
+        this.txtApellidoM.setText("");
+        this.txtCorreo.setText("");
+        this.txtTelefono.setText("");
+        
+    }
+    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -135,6 +164,11 @@ public class frmRegistroCliente extends javax.swing.JFrame {
         btnRegistrar.setBackground(new java.awt.Color(171, 118, 46));
         btnRegistrar.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
         btnRegistrar.setText("REGISTRAR");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -237,8 +271,12 @@ public class frmRegistroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTelefonoActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        // TODO add your handling code here:
+        control.regresarMenuClientesRegistro();
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        this.registrar();
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
      * @param args the command line arguments

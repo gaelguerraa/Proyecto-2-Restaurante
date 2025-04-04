@@ -3,9 +3,12 @@
  */
 package sistemarestaurantepresentacion;
 
+import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
+import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
 import sistemarestaurantepresentacion.ModuloClientes.frmBuscarCliente;
+import sistemarestaurantepresentacion.ModuloClientes.frmRegistroCliente;
 
 /**
  *
@@ -14,10 +17,9 @@ import sistemarestaurantepresentacion.ModuloClientes.frmBuscarCliente;
 public class SistemaRestaurantePresentacion {
 
     public static void main(String[] args) {
+        
+        frmMenuPrincipal menu = new frmMenuPrincipal();
+        menu.setVisible(true);
 
-        //PARA TESTEAR EL BUSCADOR CLIENTES
-//        IClientesFrecuentesBO clientesBO = FabricaObjetosNegocio.crearClientesFrecuentesBO();
-//        frmBuscarCliente formBuscarClientes = new frmBuscarCliente(clientesBO);
-//        formBuscarClientes.setVisible(true);
     }
 }
