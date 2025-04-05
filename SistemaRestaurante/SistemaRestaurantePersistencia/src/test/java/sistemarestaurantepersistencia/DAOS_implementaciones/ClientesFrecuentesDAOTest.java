@@ -42,48 +42,7 @@ public class ClientesFrecuentesDAOTest {
     /**
      * Test of registrarClienteFrecuente method, of class ClientesFrecuentesDAO.
      */
-<<<<<<< Updated upstream
-//    @Test
-//    public void testRegistrarClienteFrecuenteOk() {
-//        ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
-//        NuevoClienteFrecuenteDTO nuevoClienteFrecuente = new NuevoClienteFrecuenteDTO("Carlos", "Lopez", "Perez", "9441232122", "carlos@hotmail.com", 0.0, 0);
-//        ClienteFrecuente clienteRegistrado = clientesFrecuentesDAO.registrarClienteFrecuente(nuevoClienteFrecuente);
-//        assertNotNull(clienteRegistrado.getIdCliente());
-//        assertEquals(nuevoClienteFrecuente.getNombre(), clienteRegistrado.getNombre());
-//    }
-//    
-//    @Test
-//    public void testConsultarClientePorIDOk() {
-//        ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
-//        ClienteFrecuente clienteObtenido = clientesFrecuentesDAO.obtenerClientePorID(1L);
-//        String NOMBRE_CLIENTE_ESPERADO = "Jorge";
-//        assertNotNull(clienteObtenido.getIdCliente());
-//        assertEquals(clienteObtenido.getNombre(), NOMBRE_CLIENTE_ESPERADO);
-//    }
-//    
-//    @Test
-//    public void testConsultarClientePorTelefonoOk() {
-//        ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
-//        ClienteFrecuente clienteObtenido = clientesFrecuentesDAO.obtenerClientePorTelefono("6441222916");
-//        String NOMBRE_CLIENTE_ESPERADO = "Jorge";
-//        assertNotNull(clienteObtenido.getIdCliente());
-//        assertEquals(clienteObtenido.getNombre(), NOMBRE_CLIENTE_ESPERADO);
-//    }
-//    
-//    @Test
-//    public void testConsultarClientePorCorreoOk() {
-//        ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
-//        ClienteFrecuente clienteObtenido = clientesFrecuentesDAO.obtenerClientePorCorreo("hernandez@hotmail");
-//        String NOMBRE_CLIENTE_ESPERADO = "Martin";
-//        assertNotNull(clienteObtenido.getIdCliente());
-//        assertEquals(clienteObtenido.getNombre(), NOMBRE_CLIENTE_ESPERADO);
-//    }
-//    
-//    @Test
-//    public void testConsultarClientePorNombreOk() {
-//        ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
-//        List<ClienteFrecuente> clientesObtenidos = clientesFrecuentesDAO.obtenerClientesPorNombre("Jorge");
-=======
+
     @Test
     public void testRegistrarClienteFrecuenteOk() {
         ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
@@ -120,28 +79,57 @@ public class ClientesFrecuentesDAOTest {
         assertEquals(clienteObtenido.getNombre(), NOMBRE_CLIENTE_ESPERADO);
     }
     
-//    @Test
-//    public void testConsultarClientePorNombreOk() {
-//        ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
-//        List<ClienteFrecuente> clientesObtenidos = clientesFrecuentesDAO.obtenerClientePorNombre("Jorge");
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-//        int CLIENTES_ESPERADOS = 1;
-//        assertNotNull(clientesObtenidos);
-//        assertEquals(CLIENTES_ESPERADOS, clientesObtenidos.size());
-//    }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+    @Test
+    public void testConsultarClientePorNombreOk() {
+        ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
+        List<ClienteFrecuente> clientesObtenidos = clientesFrecuentesDAO.obtenerClientesPorNombre("Jorge");
+
+    @Test
+    public void testRegistrarClienteFrecuenteOk() {
+        ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
+        NuevoClienteFrecuenteDTO nuevoClienteFrecuente = new NuevoClienteFrecuenteDTO("Carlos", "Lopez", "Perez", "9441232122", "carlos@hotmail.com", 0.0, 0);
+        ClienteFrecuente clienteRegistrado = clientesFrecuentesDAO.registrarClienteFrecuente(nuevoClienteFrecuente);
+        assertNotNull(clienteRegistrado.getIdCliente());
+        assertEquals(nuevoClienteFrecuente.getNombre(), clienteRegistrado.getNombre());
+    }
     
-=======
-//    
->>>>>>> Stashed changes
-=======
-//    
->>>>>>> Stashed changes
+    @Test
+    public void testConsultarClientePorIDOk() {
+        ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
+        ClienteFrecuente clienteObtenido = clientesFrecuentesDAO.obtenerClientePorID(1L);
+        String NOMBRE_CLIENTE_ESPERADO = "Jorge";
+        assertNotNull(clienteObtenido.getIdCliente());
+        assertEquals(clienteObtenido.getNombre(), NOMBRE_CLIENTE_ESPERADO);
+    }
     
+    @Test
+    public void testConsultarClientePorTelefonoOk() {
+        ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
+        ClienteFrecuente clienteObtenido = clientesFrecuentesDAO.obtenerClientePorTelefono("6441222916");
+        String NOMBRE_CLIENTE_ESPERADO = "Jorge";
+        assertNotNull(clienteObtenido.getIdCliente());
+        assertEquals(clienteObtenido.getNombre(), NOMBRE_CLIENTE_ESPERADO);
+    }
+    
+    @Test
+    public void testConsultarClientePorCorreoOk() {
+        ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
+        ClienteFrecuente clienteObtenido = clientesFrecuentesDAO.obtenerClientePorCorreo("hernandez@hotmail");
+        String NOMBRE_CLIENTE_ESPERADO = "Martin";
+        assertNotNull(clienteObtenido.getIdCliente());
+        assertEquals(clienteObtenido.getNombre(), NOMBRE_CLIENTE_ESPERADO);
+    }
+    
+    @Test
+    public void testConsultarClientePorNombreOk() {
+        ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
+        List<ClienteFrecuente> clientesObtenidos = clientesFrecuentesDAO.obtenerClientePorNombre("Jorge");
+
+        int CLIENTES_ESPERADOS = 1;
+        assertNotNull(clientesObtenidos);
+        assertEquals(CLIENTES_ESPERADOS, clientesObtenidos.size());
+    }
+
     
     
     
