@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.TipoProducto;
 import sistemarestaurantedominio.dtos.NuevoProductoDTO;
+import sistemarestaurantedominio.dtos.ProductoIngredienteDTO;
 
 /**
  *
@@ -139,6 +140,17 @@ public class ProductosDAOTest {
         assertNotNull(resultado);
         
     }
+    
+    @Test
+    public void testObtenerProudctosJoin(){
+        EntityManager em = ManejadorConexiones.getEntityManager();
+        ProductosDAO productosDAO = new ProductosDAO();
+        em.getTransaction().begin();
+        List<ProductoIngredienteDTO> productosJoin = productosDAO.obtenerProductosJoin();
+        
+        assertNotNull(productosJoin);
+        assertEquals(18, productosJoin.size());
+    } 
 
     
 }
