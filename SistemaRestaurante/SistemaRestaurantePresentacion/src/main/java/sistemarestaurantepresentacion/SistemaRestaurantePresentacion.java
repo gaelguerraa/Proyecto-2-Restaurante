@@ -3,10 +3,12 @@
  */
 package sistemarestaurantepresentacion;
 
+import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
 import sistemarestaurantenegocio.IIngredientesProductosBO;
 import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
+import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
 import sistemarestaurantepresentacion.ModuloClientes.frmBuscarCliente;
 import sistemarestaurantepresentacion.ModuloProductos.ControladorProductos;
 import sistemarestaurantepresentacion.ModuloProductos.frmMenuProductos;
@@ -39,6 +41,8 @@ public class SistemaRestaurantePresentacion {
 
         frmMenuPrincipal menu = new frmMenuPrincipal();
         menu.setVisible(true);
+        
+
         
 
 

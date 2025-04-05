@@ -1,6 +1,7 @@
 package sistemarestaurantepresentacion.ModuloClientes;
 
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
@@ -10,10 +11,14 @@ public class frmBuscarCliente extends javax.swing.JFrame {
     private IClientesFrecuentesBO clientesFrecuentesBO;
     private String telefonoCliente;
     private ClienteFrecuente clienteSeleccionado;
+    private boolean confirmado = false;
+    private boolean modoSeleccion = false;
     private ControlNavegacionClientes control;
 
     /**
-     * Constructor que contiene un event listener para obtener el cliente al que se seleccione
+     * Constructor que contiene un event listener para obtener el cliente al que
+     * se seleccione
+     *
      * @param clientesFrecuentesBO Recibe un bo de clientes frecuentes
      * @param control Recibe un control de navegacion
      */
@@ -35,7 +40,8 @@ public class frmBuscarCliente extends javax.swing.JFrame {
     }
 
     /**
-     * Metodo que carga la tabla con los clientes segun los parametros que se tengan
+     * Metodo que carga la tabla con los clientes segun los parametros que se
+     * tengan
      */
     public void llenarTablaClientes() {
         String opcionSeleccionada = (String) boxTipoFiltro.getSelectedItem();
@@ -86,19 +92,25 @@ public class frmBuscarCliente extends javax.swing.JFrame {
     }
 
     /**
-     * Metodo que es llamado desde comanda para acceder directamente al buscador y obtener un cliente
+     * Metodo que es llamado desde comanda para acceder directamente al buscador
+     * y obtener un cliente
+     *
      * @return Regresa un ClienteFrecuente al seleccionarlo
      */
     public ClienteFrecuente mostrarYObtenerClienteSeleccionado() {
         this.setVisible(true);
+        btnInformacion.setVisible(false);
+        this.modoSeleccion = true;
+        this.setVisible(true);
         // Esperar a que el usuario cierre el frame o seleccione un cliente
-        while (clienteSeleccionado == null) {
+        while (!confirmado) {
             try {
-                Thread.sleep(100);  // Espera para que el usuario seleccione el cliente
+                Thread.sleep(100); // Espera a que el usuario presione aceptar
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+
         this.dispose();
         return clienteSeleccionado;
     }
@@ -284,7 +296,17 @@ public class frmBuscarCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        if (modoSeleccion) {
+        if (clienteSeleccionado != null) {
+            confirmado = true; // esto hace que el while se detenga
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona un cliente antes de continuar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    } else {
+        // Si no estás en modo selección, comportamiento normal
         control.regresarMenuClientesConsulta();
+    }
+        
 
     }//GEN-LAST:event_btnRegresarActionPerformed
 
