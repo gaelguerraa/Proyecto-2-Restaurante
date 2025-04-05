@@ -4,16 +4,23 @@
  */
 package sistemarestaurantepresentacion.ModuloIngredientes;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import sistemarestaurantenegocio.excepciones.NegocioException;
+
 /**
  *
  * @author jalt2
  */
-public class frmMenuIngredientes extends javax.swing.JFrame {
-
+public class FrmMenuIngredientes extends javax.swing.JFrame {
+    
+    private ControlNavegacionIngredientes control;
+    
     /**
      * Creates new form frmMenuIngredientes
      */
-    public frmMenuIngredientes() {
+    public FrmMenuIngredientes(ControlNavegacionIngredientes control) {
+        this.control=control;
         initComponents();
     }
 
@@ -41,8 +48,18 @@ public class frmMenuIngredientes extends javax.swing.JFrame {
         pnlMenuIngredientes.setBorder(javax.swing.BorderFactory.createTitledBorder("Menu"));
 
         btnRegistrarIngrediente.setText("REGISTRAR INGREDIENTE");
+        btnRegistrarIngrediente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarIngredienteActionPerformed(evt);
+            }
+        });
 
         btnBuscarIngrediente.setText("BUSCAR INGREDIENTE");
+        btnBuscarIngrediente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarIngredienteActionPerformed(evt);
+            }
+        });
 
         btnVolverMenuPrincipal.setText("VOLVER");
 
@@ -95,6 +112,22 @@ public class frmMenuIngredientes extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegistrarIngredienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarIngredienteActionPerformed
+        // TODO add your handling code here:
+        control.IniciarFrmRegistrarIngrediente();
+        dispose();
+    }//GEN-LAST:event_btnRegistrarIngredienteActionPerformed
+
+    private void btnBuscarIngredienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIngredienteActionPerformed
+        try {
+            // TODO add your handling code here:
+            control.IniciarFrmBuscarIngredientes();
+        } catch (NegocioException ex) {
+            Logger.getLogger(FrmMenuIngredientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        dispose();
+    }//GEN-LAST:event_btnBuscarIngredienteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarIngrediente;

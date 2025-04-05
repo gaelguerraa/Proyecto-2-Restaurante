@@ -40,6 +40,7 @@ public class IngredientesBO implements IIngredientesBO{
         }
         
         /*Validar que el nombre pueda ser el mismo pero la medida no*/
+        
         //Agregar mas validaciones is hacen falta
         
         return ingredienteDAO.guardarIngrediente(nuevoIngrediente);
@@ -66,12 +67,12 @@ public class IngredientesBO implements IIngredientesBO{
     }
 
     @Override
-    public List<Ingrediente> consultarIngredientesPorUnidadMedida(UnidadMedidaIngrediente unidadMedida) throws NegocioException {
+    public List<Ingrediente> consultarIngredientesPorUnidadMedida(String unidadMedida) throws NegocioException {
         return ingredienteDAO.obtenerIngredientesPorUnidadMedida(unidadMedida);
     }
 
     @Override
-    public Integer aumentarStock(Ingrediente ingredienteStock, Integer cantidadAumentar)throws NegocioException {
+    public Integer aumentarStock(Ingrediente ingredienteStock, Float cantidadAumentar)throws NegocioException {
         /*Validaciones*/
         //La cantidad es menor o igual a 0
         if (cantidadAumentar<=CERO) {
@@ -79,6 +80,12 @@ public class IngredientesBO implements IIngredientesBO{
         }
         
         return ingredienteDAO.aumentarStock(ingredienteStock, cantidadAumentar);
+    }
+
+    @Override
+    public List<Ingrediente> consultarIngredientePorNombreYMedida(String nombre, String unidadMedida) throws NegocioException {
+        
+        return ingredienteDAO.obtenerIngredientePorNombreYMedida(nombre, unidadMedida);
     }
     
     

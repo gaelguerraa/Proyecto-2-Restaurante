@@ -100,11 +100,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="REGISTRAR INGREDIENTE"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistrarIngredienteActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnBuscarIngrediente">
           <Properties>
             <Property name="text" type="java.lang.String" value="BUSCAR INGREDIENTE"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarIngredienteActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnVolverMenuPrincipal">
           <Properties>

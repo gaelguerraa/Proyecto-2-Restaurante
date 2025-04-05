@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import sistemarestaurantedominio.Ingrediente;
 import sistemarestaurantedominio.UnidadMedidaIngrediente;
@@ -67,14 +68,14 @@ public class IngredientesDAO implements IIngredientesDAO {
     }
 
     @Override
-    public List<Ingrediente> obtenerIngredientesPorUnidadMedida(UnidadMedidaIngrediente unidadMedida) {
+    public List<Ingrediente> obtenerIngredientesPorUnidadMedida(String unidadMedida) {
         EntityManager  em = ManejadorConexiones.getEntityManager();
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Ingrediente> criteria = builder.createQuery(Ingrediente.class);
         Root<Ingrediente> root = criteria.from(Ingrediente.class);
         
         //No recuerdo si root.get() se ponia el atributo o el nombre de la columna, puse el de el atributo me hizo mas logica
-        criteria = criteria.select(root).where(builder.like(root.get("unidadMedida"), "%"+unidadMedida+"%"));
+        criteria = criteria.select(root).where(builder.like(root.get("unidadMedida"), "%"+unidadMedida.toUpperCase()+"%"));
         
         TypedQuery query = em.createQuery(criteria);
         
@@ -84,10 +85,28 @@ public class IngredientesDAO implements IIngredientesDAO {
         
     }
     
+    @Override
+    public List<Ingrediente> obtenerIngredientePorNombreYMedida(String nombre, String unidadMedida) {
+        EntityManager  em = ManejadorConexiones.getEntityManager();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Ingrediente> criteria = builder.createQuery(Ingrediente.class);
+        Root<Ingrediente> root = criteria.from(Ingrediente.class);
+        
+        Predicate condicionNombre = builder.like(root.get("nombre"), "%"+nombre.toLowerCase()+"%");
+        Predicate condicionUnidadMedida = builder.like(root.get("unidadMedida"), "%"+unidadMedida.toUpperCase()+"%");
+        
+        criteria = criteria.select(root).where(builder.and(condicionNombre,condicionUnidadMedida));
+        
+        List<Ingrediente> ingredienteEncontrado = em.createQuery(criteria).getResultList();
+        em.close();
+        
+        return ingredienteEncontrado;
+        
+    }
     
     //Verificar si funciona
     @Override
-    public Integer aumentarStock(Ingrediente ingredienteStock, Integer cantidadAumentar) {
+    public Integer aumentarStock(Ingrediente ingredienteStock, Float cantidadAumentar) {
         EntityManager  em = ManejadorConexiones.getEntityManager();
         em.getTransaction().begin();
         
@@ -102,5 +121,7 @@ public class IngredientesDAO implements IIngredientesDAO {
         
         return resultado;
     }
+
+    
     
 }

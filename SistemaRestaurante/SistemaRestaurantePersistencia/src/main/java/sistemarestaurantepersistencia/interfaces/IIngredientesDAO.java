@@ -17,6 +17,7 @@ public interface IIngredientesDAO  {
     public abstract Ingrediente guardarIngrediente(NuevoIngredienteDTO nuevoIngrediente);
     public abstract List<Ingrediente> obtenerIngredientes();
     public abstract List<Ingrediente> obtenerIngredientesPorNombre(String nombre);
-    public abstract List<Ingrediente> obtenerIngredientesPorUnidadMedida(UnidadMedidaIngrediente unidadMedida);
-    public abstract Integer aumentarStock(Ingrediente ingredienteStock,Integer cantidadAumentar);
+    public abstract List<Ingrediente> obtenerIngredientesPorUnidadMedida(String unidadMedida);
+    public abstract List<Ingrediente> obtenerIngredientePorNombreYMedida(String nombre, String unidadMedida);
+    public abstract Integer aumentarStock(Ingrediente ingredienteStock,Float cantidadAumentar);
 }

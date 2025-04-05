@@ -4,19 +4,102 @@
  */
 package sistemarestaurantepresentacion.ModuloIngredientes;
 
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import sistemarestaurantedominio.Ingrediente;
+import sistemarestaurantedominio.UnidadMedidaIngrediente;
+import sistemarestaurantenegocio.IIngredientesBO;
+import sistemarestaurantenegocio.excepciones.NegocioException;
+
 /**
  *
  * @author jalt2
  */
-public class frmBuscarIngredientes extends javax.swing.JFrame {
-
+public class FrmBuscarIngredientes extends javax.swing.JFrame {
+    private ControlNavegacionIngredientes control;
+    private IIngredientesBO ingredientesBO;
+    private Ingrediente ingredienteSeleccionado;
     /**
      * Creates new form frmBuscarIngredientes
      */
-    public frmBuscarIngredientes() {
+    public FrmBuscarIngredientes(ControlNavegacionIngredientes control, IIngredientesBO ingredientesBO) throws NegocioException {
         initComponents();
+        this.control = control;
+        this.ingredientesBO = ingredientesBO;
+        this.llenarComboBoxMedida();
+        this.seleccionarIngredienteStock();
+        
     }
+    
+    private void seleccionarIngredienteStock(){
+        this.tblIngredientes.getSelectionModel().addListSelectionListener(e->{
+            if (!e.getValueIsAdjusting()) {
+                int filaSeleccionada = this.tblIngredientes.getSelectedRow();
+                if (filaSeleccionada != -1) {
+                    //Recuperar valores de la fila
+                    String nombreIngrediente = this.tblIngredientes.getValueAt(filaSeleccionada, 0).toString();
+                    String unidadMedida = this.tblIngredientes.getValueAt(filaSeleccionada, 1).toString();
 
+                    String stockString = JOptionPane.showInputDialog(this, "Ingrese la cantidad de "+unidadMedida+" para "+nombreIngrediente);
+                    
+                    try {
+                        Float stockFloat = Float.valueOf(stockString);
+                        ingredientesBO.aumentarStock(ingredienteSeleccionado, stockFloat);
+                    } catch (NegocioException ex) {
+                        Logger.getLogger(FrmBuscarIngredientes.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        
+        });
+    }
+    
+    private void filtrarIngredientes() throws NegocioException{
+        String nombreIngrediente = this.txtNombreIngrediente.getText();
+        String unidadMedida = this.cmbUnidadMedida.getSelectedItem().toString().toUpperCase();
+        
+        List<Ingrediente> ingredientesConsultados = null;
+        
+        //Consultar todos los ingredientes
+        if (nombreIngrediente.isEmpty() && unidadMedida=="CUALQUIERA") {
+            ingredientesConsultados = ingredientesBO.consultarIngredientes();
+            
+        }else if (!nombreIngrediente.isEmpty() && unidadMedida == "CUALQUIERA") {
+            ingredientesConsultados = ingredientesBO.consultarIngredientesPorNombre(nombreIngrediente);
+        }else if (nombreIngrediente.isEmpty() && unidadMedida!=null) {
+            ingredientesConsultados = ingredientesBO.consultarIngredientesPorUnidadMedida(unidadMedida);
+        }else if (!nombreIngrediente.isEmpty() && unidadMedida!=null) {
+            ingredientesConsultados = ingredientesBO.consultarIngredientePorNombreYMedida(nombreIngrediente, unidadMedida);
+        }
+        
+        this.llenarTabla(ingredientesConsultados);
+    }
+    
+    private void llenarTabla(List<Ingrediente> ingredientesConsultados) throws NegocioException{
+        DefaultTableModel modeloTabla = (DefaultTableModel)this.tblIngredientes.getModel();
+        modeloTabla.setRowCount(0);
+        
+        for(Ingrediente ingrediente : ingredientesConsultados){
+               Object[] fila = {
+                   ingrediente.getNombre(),
+                   ingrediente.getUnidadMedida().name(),
+                   ingrediente.getStock()
+                   
+               };
+               modeloTabla.addRow(fila);
+           }
+    }
+    
+    private void llenarComboBoxMedida(){
+        
+        for(UnidadMedidaIngrediente unidadMedida : UnidadMedidaIngrediente.values()){
+            this.cmbUnidadMedida.addItem(unidadMedida.toString());
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,13 +128,18 @@ public class frmBuscarIngredientes extends javax.swing.JFrame {
 
         pnlBusqueda.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar Ingrediente"));
 
-        cmbUnidadMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbUnidadMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CUALQUIERA" }));
 
         lblNombreIngrediente.setText("Nombre");
 
         lblUnidadMedida.setText("UnIdad de medida");
 
         btnBuscar.setText("BUSCAR");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         tblIngredientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -63,10 +151,23 @@ public class frmBuscarIngredientes extends javax.swing.JFrame {
             new String [] {
                 "Nombre", "Unidad Medida", "Stock"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblIngredientes);
 
         txtVolver.setText("VOLVER");
+        txtVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtVolverActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlBusquedaLayout = new javax.swing.GroupLayout(pnlBusqueda);
         pnlBusqueda.setLayout(pnlBusquedaLayout);
@@ -75,16 +176,16 @@ public class frmBuscarIngredientes extends javax.swing.JFrame {
             .addGroup(pnlBusquedaLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
                     .addGroup(pnlBusquedaLayout.createSequentialGroup()
                         .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblNombreIngrediente)
                             .addComponent(txtNombreIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(83, 83, 83)
-                        .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblUnidadMedida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(45, 45, 45)
+                        .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblUnidadMedida)
+                            .addComponent(cmbUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(42, 42, 42)
                         .addComponent(btnBuscar)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(27, 27, 27))
@@ -134,6 +235,21 @@ public class frmBuscarIngredientes extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        try {
+            // TODO add your handling code here:
+            this.filtrarIngredientes();
+        } catch (NegocioException ex) {
+            Logger.getLogger(FrmBuscarIngredientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVolverActionPerformed
+        // TODO add your handling code here:
+        control.IniciarFrmMenuIngredientes();
+        dispose();
+    }//GEN-LAST:event_txtVolverActionPerformed
 
     /**
      * @param args the command line arguments

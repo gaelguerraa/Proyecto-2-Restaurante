@@ -8,12 +8,13 @@ package sistemarestaurantepresentacion.ModuloIngredientes;
  *
  * @author jalt2
  */
-public class frmMensajeRegistroIngredienteExitoso extends javax.swing.JFrame {
-
+public class FrmMensajeRegistroIngredienteExitoso extends javax.swing.JFrame {
+    private ControlNavegacionIngredientes control;
     /**
      * Creates new form frmMensajeRegistroIngredienteExitoso
      */
-    public frmMensajeRegistroIngredienteExitoso() {
+    public FrmMensajeRegistroIngredienteExitoso(ControlNavegacionIngredientes control) {
+        this.control=control;
         initComponents();
     }
 
