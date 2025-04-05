@@ -49,8 +49,8 @@ public class IngredientesProductosDAOTest {
        EntityManager em = ManejadorConexiones.getEntityManager(); 
        IngredientesProductosDAO ipDAO = new IngredientesProductosDAO();
        
-       Producto producto = new Producto("Pizza Zanahoriaa", 107.0f, TipoProducto.PLATILLO);
-       Ingrediente ingrediente = new Ingrediente("Zanahoriaa", UnidadMedidaIngrediente.GRAMOS, 16.0f);
+       Producto producto = new Producto("Pizza Zanahoria", 107.0f, TipoProducto.PLATILLO);
+       Ingrediente ingrediente = new Ingrediente("Zanahoria", UnidadMedidaIngrediente.GRAMOS, 16.0f);
        
 
        NuevoIngredienteProductoDTO nipDTO = new NuevoIngredienteProductoDTO();

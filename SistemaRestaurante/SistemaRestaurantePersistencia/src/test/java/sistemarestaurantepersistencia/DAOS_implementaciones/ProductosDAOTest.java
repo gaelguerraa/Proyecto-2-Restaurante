@@ -47,7 +47,7 @@ public class ProductosDAOTest {
     @Test
     public void testGuardar() {
         ProductosDAO productosDAO = new ProductosDAO(); 
-        NuevoProductoDTO nuevoProducto = new NuevoProductoDTO("Callitos", 13.50f, TipoProducto.PLATILLO);
+        NuevoProductoDTO nuevoProducto = new NuevoProductoDTO("Tostitos", 13.50f, TipoProducto.PLATILLO);
         
         Producto productoGuardado = productosDAO.guardar(nuevoProducto);
         assertNotNull(productoGuardado.getNombre());
@@ -62,8 +62,8 @@ public class ProductosDAOTest {
          ProductosDAO productoDAO = new ProductosDAO();
 
         em.getTransaction().begin();
-        Producto producto1 = new Producto("Pizzaaa", 120.0f, TipoProducto.PLATILLO);
-        Producto producto2 = new Producto("Coca Colaaa", 20.0f, TipoProducto.BEBIDA);
+        Producto producto1 = new Producto("Pizza", 120.0f, TipoProducto.PLATILLO);
+        Producto producto2 = new Producto("Tequila", 20.0f, TipoProducto.BEBIDA);
         em.persist(producto1);
         em.persist(producto2);
         em.getTransaction().commit();
@@ -82,8 +82,8 @@ public class ProductosDAOTest {
         EntityManager em = ManejadorConexiones.getEntityManager();
         ProductosDAO productosDAO = new ProductosDAO();
         em.getTransaction().begin();
-        em.persist(new Producto("Tortillo", 10.50f, TipoProducto.PLATILLO));
-        em.persist(new Producto("Tortillota con caca", 69.9f, TipoProducto.PLATILLO));
+        em.persist(new Producto("Tortilla", 10.50f, TipoProducto.PLATILLO));
+        em.persist(new Producto("Callitos", 69.9f, TipoProducto.PLATILLO));
         em.persist(new Producto("Tostada", 12.00f, TipoProducto.PLATILLO));
         em.persist(new Producto("Coca Cola", 20.00f, TipoProducto.BEBIDA));
         em.getTransaction().commit();
@@ -107,7 +107,7 @@ public class ProductosDAOTest {
         em.getTransaction().begin();
         em.persist(new Producto("Tacos", 14.50f, TipoProducto.PLATILLO));
         em.persist(new Producto("Pescado", 75.00f, TipoProducto.PLATILLO));
-        em.persist(new Producto("Alimento para perro", 29.00f, TipoProducto.POSTRE));
+        em.persist(new Producto("Chocolate", 29.00f, TipoProducto.POSTRE));
         em.persist(new Producto("Pepsi", 15.00f, TipoProducto.BEBIDA));
         em.getTransaction().commit();
         em.close();

@@ -8,6 +8,7 @@ import java.util.List;
 import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.TipoProducto;
 import sistemarestaurantedominio.dtos.NuevoProductoDTO;
+import sistemarestaurantedominio.dtos.ProductoIngredienteDTO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
 
 /**
@@ -24,4 +25,6 @@ public interface IProductosBO {
     public abstract List<Producto> obtenerProductosPorTipo(TipoProducto tipo);
     
     public abstract List<Producto> obtenerProductosPorTipoNombre(String filtroBusqueda, TipoProducto tipo);
+    
+    public abstract List<ProductoIngredienteDTO> obtenerProductosJoin();
 }

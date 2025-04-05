@@ -9,6 +9,7 @@ import java.util.Optional;
 import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.TipoProducto;
 import sistemarestaurantedominio.dtos.NuevoProductoDTO;
+import sistemarestaurantedominio.dtos.ProductoIngredienteDTO;
 import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
 import sistemarestaurantepersistencia.interfaces.IProductosDAO;
@@ -117,6 +118,11 @@ public class ProductosBO implements IProductosBO {
     @Override
     public List<Producto> obtenerProductosPorTipoNombre(String filtroBusqueda, TipoProducto tipo){
         return this.productosDAO.obtenerProductosPorTipoNombre(filtroBusqueda, tipo);
+    }
+
+    @Override
+    public List<ProductoIngredienteDTO> obtenerProductosJoin() {
+        return this.productosDAO.obtenerProductosJoin();
     }
     
     

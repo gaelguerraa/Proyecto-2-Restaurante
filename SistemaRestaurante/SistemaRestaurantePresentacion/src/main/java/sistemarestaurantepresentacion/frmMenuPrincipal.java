@@ -4,8 +4,11 @@
  */
 package sistemarestaurantepresentacion;
 
+import sistemarestaurantenegocio.IIngredientesProductosBO;
+import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
 import sistemarestaurantepresentacion.ModuloComandas.ControlNavegacionComandas;
+import sistemarestaurantepresentacion.ModuloProductos.ControladorProductos;
 import sistemarestaurantepresentacion.ModuloProductos.frmRegistrarProducto;
 import sistemarestaurantepresentacion.ModuloReportes.ControlNavegacionReportes;
 
@@ -15,6 +18,8 @@ import sistemarestaurantepresentacion.ModuloReportes.ControlNavegacionReportes;
  */
 public class frmMenuPrincipal extends javax.swing.JFrame {
 
+    private IIngredientesProductosBO ingredientesProductosBO;
+    private IProductosBO productosBO;
     private static frmRegistrarProducto registrarProducto = null;
     
     /**
@@ -185,7 +190,10 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnComandasActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
-     
+     //MODULO PRODUCTOS
+     ControladorProductos control = new ControladorProductos(ingredientesProductosBO, productosBO);
+     control.mostrarMenuProductos();
+     this.dispose();
     
     }//GEN-LAST:event_btnProductosActionPerformed
 

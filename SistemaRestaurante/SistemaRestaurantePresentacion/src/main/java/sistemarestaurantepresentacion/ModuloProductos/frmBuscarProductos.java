@@ -68,46 +68,9 @@ public class frmBuscarProductos extends javax.swing.JFrame {
     }
     
     private Producto devolverProducto(){
-        int filaSeleccionada = TablaProductos.getSelectedRow();
-        
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione un producto de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-  
-        }
-        Producto productoSelec = (Producto) TablaProductos.getValueAt(filaSeleccionada,0);
-        
-        return productoSelec;
+
       }  
 
-//    private void seleccionarProducto() {
-//        int filaSeleccionada = TablaProductos.getSelectedRow();
-//
-//        if (filaSeleccionada == -1) {
-//            JOptionPane.showMessageDialog(this, "Seleccione un producto de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-//
-//        // Obtener los valores de la fila seleccionada
-//        String nombre = (String) TablaProductos.getValueAt(filaSeleccionada, 0);
-//            Producto productoSeleccionado = null;
-//            List<Producto> productos = productosBO.consultarProducto();
-//        for (Producto p : productos) {
-//            if (p.getNombre().equals(nombre)) {
-//                productoSeleccionado = p;
-//                break;
-//            }
-//        }
-//        
-//        if (productoSeleccionado == null) {
-//            JOptionPane.showMessageDialog(this, "Producto no encontrado en la lista.", "Error", JOptionPane.ERROR_MESSAGE);
-//            return;
-//        }
-
-//        // Enviar el producto a otra clase (modifica según tu necesidad)
-//        frmOtraClase otroFormulario = new frmOtraClase(productoSeleccionado);
-//        otroFormulario.setVisible(true);
-//        this.dispose();  // Cierra la ventana actual si es necesario
-        
         
     
 
