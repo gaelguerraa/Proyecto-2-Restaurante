@@ -1,18 +1,34 @@
 package sistemarestaurantepersistencia.DAOS_implementaciones;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import sistemarestaurantedominio.ClienteFrecuente;
+import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.dtos.NuevoClienteFrecuenteDTO;
 import sistemarestaurantepersistencia.interfaces.IClientesFrecuentesDAO;
 
+/**
+ * Clase DAO para clientes frecuentes
+ *
+ * @author jorge
+ */
 public class ClientesFrecuentesDAO implements IClientesFrecuentesDAO {
 
+    /**
+     * Metodo que permite registrar un cliente, sus valores de visitas, puntos y
+     * monto gastado se establecen en 0
+     *
+     * @param nuevoClienteFrecuente Recibe como parametro una DTO de
+     * nuevoClienteFrecuente
+     * @return Regresa un ClienteFrecuente
+     */
     @Override
     public ClienteFrecuente registrarClienteFrecuente(NuevoClienteFrecuenteDTO nuevoClienteFrecuente) {
         EntityManager entityManager = ManejadorConexiones.getEntityManager();
@@ -38,6 +54,12 @@ public class ClientesFrecuentesDAO implements IClientesFrecuentesDAO {
         return cliente;
     }
 
+    /**
+     * Metodo que obtiene un cliente por ID
+     *
+     * @param idClienteFrecuente Recibe una ID de tipo Long
+     * @return regresa un cliente en caso de ser encontrado
+     */
     @Override
     public ClienteFrecuente obtenerClientePorID(Long idClienteFrecuente) {
         EntityManager entityManager = ManejadorConexiones.getEntityManager();
@@ -45,6 +67,12 @@ public class ClientesFrecuentesDAO implements IClientesFrecuentesDAO {
         return cliente;
     }
 
+    /**
+     * Metodo que permite consultar un cliente segun el telefono otorgado
+     *
+     * @param telefono Recibe como parametro un telefono encriptado
+     * @return Regresa un clienteFrecuente en caso de ser encontrado
+     */
     @Override
     public ClienteFrecuente obtenerClientePorTelefono(String telefono) {
         EntityManager entityManager = ManejadorConexiones.getEntityManager();
@@ -60,6 +88,12 @@ public class ClientesFrecuentesDAO implements IClientesFrecuentesDAO {
         return query.getSingleResult();
     }
 
+    /**
+     * Metodo que permite consultar un cliente mediante un correo otorgado
+     *
+     * @param correo Recibe como parametro un correo
+     * @return Regresa un clienteFrecuente en caso de ser encontrado
+     */
     @Override
     public ClienteFrecuente obtenerClientePorCorreo(String correo) {
         EntityManager entityManager = ManejadorConexiones.getEntityManager();
@@ -75,8 +109,14 @@ public class ClientesFrecuentesDAO implements IClientesFrecuentesDAO {
         return query.getSingleResult();
     }
 
+    /**
+     * Metodo que obtiene una lista de clientes segun el nombre especificado
+     *
+     * @param nombre recibe como parametro un nombre a filtrar
+     * @return regresa una lista de clientes
+     */
     @Override
-    public List<ClienteFrecuente> obtenerClientePorNombre(String nombre) {
+    public List<ClienteFrecuente> obtenerClientesPorNombre(String nombre) {
         EntityManager entityManager = ManejadorConexiones.getEntityManager();
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -93,10 +133,133 @@ public class ClientesFrecuentesDAO implements IClientesFrecuentesDAO {
 
     @Override
     public List<ClienteFrecuente> buscarClientesPorMinimoVisitas(int minimoVisitas) {
-        //pendiente, ya que se necesita tener clientes relacionados con comandas para ver la cantidad de visitas
+        //pendiente
         return null;
     }
 
+    /**
+     * Metodo que permite obtener las comandas de un cliente
+     *
+     * @param cliente Recibe como parametro un clienteFrecuente
+     * @return regresa una lista de comandas de las cuales un cliente esta
+     * relacionado
+     */
+    @Override
+    public List<Comanda> obtenerComandasPorCliente(ClienteFrecuente cliente) {
+        EntityManager entityManager = ManejadorConexiones.getEntityManager();
+        List<Comanda> comandas = new ArrayList<>();
 
+        try {
+            TypedQuery<Comanda> query = entityManager.createQuery(
+                    "SELECT c FROM Comanda c WHERE c.cliente = :cliente", Comanda.class);
+            query.setParameter("cliente", cliente);
+            comandas = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return comandas;
+    }
+
+    /**
+     * Metodo que obtiene el monto gastado de un cliente segun las comandas que
+     * tenga relacionadas
+     *
+     * @param cliente Recibe como parametro un ClienteFrecuente
+     * @return Regresa un float siendo la cantidad gastada
+     */
+    @Override
+    public float obtenerMontoGastado(ClienteFrecuente cliente) {
+        List<Comanda> comandas = this.obtenerComandasPorCliente(cliente);
+
+        float montoTotal = 0;
+
+        for (Comanda comanda : comandas) {
+            if (comanda.getTotal() != null) {
+                montoTotal += comanda.getTotal();
+            }
+        }
+
+        return montoTotal;
+    }
+
+    /**
+     * Metodo que permite obtener el numero de visitas de un cliente segun las
+     * comandas que tenga relacionadas
+     *
+     * @param cliente Recibe como parametro un ClienteFrecuente
+     * @return Regresa un numero entero de las visitas que tenga un cliente
+     */
+    @Override
+    public int obtenerNumeroVisitas(ClienteFrecuente cliente) {
+        List<Comanda> comandas = this.obtenerComandasPorCliente(cliente);
+        return comandas.size();
+    }
+
+    /**
+     * Metodo que obtiene la ultima visita de un cliente segun sus comandas
+     * relacionadas
+     *
+     * @param cliente Recibe como parametro un ClienteFrecuente
+     * @return regresa una fecha de tipo LocalDateTime
+     */
+    @Override
+    public LocalDateTime obtenerUltimaVisita(ClienteFrecuente cliente) {
+        EntityManager entityManager = ManejadorConexiones.getEntityManager();
+        try {
+            String query = "SELECT MAX(c.fechaHora) FROM Comanda c WHERE c.cliente.id = :clienteId";
+            TypedQuery<LocalDateTime> typedQuery = entityManager.createQuery(query, LocalDateTime.class);
+            typedQuery.setParameter("clienteId", cliente.getIdCliente());
+            return typedQuery.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Metodo que permite obtener una lista de clientes por medio de un telefono
+     * otorgado
+     *
+     * @param telefono recibe como parametro un telefono encriptado
+     * @return regresa una lista de clientes que correspondan al telefono
+     */
+    @Override
+    public List<ClienteFrecuente> obtenerClientesPorTelefono(String telefono) {
+        EntityManager entityManager = ManejadorConexiones.getEntityManager();
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<ClienteFrecuente> criteria = builder.createQuery(ClienteFrecuente.class);
+        Root<ClienteFrecuente> entidadClienteFrecuente = criteria.from(ClienteFrecuente.class);
+
+        criteria = criteria.select(entidadClienteFrecuente).where(builder.like(entidadClienteFrecuente.get("telefono"), telefono));
+
+        TypedQuery<ClienteFrecuente> query = entityManager.createQuery(criteria);
+        List<ClienteFrecuente> clientes = query.getResultList();
+        return clientes;
+    }
+
+    /**
+     * Metodo que permite obtener una lista de clientes por medio de un correo
+     * otorgado
+     *
+     * @param correo recibe como parametro un correo de tipo String
+     * @return regresa una lista de clientes que correspondan con el correo
+     */
+    @Override
+    public List<ClienteFrecuente> obtenerClientesPorCorreo(String correo) {
+        EntityManager entityManager = ManejadorConexiones.getEntityManager();
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<ClienteFrecuente> criteria = builder.createQuery(ClienteFrecuente.class);
+        Root<ClienteFrecuente> entidadClienteFrecuente = criteria.from(ClienteFrecuente.class);
+
+        criteria = criteria.select(entidadClienteFrecuente).where(builder.like(entidadClienteFrecuente.get("correo"), correo + "%"));
+
+        TypedQuery<ClienteFrecuente> query = entityManager.createQuery(criteria);
+        List<ClienteFrecuente> clientes = query.getResultList();
+        return clientes;
+    }
 
 }

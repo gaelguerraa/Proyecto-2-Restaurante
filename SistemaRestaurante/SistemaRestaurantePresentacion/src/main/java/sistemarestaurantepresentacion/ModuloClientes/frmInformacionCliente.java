@@ -1,39 +1,53 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package sistemarestaurantepresentacion.ModuloClientes;
 
+import java.time.LocalDateTime;
+import javax.swing.JOptionPane;
 import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantedominio.dtos.NuevoClienteFrecuenteDTO;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
+import sistemarestaurantenegocio.excepciones.NegocioException;
 
-/**
- *
- * @author jorge
- */
 public class frmInformacionCliente extends javax.swing.JFrame {
+
     private IClientesFrecuentesBO clientesFrecuentesBO;
     private NuevoClienteFrecuenteDTO cliente;
     private ControlNavegacionClientes control;
-    /**
-     * Creates new form frmInformacionCliente
-     */
+
     public frmInformacionCliente(IClientesFrecuentesBO clientesFrecuentesBO, ClienteFrecuente cliente, ControlNavegacionClientes control) {
         initComponents();
         this.control = control;
         this.clientesFrecuentesBO = clientesFrecuentesBO;
         this.cargarInformacion(cliente);
         setLocationRelativeTo(null);
-        
     }
-    
-    public void cargarInformacion(ClienteFrecuente cliente){
+
+    /**
+     * Metodo que carga la informacion del cliente seleccionado
+     *
+     * @param cliente recibe un ClienteFrecuente como parametro para obtener su
+     * informacion y mostrarla
+     */
+    public void cargarInformacion(ClienteFrecuente cliente) {
         this.txtNombre.setText(cliente.getNombre());
         this.txtApellidoP.setText(cliente.getApellidoPaterno());
         this.txtApellidoM.setText(cliente.getApellidoMaterno());
         this.txtCorreo.setText(cliente.getCorreo());
         this.txtTelefono.setText(cliente.getTelefono());
+
+        float monto = clientesFrecuentesBO.obtenerMontoGastado(cliente);
+        this.txtMontoGastado.setText("$" + String.format("%.2f", monto));
+        this.txtPuntos.setText(String.valueOf(cliente.getPuntosFidelidad()));
+        this.txtVisitas.setText(String.valueOf(clientesFrecuentesBO.obtenerNumVisitas(cliente)));
+
+        try {
+            LocalDateTime ultimaVisita = clientesFrecuentesBO.obtenerUltimaVisita(cliente);
+            if (ultimaVisita != null) {
+                this.lblFechaUltimaVisita.setText(ultimaVisita.toString());
+            }
+        } catch (NegocioException e) {
+            this.lblFechaUltimaVisita.setText("N/A");
+        }
+
     }
 
     /**
@@ -98,11 +112,13 @@ public class frmInformacionCliente extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         jLabel2.setText("Apellido Materno");
 
+        txtNombre.setEditable(false);
         txtNombre.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
         jLabel3.setText("Nombre");
 
+        txtApellidoM.setEditable(false);
         txtApellidoM.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtApellidoM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,6 +126,7 @@ public class frmInformacionCliente extends javax.swing.JFrame {
             }
         });
 
+        txtApellidoP.setEditable(false);
         txtApellidoP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtApellidoP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,6 +141,7 @@ public class frmInformacionCliente extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("VISITAS");
 
+        txtVisitas.setEditable(false);
         txtVisitas.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         txtVisitas.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
@@ -131,12 +149,14 @@ public class frmInformacionCliente extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("PUNTOS");
 
+        txtPuntos.setEditable(false);
         txtPuntos.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         txtPuntos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         jLabel9.setText("MONTO GASTADO");
 
+        txtMontoGastado.setEditable(false);
         txtMontoGastado.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
         txtMontoGastado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
@@ -178,6 +198,7 @@ public class frmInformacionCliente extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         jLabel5.setText("Telefono");
 
+        txtTelefono.setEditable(false);
         txtTelefono.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtTelefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,6 +206,7 @@ public class frmInformacionCliente extends javax.swing.JFrame {
             }
         });
 
+        txtCorreo.setEditable(false);
         txtCorreo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,7 +241,7 @@ public class frmInformacionCliente extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         jLabel10.setText("Ultima visita:");
 
-        lblFechaUltimaVisita.setText("jLabel11");
+        lblFechaUltimaVisita.setText("N/A");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

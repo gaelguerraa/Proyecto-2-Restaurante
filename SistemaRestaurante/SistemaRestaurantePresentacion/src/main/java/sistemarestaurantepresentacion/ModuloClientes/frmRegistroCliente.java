@@ -1,21 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package sistemarestaurantepresentacion.ModuloClientes;
 
+import excepciones.PresentacionExcepcion;
 import javax.swing.JOptionPane;
-import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantedominio.dtos.NuevoClienteFrecuenteDTO;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
+import sistemarestaurantenegocio.excepciones.NegocioException;
 
-/**
- *
- * @author jorge
- */
 public class frmRegistroCliente extends javax.swing.JFrame {
+
     private IClientesFrecuentesBO clientesFrecuentesBO;
     private ControlNavegacionClientes control;
+
     /**
      * Creates new form frmRegistroCliente
      */
@@ -25,33 +20,43 @@ public class frmRegistroCliente extends javax.swing.JFrame {
         this.control = control;
         setLocationRelativeTo(null);
     }
-    
-    private void registrar(){
+
+    /**
+     * Metodo que registra un cliente con la informacion de los campos de texto del frame
+     * @throws PresentacionExcepcion 
+     */
+    private void registrar() throws PresentacionExcepcion {
         String nombre = this.txtNombre.getText();
         String apellidoPaterno = this.txtApellidoP.getText();
         String apellidoMaterno = this.txtApellidoM.getText();
         String telefono = this.txtTelefono.getText();
         String correo = this.txtCorreo.getText();
-        //excepciones simples de formato antes de crear al cliente
+        if (nombre.isEmpty() || apellidoPaterno.isEmpty() || apellidoMaterno.isEmpty() || telefono.isEmpty()) {
+            throw new PresentacionExcepcion("Todos los campos son obligatorios.");
+        }
         NuevoClienteFrecuenteDTO cliente = new NuevoClienteFrecuenteDTO(nombre, apellidoPaterno, apellidoMaterno, telefono, correo, 0.0, 0);
-        // try
-        clientesFrecuentesBO.registrarCliente(cliente);
-        JOptionPane.showMessageDialog(this, "Se Registro el cliente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-        // catch
-        this.limpiarFormulario();
-        
+        try {
+            clientesFrecuentesBO.registrarCliente(cliente);
+            JOptionPane.showMessageDialog(this, "Se Registro el cliente", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+            this.limpiarFormulario();
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.INFORMATION_MESSAGE);
+            this.limpiarFormulario();
+        }
+
     }
-    
-    private void limpiarFormulario(){
+
+    /**
+     * Metodo que limpia los campos de texto
+     */
+    private void limpiarFormulario() {
         this.txtNombre.setText("");
         this.txtApellidoP.setText("");
         this.txtApellidoM.setText("");
         this.txtCorreo.setText("");
         this.txtTelefono.setText("");
-        
-    }
-    
 
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -275,13 +280,16 @@ public class frmRegistroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        this.registrar();
+        try {
+            this.registrar();
+        } catch (PresentacionExcepcion ex) {
+            JOptionPane.showMessageDialog(this, "Error: Faltan campos necesarios!", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrar;

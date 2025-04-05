@@ -5,7 +5,9 @@
 package sistemarestaurantepresentacion;
 
 import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
+import sistemarestaurantepresentacion.ModuloComandas.ControlNavegacionComandas;
 import sistemarestaurantepresentacion.ModuloProductos.frmRegistrarProducto;
+import sistemarestaurantepresentacion.ModuloReportes.ControlNavegacionReportes;
 
 /**
  *
@@ -131,6 +133,11 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         btnReportes.setText("REPORTES");
         btnReportes.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, java.awt.Color.lightGray, java.awt.Color.darkGray));
         btnReportes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportesActionPerformed(evt);
+            }
+        });
         jPanel4.add(btnReportes);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -170,7 +177,11 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnComandasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComandasActionPerformed
-        // TODO add your handling code here:
+        // MODULO COMANDAS
+        ControlNavegacionComandas control = new ControlNavegacionComandas();
+        control.iniciarMenu();
+        this.dispose();
+        
     }//GEN-LAST:event_btnComandasActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
@@ -179,10 +190,18 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
+        // MODULO CLIENTES
         ControlNavegacionClientes control = new ControlNavegacionClientes();
         control.iniciarMenu();
         this.dispose();
     }//GEN-LAST:event_btnClientesActionPerformed
+
+    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
+        // MODULO REPORTES
+        ControlNavegacionReportes control = new ControlNavegacionReportes();
+        control.iniciarMenu();
+        this.dispose();
+    }//GEN-LAST:event_btnReportesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

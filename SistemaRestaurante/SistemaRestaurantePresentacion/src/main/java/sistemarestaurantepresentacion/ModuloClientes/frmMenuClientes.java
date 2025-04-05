@@ -1,22 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package sistemarestaurantepresentacion.ModuloClientes;
 
-import sistemarestaurantedominio.ClienteFrecuente;
-
-/**
- *
- * @author jorge
- */
 public class frmMenuClientes extends javax.swing.JFrame {
 
     private ControlNavegacionClientes control;
 
-    /**
-     * Creates new form frmMenuClientes
-     */
+
     public frmMenuClientes(ControlNavegacionClientes control) {
         this.control = control;
         initComponents();
