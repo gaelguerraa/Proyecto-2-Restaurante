@@ -124,6 +124,16 @@ public class ProductosBO implements IProductosBO {
     public List<ProductoIngredienteDTO> obtenerProductosJoin() {
         return this.productosDAO.obtenerProductosJoin();
     }
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    
+    
+>>>>>>> Stashed changes
+=======
+    
+    
+>>>>>>> Stashed changes
     
     
 }
