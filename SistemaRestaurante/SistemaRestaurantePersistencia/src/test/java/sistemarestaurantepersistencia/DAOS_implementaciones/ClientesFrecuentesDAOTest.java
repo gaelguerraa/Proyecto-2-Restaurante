@@ -86,16 +86,7 @@ public class ClientesFrecuentesDAOTest {
 //        assertNotNull(clientesObtenidos);
 //        assertEquals(CLIENTES_ESPERADOS, clientesObtenidos.size());
 //    }
-    
-    
-<<<<<<< HEAD
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
+
 
     /**
      * Test of registrarClienteFrecuente method, of class ClientesFrecuentesDAO.
@@ -188,9 +179,6 @@ public class ClientesFrecuentesDAOTest {
 //        assertEquals(CLIENTES_ESPERADOS, clientesObtenidos.size());
 //    }
 
-=======
->>>>>>> 21c791d82e951186308c1261f6ba0760a98b76f7
-    
-    
+
     
 }
