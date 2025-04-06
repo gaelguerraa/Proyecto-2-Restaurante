@@ -6,9 +6,9 @@ import sistemarestaurantepresentacion.frmMenuPrincipal;
 
 public class ControlNavegacionComandas {
 
-    IComandasBO comandasBO;
-    frmMenuPrincipal frameMenuPrincipal;
-    frmMenuComandas frameMenuComandas;
+    private IComandasBO comandasBO;
+    private frmMenuPrincipal frameMenuPrincipal;
+    private frmMenuComandas frameMenuComandas;
 
     public ControlNavegacionComandas() {
         comandasBO = FabricaObjetosNegocio.crearComandasBO();

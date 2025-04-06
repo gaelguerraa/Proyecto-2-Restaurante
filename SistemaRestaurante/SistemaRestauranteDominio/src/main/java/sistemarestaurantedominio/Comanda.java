@@ -117,6 +117,16 @@ public class Comanda implements Serializable {
         this.detallesComanda = detallesComanda;
     }
 
+    public ClienteFrecuente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteFrecuente cliente) {
+        this.cliente = cliente;
+    }
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

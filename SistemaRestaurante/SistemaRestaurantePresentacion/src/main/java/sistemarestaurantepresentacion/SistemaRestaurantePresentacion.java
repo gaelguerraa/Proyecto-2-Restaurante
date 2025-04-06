@@ -33,8 +33,9 @@ public class SistemaRestaurantePresentacion {
 //        IProductosBO productosBO = FabricaObjetosNegocio.crearProductosBO();
 //        
 //        ControladorProductos controlador = new ControladorProductos(ingredientesProductosBO, productosBO);
-//
-//
+
+
+        // Crear y mostrar el formulario del menú de productos
 //        frmMenuProductos menuProductos = new frmMenuProductos(controlador);
 //        menuProductos.setVisible(true);  
 
