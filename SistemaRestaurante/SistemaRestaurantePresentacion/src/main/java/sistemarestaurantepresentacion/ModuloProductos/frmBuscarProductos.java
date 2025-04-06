@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import static sistemarestaurantedominio.Ingrediente_.productos;
 import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.TipoProducto;
 import sistemarestaurantenegocio.IProductosBO;
@@ -19,16 +20,33 @@ import sistemarestaurantenegocio.IProductosBO;
 public class frmBuscarProductos extends javax.swing.JFrame {
 
     private IProductosBO productosBO;
+    private ControladorProductos controlador;
+    private Producto productoSeleccionado; 
+    private String nombreProducto;
+    private boolean confirmado = false;
+    private boolean modoSeleccion = false;
     private static final Logger LOG = Logger.getLogger(frmBuscarProductos.class.getName());
+    
     
     /**
      * Creates new form frmBuscarProductos
      */
-    public frmBuscarProductos(IProductosBO productosBO) {
+    public frmBuscarProductos(IProductosBO productosBO, ControladorProductos controlador) {
         this.productosBO=productosBO;
+        this.controlador=controlador;
         initComponents();
         LlenarComboBoxTipoProducto();
-        buscarProductos();
+        this.LlenarTablaProductos();
+        TablaProductos.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = TablaProductos.getSelectedRow();
+                if (selectedRow != -1) {
+                    this.nombreProducto = (String) TablaProductos.getValueAt(selectedRow, 0);
+                    this.productoSeleccionado = productosBO.consultarProductoPorNombre(nombreProducto);
+                }
+            }
+        });
+
     }
     
     private void LlenarComboBoxTipoProducto(){
@@ -37,38 +55,76 @@ public class frmBuscarProductos extends javax.swing.JFrame {
         }
     }
     
-    private void buscarProductos(){
+    private void LlenarTablaProductos(){
         String nombreFiltro = txtFiltro.getText().trim();
         String tipoSeleccionado = (String) ComboBoxFiltro.getSelectedItem();
-        List<Producto> productos;
+        List<Producto> productosConsultados;
         
-        if (!nombreFiltro.isEmpty() && tipoSeleccionado != null) {
-        productos = productosBO.obtenerProductosPorTipoNombre(nombreFiltro, TipoProducto.valueOf(tipoSeleccionado));
-        } else if (!nombreFiltro.isEmpty()) {
-            productos = productosBO.obtenerProductosFiltroNombre(nombreFiltro);
-        } else if (tipoSeleccionado != null) {
-            productos = productosBO.obtenerProductosPorTipo(TipoProducto.valueOf(tipoSeleccionado));
-        } else {
-            return; 
+        String nombreProducto = txtFiltro.getText().trim();
+        String tipoSeleccionadoo = (String) ComboBoxFiltro.getSelectedItem();
+        if(nombreProducto.isEmpty() && tipoSeleccionadoo == "CUALQUIERA"){
+            productosConsultados = productosBO.consultarProducto();
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.TablaProductos.getModel();
+            modeloTabla.setRowCount(0);
+            for(Producto p : productosConsultados){
+                Object[] fila = {
+                    p.getNombre(),
+                    p.getTipo(),
+                    p.getPrecio()
+                };
+                modeloTabla.addRow(fila);
+            }
+        }else if(!nombreProducto.isEmpty() && tipoSeleccionadoo == "CUALQUIERA"){
+            productosConsultados = productosBO.obtenerProductosFiltroNombre(nombreProducto);
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.TablaProductos.getModel();
+            modeloTabla.setRowCount(0);
+            for(Producto p : productosConsultados){
+                Object[] fila = {
+                    p.getNombre(),
+                    p.getTipo(),
+                    p.getPrecio()
+                };
+                modeloTabla.addRow(fila);
+            }
+        }else if(nombreProducto.isEmpty() && tipoSeleccionadoo != null){
+            productosConsultados = productosBO.obtenerProductosPorTipo(tipoSeleccionado);
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.TablaProductos.getModel();
+            modeloTabla.setRowCount(0);
+            for(Producto p : productosConsultados){
+                Object[] fila = {
+                    p.getNombre(),
+                    p.getTipo(),
+                    p.getPrecio()
+                };
+                modeloTabla.addRow(fila);
+            }
+        }else if(!nombreProducto.isEmpty() && tipoSeleccionadoo != null){
+            productosConsultados = productosBO.obtenerProductosPorTipoNombre(nombreProducto, tipoSeleccionado);
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.TablaProductos.getModel();
+            modeloTabla.setRowCount(0);
+            for(Producto p : productosConsultados){
+                Object[] fila = {
+                    p.getNombre(),
+                    p.getTipo(),
+                    p.getPrecio()
+                };
+                modeloTabla.addRow(fila);
+            }
         }
-        actualizarTabla(productos);
-    }
-    
-    private void actualizarTabla(List<Producto> productos) {
-        DefaultTableModel modelo = (DefaultTableModel) TablaProductos.getModel();
-        modelo.setRowCount(0); 
         
-        for (Producto producto : productos) {
-            modelo.addRow(new Object[]{
-                producto.getNombre(),
-                producto.getTipo(),
-                producto.getPrecio()
-            });
-        }
-    }
+    } 
     
-    private Producto devolverProducto(){
 
+
+    
+    public Producto devolverProducto(){
+        if (productoSeleccionado != null) {
+            return productoSeleccionado; // Devuelve el producto seleccionado
+        } else {
+            JOptionPane.showMessageDialog(this, "No has seleccionado un producto.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return null; // Si no se ha seleccionado un producto, devuelve null
+        }
+ 
       }  
 
         
@@ -172,6 +228,8 @@ public class frmBuscarProductos extends javax.swing.JFrame {
             }
         });
 
+        ComboBoxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CUALQUIERA" }));
+
         txtFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFiltroActionPerformed(evt);
@@ -242,7 +300,7 @@ public class frmBuscarProductos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscarActionPerformed
-        // TODO add your handling code here:
+        LlenarTablaProductos();
     }//GEN-LAST:event_BotonBuscarActionPerformed
 
     private void txtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroActionPerformed
@@ -250,7 +308,19 @@ public class frmBuscarProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFiltroActionPerformed
 
     private void BotonSeleccionarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonSeleccionarProductoActionPerformed
-        // TODO add your handling code here:
+        if (modoSeleccion) {
+        Producto producto = devolverProducto(); // Llama a devolverProducto
+        if (producto != null) {
+            confirmado = true; // Esto hace que el proceso de selección continúe
+            // Aquí puedes agregar el código para continuar con el proceso de selección del producto, 
+            // o hacer lo que sea necesario con el producto devuelto.
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona un producto antes de continuar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    } else {
+        // Si no estás en modo selección, puedes agregar otro comportamiento si lo deseas
+        // controlador.regresarMenuProductos();
+    }
     }//GEN-LAST:event_BotonSeleccionarProductoActionPerformed
 
     /**

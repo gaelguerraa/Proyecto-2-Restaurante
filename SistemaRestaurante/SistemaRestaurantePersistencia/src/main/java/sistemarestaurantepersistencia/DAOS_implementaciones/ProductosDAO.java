@@ -94,59 +94,42 @@ public class ProductosDAO implements IProductosDAO{
         return productos;
     }
 
-    /**
-     * Obtiene una lista de productos filtrados por el tipo proporcionado.
-     * 
-     * Este método utiliza Criteria API para realizar una consulta que filtra los
-     * productos de acuerdo a su tipo, el cual se pasa como parámetro. Retorna una
-     * lista de objetos {@link Producto} que coinciden con el tipo indicado.
-     * 
-     * @param tipo El tipo de producto que se usará como filtro para la consulta.
-     * @return Lista de productos cuyo tipo coincide con el tipo proporcionado.
-     */
+
     @Override
-    public List<Producto> obtenerProductosPorTipo(TipoProducto tipo) {
+    public List<Producto> obtenerProductosPorTipo(String tipo) {
         
       EntityManager em = ManejadorConexiones.getEntityManager();
-      CriteriaBuilder builder = em.getCriteriaBuilder();
-      CriteriaQuery<Producto> criteria = builder.createQuery(Producto.class);
-      Root<Producto> entidadProducto = criteria.from(Producto.class);
+      String jpqlQuery = """
+                         SELECT p FROM Producto p WHERE p.tipo = :tipo
+                         """;
 
-      criteria.select(entidadProducto).where(builder.equal(entidadProducto.get("tipo"), tipo));
+       TipoProducto tipoEnum = TipoProducto.valueOf(tipo);
+      TypedQuery<Producto> productosTipo =em.createQuery(jpqlQuery, Producto.class);
+       productosTipo.setParameter("tipo", tipoEnum);
 
-      TypedQuery<Producto> query = em.createQuery(criteria);
-      List<Producto> productosTipo = query.getResultList();
-
-      return productosTipo;
+      return productosTipo.getResultList();
 
     }
 
-      /**
-     * Obtiene una lista de productos filtrados por nombre y tipo.
-     *
-     * @param filtroBusqueda El texto que debe aparecer en el nombre del producto.
-     * @param tipo El tipo de producto a filtrar.
-     * @return Lista de productos que coinciden con los filtros.
-     */
+
     @Override
-    public List<Producto> obtenerProductosPorTipoNombre(String filtroBusqueda, TipoProducto tipo) {
-        EntityManager em = ManejadorConexiones.getEntityManager();
-      CriteriaBuilder builder = em.getCriteriaBuilder();
-      CriteriaQuery<Producto> criteria = builder.createQuery(Producto.class);
-      Root<Producto> entidadProducto = criteria.from(Producto.class);
+    public List<Producto> obtenerProductosPorTipoNombre(String filtroBusqueda, String tipo) {
+       EntityManager em = ManejadorConexiones.getEntityManager();
+       
+      String jpqlQuery = """
+                         SELECT p FROM Producto p WHERE p.nombre LIKE :nombre AND p.tipo = :tipo
+                         """;
       
-      criteria.select(entidadProducto).where(
-                builder.and(
-                        builder.like(entidadProducto.get("nombre"), "%" + filtroBusqueda + "%"),
-                        builder.equal(entidadProducto.get("tipo"), tipo)
-                )
-        );
+      TipoProducto tipoEnum = TipoProducto.valueOf(tipo);
+      TypedQuery<Producto> productosNombreTipo = em.createQuery(jpqlQuery, Producto.class);
       
-        TypedQuery<Producto> query = em.createQuery(criteria);
-        return query.getResultList();
+      productosNombreTipo.setParameter("nombre", "%" + filtroBusqueda + "%"); // búsqueda parcial
+      productosNombreTipo.setParameter("tipo", tipoEnum);
+      
+      return productosNombreTipo.getResultList();
     }
     
-    //calar
+    //ya sirve
     @Override
     public List<ProductoIngredienteDTO> obtenerProductosJoin(){
         EntityManager em = ManejadorConexiones.getEntityManager();
@@ -162,6 +145,21 @@ public class ProductosDAO implements IProductosDAO{
         
         TypedQuery<ProductoIngredienteDTO> query = em.createQuery(jpqlQuery, ProductoIngredienteDTO.class);
         return query.getResultList();
+    }
+    
+    @Override
+    public Producto consultarProductoPorNombre(String nombre){
+        EntityManager entityManager = ManejadorConexiones.getEntityManager();
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Producto> criteria = builder.createQuery(Producto.class);
+        Root<Producto> producto = criteria.from(Producto.class);
+
+        criteria = criteria.select(producto).where(builder.like(producto.get("nombre"), nombre));
+
+        TypedQuery<Producto> query = entityManager.createQuery(criteria);
+        return query.getSingleResult();
     }
     
     

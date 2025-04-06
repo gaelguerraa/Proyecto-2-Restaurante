@@ -37,7 +37,6 @@ public class Ingrediente implements Serializable {
     
     @Enumerated(EnumType.STRING)
     @Column(name="unidad_medida", nullable=false)
-    @Enumerated(EnumType.STRING)
     private UnidadMedidaIngrediente unidadMedida;
     
     @Column(name = "stock", nullable = false)

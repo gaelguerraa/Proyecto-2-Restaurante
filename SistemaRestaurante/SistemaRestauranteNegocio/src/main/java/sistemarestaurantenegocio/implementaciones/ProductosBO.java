@@ -102,7 +102,7 @@ public class ProductosBO implements IProductosBO {
      * @return Lista de productos que corresponden al tipo especificado.
      */ 
     @Override 
-    public List<Producto> obtenerProductosPorTipo(TipoProducto tipo){
+    public List<Producto> obtenerProductosPorTipo(String tipo){
         return this.productosDAO.obtenerProductosPorTipo(tipo);
     }
     
@@ -116,13 +116,18 @@ public class ProductosBO implements IProductosBO {
      * @return Lista de productos que coinciden con el filtro de nombre y tipo.
      */
     @Override
-    public List<Producto> obtenerProductosPorTipoNombre(String filtroBusqueda, TipoProducto tipo){
+    public List<Producto> obtenerProductosPorTipoNombre(String filtroBusqueda, String tipo){
         return this.productosDAO.obtenerProductosPorTipoNombre(filtroBusqueda, tipo);
     }
 
     @Override
     public List<ProductoIngredienteDTO> obtenerProductosJoin() {
         return this.productosDAO.obtenerProductosJoin();
+    }
+
+    @Override
+    public Producto consultarProductoPorNombre(String nombre) {
+        return this.productosDAO.consultarProductoPorNombre(nombre);
     }
   
     

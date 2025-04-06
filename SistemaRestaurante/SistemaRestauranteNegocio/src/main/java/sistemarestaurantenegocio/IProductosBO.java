@@ -22,9 +22,11 @@ public interface IProductosBO {
     
      public abstract List<Producto> obtenerProductosFiltroNombre(String filtroBusqueda);
     
-    public abstract List<Producto> obtenerProductosPorTipo(TipoProducto tipo);
+    public abstract List<Producto> obtenerProductosPorTipo(String tipo);
     
-    public abstract List<Producto> obtenerProductosPorTipoNombre(String filtroBusqueda, TipoProducto tipo);
+    public abstract List<Producto> obtenerProductosPorTipoNombre(String filtroBusqueda, String tipo);
     
     public abstract List<ProductoIngredienteDTO> obtenerProductosJoin();
+    
+    public abstract Producto consultarProductoPorNombre(String nombre);
 }

@@ -4,6 +4,7 @@
  */
 package sistemarestaurantepresentacion.ModuloProductos;
 
+import sistemarestaurantedominio.Producto;
 import sistemarestaurantenegocio.IIngredientesProductosBO;
 import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.implementaciones.ProductosBO;
@@ -15,17 +16,19 @@ import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
  */
 public class ControladorProductos {
     
-    
+    private IProductosBO productosBO;
     private frmMenuProductos menuProductos;
     private frmRegistrarProducto registrarProducto;
     private frmAnadirIngredienteProducto anadirIngredienteProducto;
     private frmMostrarProductos mostrarProductos;
+    private frmBuscarProductos buscarProducto;
     
     public ControladorProductos(IIngredientesProductosBO ingredientesProductosBO, IProductosBO productosBO) {
         this.menuProductos = new frmMenuProductos(this);
         this.registrarProducto = new frmRegistrarProducto(productosBO, this);
         this.anadirIngredienteProducto = new frmAnadirIngredienteProducto(ingredientesProductosBO, productosBO, this);
         this.mostrarProductos = new frmMostrarProductos(productosBO, this);
+        this.buscarProducto = new frmBuscarProductos(productosBO, this);
     }
     
     public void mostrarMenuProductos() {
@@ -55,6 +58,13 @@ public class ControladorProductos {
         anadirIngredienteProducto.setVisible(false);
         mostrarProductos.setVisible(true);
     }
-
+    
+    //metodo para devolver producto a comandas
+    public Producto regresarProductoSeleccionado(){
+        this.buscarProducto = new frmBuscarProductos(productosBO, this);
+        return buscarProducto.devolverProducto();
+    }
+    
+    
     
 }
