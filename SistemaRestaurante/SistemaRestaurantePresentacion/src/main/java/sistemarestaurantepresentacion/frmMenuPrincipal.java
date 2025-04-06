@@ -192,7 +192,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnComandasActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
-        //Arreglar Constructor
+        // MODULO PRODUCTOS
         ControlNavegacionProductos control = new ControlNavegacionProductos();
         control.mostrarMenuProductos();
         this.dispose();
