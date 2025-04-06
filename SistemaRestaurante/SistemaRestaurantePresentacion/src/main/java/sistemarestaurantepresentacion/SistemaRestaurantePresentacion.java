@@ -10,7 +10,7 @@ import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
 import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
 import sistemarestaurantepresentacion.ModuloClientes.frmBuscarCliente;
-import sistemarestaurantepresentacion.ModuloProductos.ControladorProductos;
+import sistemarestaurantepresentacion.ModuloProductos.ControlNavegacionProductos;
 import sistemarestaurantepresentacion.ModuloProductos.frmMenuProductos;
 
 /**

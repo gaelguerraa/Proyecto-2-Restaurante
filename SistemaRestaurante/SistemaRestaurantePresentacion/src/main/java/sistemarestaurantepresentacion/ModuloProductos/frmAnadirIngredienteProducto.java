@@ -24,7 +24,7 @@ import sistemarestaurantepresentacion.frmMenuPrincipal;
  */
 public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
 
-    private ControladorProductos controlador;
+    private ControlNavegacionProductos controlador;
     private IIngredientesProductosBO ingredientesProductosBO;
     private IProductosBO productosBO;
      private static final Logger LOG = Logger.getLogger(frmAnadirIngredienteProducto.class.getName());
@@ -32,7 +32,7 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
     /**
      * Creates new form frmAnadirIngredienteProducto
      */
-    public frmAnadirIngredienteProducto(IIngredientesProductosBO ingredientesProductosBO, IProductosBO productosBO, ControladorProductos controlador) {
+    public frmAnadirIngredienteProducto(IIngredientesProductosBO ingredientesProductosBO, IProductosBO productosBO, ControlNavegacionProductos controlador) {
         this.controlador = controlador;
         this.ingredientesProductosBO=ingredientesProductosBO;
         this.productosBO=productosBO;

@@ -7,6 +7,7 @@ package sistemarestaurantepresentacion.ModuloProductos;
 import sistemarestaurantedominio.Producto;
 import sistemarestaurantenegocio.IIngredientesProductosBO;
 import sistemarestaurantenegocio.IProductosBO;
+import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
 import sistemarestaurantenegocio.implementaciones.ProductosBO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
 
@@ -14,28 +15,21 @@ import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
  *
  * @author gael_
  */
-public class ControladorProductos {
+public class ControlNavegacionProductos {
     
     private IProductosBO productosBO;
+    private IIngredientesProductosBO ingredientesProductosBO;
     private frmMenuProductos menuProductos;
     private frmRegistrarProducto registrarProducto;
     private frmAnadirIngredienteProducto anadirIngredienteProducto;
     private frmMostrarProductos mostrarProductos;
-//    private frmBuscarProductos buscarProducto;
+     private frmBuscarProducto buscarProducto;
+     
 
-    
-    public ControladorProductos(IIngredientesProductosBO ingredientesProductosBO, IProductosBO productosBO) {
-        this.menuProductos = new frmMenuProductos(this);
-        this.registrarProducto = new frmRegistrarProducto(productosBO, this);
-        this.anadirIngredienteProducto = new frmAnadirIngredienteProducto(ingredientesProductosBO, productosBO, this);
 
-        this.mostrarProductos = new frmMostrarProductos(productosBO, this);
-//        this.buscarProducto = new frmBuscarProductos(productosBO, this);
-
-    }
-
-    public ControladorProductos() {
-        
+    public ControlNavegacionProductos() {
+        this.productosBO= FabricaObjetosNegocio.crearProductosBO();
+        this.ingredientesProductosBO = FabricaObjetosNegocio.crearIngredientesProductosBO();
     }
     
     
@@ -43,25 +37,35 @@ public class ControladorProductos {
         menuProductos.setVisible(true);
         registrarProducto.setVisible(false);
         anadirIngredienteProducto.setVisible(false);
+        mostrarProductos.setVisible(false);
     }
 
     public void mostrarRegistrarProducto() {
         menuProductos.setVisible(false);
         registrarProducto.setVisible(true);
         anadirIngredienteProducto.setVisible(false);
+        mostrarProductos.setVisible(false);
     }
 
     public void mostrarAnadirIngredienteProducto() {
         menuProductos.setVisible(false);
         registrarProducto.setVisible(false);
         anadirIngredienteProducto.setVisible(true);
+        mostrarProductos.setVisible(false);
+    }
+    
+    public void mostrarProductos(){
+        menuProductos.setVisible(false);
+        registrarProducto.setVisible(false);
+        anadirIngredienteProducto.setVisible(false);
+        mostrarProductos.setVisible(true);
     }
     
     //metodo para devolver producto a comandas
-//    public Producto regresarProductoSeleccionado(){
-//        this.buscarProducto = new frmBuscarProductos(productosBO, this);
-//        return buscarProducto.devolverProducto();
-//    }
+    public Producto regresarProductoSeleccionado(){
+        this.buscarProducto = new frmBuscarProducto(productosBO, this);
+        return buscarProducto.devolverProducto();
+    }
     
     
     

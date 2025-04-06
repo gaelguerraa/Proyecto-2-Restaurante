@@ -7,7 +7,7 @@ package sistemarestaurantepresentacion;
 import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
 import sistemarestaurantepresentacion.ModuloComandas.ControlNavegacionComandas;
 import sistemarestaurantepresentacion.ModuloIngredientes.ControlNavegacionIngredientes;
-import sistemarestaurantepresentacion.ModuloProductos.ControladorProductos;
+import sistemarestaurantepresentacion.ModuloProductos.ControlNavegacionProductos;
 import sistemarestaurantepresentacion.ModuloProductos.frmRegistrarProducto;
 import sistemarestaurantepresentacion.ModuloReportes.ControlNavegacionReportes;
 
@@ -193,7 +193,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
         //Arreglar Constructor
-        ControladorProductos control = new ControladorProductos();
+        ControlNavegacionProductos control = new ControlNavegacionProductos();
         control.mostrarMenuProductos();
         this.dispose();
     

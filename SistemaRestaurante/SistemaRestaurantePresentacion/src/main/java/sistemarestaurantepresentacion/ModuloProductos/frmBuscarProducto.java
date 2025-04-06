@@ -20,7 +20,7 @@ public class frmBuscarProducto extends javax.swing.JFrame {
 
     
      private IProductosBO productosBO;
-    private ControladorProductos controlador;
+    private ControlNavegacionProductos controlador;
     private Producto productoSeleccionado; 
     private String nombreProducto;
     private boolean confirmado = false;
@@ -31,7 +31,7 @@ public class frmBuscarProducto extends javax.swing.JFrame {
     /**
      * Creates new form frmBuscarProducto
      */
-      public frmBuscarProducto(IProductosBO productosBO, ControladorProductos controlador) {
+      public frmBuscarProducto(IProductosBO productosBO, ControlNavegacionProductos controlador) {
         this.productosBO=productosBO;
         this.controlador=controlador;
         initComponents();

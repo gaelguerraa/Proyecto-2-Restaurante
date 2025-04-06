@@ -20,7 +20,7 @@ import sistemarestaurantenegocio.excepciones.NegocioException;
  */
 public class frmRegistrarProducto extends javax.swing.JFrame {
 
-    private ControladorProductos controlador;
+    private ControlNavegacionProductos controlador;
     private IProductosBO productosBO;
     private static final Logger LOG = Logger.getLogger(frmRegistrarProducto.class.getName());
     
@@ -28,7 +28,7 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
     /**
      * Creates new form frmRegistrarProducto
      */
-    public frmRegistrarProducto(IProductosBO productosBO, ControladorProductos controlador) {
+    public frmRegistrarProducto(IProductosBO productosBO, ControlNavegacionProductos controlador) {
         this.controlador = controlador;
         initComponents();
         this.productosBO=productosBO;

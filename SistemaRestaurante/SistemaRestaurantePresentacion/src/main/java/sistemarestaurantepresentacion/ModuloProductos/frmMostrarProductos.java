@@ -16,7 +16,7 @@ import sistemarestaurantenegocio.IProductosBO;
  */
 public class frmMostrarProductos extends javax.swing.JFrame {
 
-    private ControladorProductos controlador;
+    private ControlNavegacionProductos controlador;
     private IProductosBO productosBO;
     private static final Logger LOG = Logger.getLogger(frmMostrarProductos.class.getName());
     
@@ -24,7 +24,7 @@ public class frmMostrarProductos extends javax.swing.JFrame {
     /**
      * Creates new form frmMostrarProductos
      */
-    public frmMostrarProductos(IProductosBO productosBO, ControladorProductos controlador) {
+    public frmMostrarProductos(IProductosBO productosBO, ControlNavegacionProductos controlador) {
         initComponents();
         this.productosBO=productosBO;
         this.controlador=controlador;

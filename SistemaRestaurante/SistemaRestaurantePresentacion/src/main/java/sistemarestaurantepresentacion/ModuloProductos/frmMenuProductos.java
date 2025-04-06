@@ -10,11 +10,11 @@ package sistemarestaurantepresentacion.ModuloProductos;
  */
 public class frmMenuProductos extends javax.swing.JFrame {
 
-    private ControladorProductos controlador;
+    private ControlNavegacionProductos controlador;
     /**
      * Creates new form frmMenuProductos
      */
-    public frmMenuProductos(ControladorProductos controlador) {
+    public frmMenuProductos(ControlNavegacionProductos controlador) {
         this.controlador=controlador;
         initComponents();
     }
@@ -34,6 +34,7 @@ public class frmMenuProductos extends javax.swing.JFrame {
         BotonAnadirProducto = new javax.swing.JButton();
         BotonAnadirIngrediente = new javax.swing.JButton();
         BotonRegresar = new javax.swing.JButton();
+        BotonMostrarProductos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(850, 550));
@@ -89,6 +90,15 @@ public class frmMenuProductos extends javax.swing.JFrame {
             }
         });
 
+        BotonMostrarProductos.setBackground(new java.awt.Color(171, 118, 46));
+        BotonMostrarProductos.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
+        BotonMostrarProductos.setText("MOSTRAR PRODUCTOS CON INGREDIENTES");
+        BotonMostrarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonMostrarProductosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -97,26 +107,29 @@ public class frmMenuProductos extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(223, 223, 223)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(BotonAnadirIngrediente)
-                            .addComponent(BotonAnadirProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(382, 382, 382)
-                        .addComponent(BotonRegresar)))
-                .addContainerGap(243, Short.MAX_VALUE))
+                        .addComponent(BotonRegresar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(185, 185, 185)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(BotonAnadirProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BotonMostrarProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
+                            .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(202, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(95, 95, 95)
+                .addGap(31, 31, 31)
                 .addComponent(BotonAnadirProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BotonMostrarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
                 .addComponent(BotonRegresar)
-                .addGap(0, 87, Short.MAX_VALUE))
+                .addGap(0, 62, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -145,6 +158,10 @@ public class frmMenuProductos extends javax.swing.JFrame {
         controlador.mostrarRegistrarProducto();
     }//GEN-LAST:event_BotonAnadirProductoActionPerformed
 
+    private void BotonMostrarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonMostrarProductosActionPerformed
+        controlador.mostrarProductos();
+    }//GEN-LAST:event_BotonMostrarProductosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -153,6 +170,7 @@ public class frmMenuProductos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonAnadirIngrediente;
     private javax.swing.JButton BotonAnadirProducto;
+    private javax.swing.JButton BotonMostrarProductos;
     private javax.swing.JButton BotonRegresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
