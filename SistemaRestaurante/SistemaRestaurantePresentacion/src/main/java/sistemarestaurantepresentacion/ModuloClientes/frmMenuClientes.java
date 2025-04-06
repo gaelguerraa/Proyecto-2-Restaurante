@@ -53,7 +53,7 @@ public class frmMenuClientes extends javax.swing.JFrame {
         );
 
         jPanel3.setBackground(new java.awt.Color(241, 209, 165));
-        jPanel3.setBorder(new javax.swing.border.MatteBorder(null));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         btnRegistrar.setBackground(new java.awt.Color(171, 118, 46));
         btnRegistrar.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N

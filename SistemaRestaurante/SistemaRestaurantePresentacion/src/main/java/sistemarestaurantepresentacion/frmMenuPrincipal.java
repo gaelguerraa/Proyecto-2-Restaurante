@@ -135,10 +135,10 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         });
         jPanel4.add(btnClientes);
 
-        btnReportes.setBackground(new java.awt.Color(171, 118, 46));
-        btnReportes.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         btnReportes.setText("REPORTES");
-        btnReportes.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, java.awt.Color.lightGray, java.awt.Color.darkGray));
+        btnReportes.setBackground(new java.awt.Color(171, 118, 46));
+        btnReportes.setBorder(null);
+        btnReportes.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         btnReportes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnReportes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

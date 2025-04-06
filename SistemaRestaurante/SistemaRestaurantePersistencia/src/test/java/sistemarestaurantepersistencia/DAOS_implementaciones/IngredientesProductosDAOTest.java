@@ -49,13 +49,10 @@ public class IngredientesProductosDAOTest {
 //       EntityManager em = ManejadorConexiones.getEntityManager(); 
 //       IngredientesProductosDAO ipDAO = new IngredientesProductosDAO();
 //       
-<<<<<<< HEAD
 //       Producto producto = new Producto("Pizza Zanahoria", 107.0f, TipoProducto.PLATILLO);
 //       Ingrediente ingrediente = new Ingrediente("Zanahoria", UnidadMedidaIngrediente.GRAMOS, 16.0f);
-=======
 //       Producto producto = new Producto("Pizza Zanahoriaa", 107.0f, TipoProducto.PLATILLO);
 //       Ingrediente ingrediente = new Ingrediente("Zanahoriaa", UnidadMedidaIngrediente.GRAMOS, 16.0f);
->>>>>>> 21c791d82e951186308c1261f6ba0760a98b76f7
 //       
 //
 //       NuevoIngredienteProductoDTO nipDTO = new NuevoIngredienteProductoDTO();
@@ -76,9 +73,4 @@ public class IngredientesProductosDAOTest {
 //        assertNotNull(ipRegistrado.getId());
 //        
 //    }
-<<<<<<< HEAD
-//    
-=======
-    
->>>>>>> 21c791d82e951186308c1261f6ba0760a98b76f7
 }

@@ -49,6 +49,11 @@
             <artifactId>SistemaRestauranteNegocio</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.lgooddatepicker</groupId>
+            <artifactId>LGoodDatePicker</artifactId>
+            <version>11.2.1</version>
+        </dependency>
     </dependencies>
     <properties>
         <maven.compiler.source>23</maven.compiler.source>

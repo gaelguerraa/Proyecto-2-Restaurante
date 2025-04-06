@@ -21,7 +21,7 @@ public class ControladorProductos {
     private frmRegistrarProducto registrarProducto;
     private frmAnadirIngredienteProducto anadirIngredienteProducto;
     private frmMostrarProductos mostrarProductos;
-    private frmBuscarProductos buscarProducto;
+//    private frmBuscarProductos buscarProducto;
 
     
     public ControladorProductos(IIngredientesProductosBO ingredientesProductosBO, IProductosBO productosBO) {
@@ -30,7 +30,7 @@ public class ControladorProductos {
         this.anadirIngredienteProducto = new frmAnadirIngredienteProducto(ingredientesProductosBO, productosBO, this);
 
         this.mostrarProductos = new frmMostrarProductos(productosBO, this);
-        this.buscarProducto = new frmBuscarProductos(productosBO, this);
+//        this.buscarProducto = new frmBuscarProductos(productosBO, this);
 
     }
 
@@ -58,10 +58,10 @@ public class ControladorProductos {
     }
     
     //metodo para devolver producto a comandas
-    public Producto regresarProductoSeleccionado(){
-        this.buscarProducto = new frmBuscarProductos(productosBO, this);
-        return buscarProducto.devolverProducto();
-    }
+//    public Producto regresarProductoSeleccionado(){
+//        this.buscarProducto = new frmBuscarProductos(productosBO, this);
+//        return buscarProducto.devolverProducto();
+//    }
     
     
     
