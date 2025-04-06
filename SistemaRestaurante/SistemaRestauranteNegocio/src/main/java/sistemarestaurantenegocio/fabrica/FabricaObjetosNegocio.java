@@ -62,16 +62,13 @@ public class FabricaObjetosNegocio {
     
     public static IComandasBO crearComandasBO(){
         IComandasDAO comandasDAO = new ComandasDAO();
-        
         IComandasBO comandasBO = new ComandasBO(comandasDAO);
         return comandasBO;
     }
     
     public static IReportesBO crearReportesBO(){
         IReportesDAO reportesDAO = new ReportesDAO();
-        
         IReportesBO reportesBO = new ReportesBO(reportesDAO);
-        
         return reportesBO;
     }
 }

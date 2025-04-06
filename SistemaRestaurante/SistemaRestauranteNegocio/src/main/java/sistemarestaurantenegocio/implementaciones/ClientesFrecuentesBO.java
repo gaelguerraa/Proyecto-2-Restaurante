@@ -49,8 +49,11 @@ public class ClientesFrecuentesBO implements IClientesFrecuentesBO {
     @Override
     public ClienteFrecuente registrarCliente(NuevoClienteFrecuenteDTO nuevoCliente) throws NegocioException {
         try {
-            if (nuevoCliente.getTelefono() == null || nuevoCliente.getTelefono().isEmpty()) {
-                throw new NegocioException("El teléfono no puede estar vacío.");
+            if (nuevoCliente.getNombre().isEmpty() || nuevoCliente.getApellidoPaterno().isEmpty() || nuevoCliente.getApellidoMaterno().isEmpty() || nuevoCliente.getTelefono().isEmpty()) {
+                throw new NegocioException("Todos los campos son obligatorios.");
+            }
+            if (nuevoCliente.getTelefono().length() != 10 || !nuevoCliente.getTelefono().matches("\\d+")) {
+                throw new NegocioException("El telefono debe ser de 10 dígitos numericos.");
             }
             nuevoCliente.setTelefono(encriptarTelefono(nuevoCliente.getTelefono()));
             return clientesFrecuentesDAO.registrarClienteFrecuente(nuevoCliente);
@@ -102,13 +105,12 @@ public class ClientesFrecuentesBO implements IClientesFrecuentesBO {
      * @return Regresa un clienteFrecuente en caso de ser encontrado
      */
     @Override
-    public ClienteFrecuente consultarClienteCorreo(String correo) throws NegocioException{
+    public ClienteFrecuente consultarClienteCorreo(String correo) throws NegocioException {
         // agregar excepciones
         ClienteFrecuente cliente = clientesFrecuentesDAO.obtenerClientePorCorreo(correo);
         if (cliente != null) {
             cliente.setTelefono(desencriptarTelefono(cliente.getTelefono()));
-        }
-        else{
+        } else {
             throw new NegocioException("No se encontró un cliente con el Correo proporcionado.");
         }
         return cliente;
@@ -116,6 +118,7 @@ public class ClientesFrecuentesBO implements IClientesFrecuentesBO {
 
     /**
      * Metodo que permite encriptar el telefono del cliente
+     *
      * @param telefono Recibe un telefono como parametro de tipo String
      * @return regresa un String del telefono encriptado
      */
@@ -134,6 +137,7 @@ public class ClientesFrecuentesBO implements IClientesFrecuentesBO {
 
     /**
      * Metodo que permite desencriptar los telefonos de los clientes
+     *
      * @param telefono Recibe como parametro un telefono encriptado
      * @return Regresa un telefono desencriptado
      */
@@ -153,13 +157,14 @@ public class ClientesFrecuentesBO implements IClientesFrecuentesBO {
 
     /**
      * Metodo que permite consultar un cliente mediante ID
+     *
      * @param idCliente Recibe como parametro una ID tipo Long
      * @return Regresa un clienteFrecuente en caso de ser encontrado
      */
     @Override
     public ClienteFrecuente consultarClienteID(Long idCliente) throws NegocioException {
         ClienteFrecuente cliente = clientesFrecuentesDAO.obtenerClientePorID(idCliente);
-        if(cliente == null){
+        if (cliente == null) {
             throw new NegocioException("No se encontró un cliente con el ID proporcionado.");
         }
         return cliente;
@@ -167,6 +172,7 @@ public class ClientesFrecuentesBO implements IClientesFrecuentesBO {
 
     /**
      * Metodo que obtiene el montoGastado de un cliente
+     *
      * @param cliente Recibe como parametro un clienteFrecuente
      * @return regresa una cantidad de tipo Float
      */
@@ -178,6 +184,7 @@ public class ClientesFrecuentesBO implements IClientesFrecuentesBO {
 
     /**
      * Metodo que permite obtener el numero de visitas de un cliente
+     *
      * @param cliente Recibe como parametro un ClienteFrecuente
      * @return regresa un entero de el numero de visitas del cliente
      */
@@ -189,9 +196,11 @@ public class ClientesFrecuentesBO implements IClientesFrecuentesBO {
 
     /**
      * Metodo que permite obtener la fecha de la ultima visita de un cliente
+     *
      * @param cliente Recibe como parametro un ClienteFrecuente
      * @return Regresa una fecha de tipo LocalDateTime
-     * @throws NegocioException Lanza esta excepcion en caso de que el cliente no tenga visitas
+     * @throws NegocioException Lanza esta excepcion en caso de que el cliente
+     * no tenga visitas
      */
     @Override
     public LocalDateTime obtenerUltimaVisita(ClienteFrecuente cliente) throws NegocioException {
@@ -207,6 +216,7 @@ public class ClientesFrecuentesBO implements IClientesFrecuentesBO {
 
     /**
      * Metodo que consulta una lista de clientes segun un telefono otorgado
+     *
      * @param telefono Recibe como parametro un telefono de tipo String
      * @return regresa una lista de clientes que concuerden con el telefono
      */
@@ -220,6 +230,7 @@ public class ClientesFrecuentesBO implements IClientesFrecuentesBO {
 
     /**
      * Metodo que consulta una lista de clientes segun un correo otorgado
+     *
      * @param correo Recibe como parametro un correo de tipo String
      * @return regresa una lista de clientes que concuerden con el correo
      */

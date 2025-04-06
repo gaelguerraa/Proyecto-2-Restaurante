@@ -31,17 +31,14 @@ public class frmRegistroCliente extends javax.swing.JFrame {
         String apellidoMaterno = this.txtApellidoM.getText();
         String telefono = this.txtTelefono.getText();
         String correo = this.txtCorreo.getText();
-        if (nombre.isEmpty() || apellidoPaterno.isEmpty() || apellidoMaterno.isEmpty() || telefono.isEmpty()) {
-            throw new PresentacionExcepcion("Todos los campos son obligatorios.");
-        }
         NuevoClienteFrecuenteDTO cliente = new NuevoClienteFrecuenteDTO(nombre, apellidoPaterno, apellidoMaterno, telefono, correo, 0.0, 0);
         try {
             clientesFrecuentesBO.registrarCliente(cliente);
             JOptionPane.showMessageDialog(this, "Se Registro el cliente", "ERROR", JOptionPane.INFORMATION_MESSAGE);
             this.limpiarFormulario();
-        } catch (NegocioException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.INFORMATION_MESSAGE);
-            this.limpiarFormulario();
+            
         }
 
     }
