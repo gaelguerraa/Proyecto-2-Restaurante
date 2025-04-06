@@ -15,16 +15,19 @@ import sistemarestaurantenegocio.implementaciones.ComandasBO;
 import sistemarestaurantenegocio.implementaciones.IngredientesBO;
 import sistemarestaurantenegocio.implementaciones.IngredientesProductosBO;
 import sistemarestaurantenegocio.implementaciones.ProductosBO;
+import sistemarestaurantenegocio.implementaciones.ReportesBO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.ClientesFrecuentesDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.ComandasDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.IngredientesDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.IngredientesProductosDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
+import sistemarestaurantepersistencia.DAOS_implementaciones.ReportesDAO;
 import sistemarestaurantepersistencia.interfaces.IClientesFrecuentesDAO;
 import sistemarestaurantepersistencia.interfaces.IComandasDAO;
 import sistemarestaurantepersistencia.interfaces.IIngredientesDAO;
 import sistemarestaurantepersistencia.interfaces.IIngredientesProductosDAO;
 import sistemarestaurantepersistencia.interfaces.IProductosDAO;
+import sistemarestaurantepersistencia.interfaces.IReportesDAO;
 
 /**
  *
@@ -64,9 +67,13 @@ public class FabricaObjetosNegocio {
         return comandasBO;
     }
     
-//    public static IReportesBO crearReporte(){
-//        
-//    }
+    public static IReportesBO crearReportesBO(){
+        IReportesDAO reportesDAO = new ReportesDAO();
+        
+        IReportesBO reportesBO = new ReportesBO(reportesDAO);
+        
+        return reportesBO;
+    }
 }
 
 

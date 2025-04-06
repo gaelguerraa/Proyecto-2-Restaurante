@@ -4,10 +4,9 @@
  */
 package sistemarestaurantepresentacion;
 
-import sistemarestaurantenegocio.IIngredientesProductosBO;
-import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
 import sistemarestaurantepresentacion.ModuloComandas.ControlNavegacionComandas;
+import sistemarestaurantepresentacion.ModuloIngredientes.ControlNavegacionIngredientes;
 import sistemarestaurantepresentacion.ModuloProductos.ControladorProductos;
 import sistemarestaurantepresentacion.ModuloProductos.frmRegistrarProducto;
 import sistemarestaurantepresentacion.ModuloReportes.ControlNavegacionReportes;
@@ -18,8 +17,6 @@ import sistemarestaurantepresentacion.ModuloReportes.ControlNavegacionReportes;
  */
 public class frmMenuPrincipal extends javax.swing.JFrame {
 
-    private IIngredientesProductosBO ingredientesProductosBO;
-    private IProductosBO productosBO;
     private static frmRegistrarProducto registrarProducto = null;
     
     /**
@@ -121,6 +118,11 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         btnIngredientes.setBackground(new java.awt.Color(171, 118, 46));
         btnIngredientes.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         btnIngredientes.setText("INGREDIENTES");
+        btnIngredientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngredientesActionPerformed(evt);
+            }
+        });
         jPanel4.add(btnIngredientes);
 
         btnClientes.setBackground(new java.awt.Color(171, 118, 46));
@@ -190,10 +192,10 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnComandasActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
-     //MODULO PRODUCTOS
-     ControladorProductos control = new ControladorProductos(ingredientesProductosBO, productosBO);
-     control.mostrarMenuProductos();
-     this.dispose();
+        //Arreglar Constructor
+        ControladorProductos control = new ControladorProductos();
+        control.mostrarMenuProductos();
+        this.dispose();
     
     }//GEN-LAST:event_btnProductosActionPerformed
 
@@ -210,6 +212,13 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         control.iniciarMenu();
         this.dispose();
     }//GEN-LAST:event_btnReportesActionPerformed
+
+    private void btnIngredientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngredientesActionPerformed
+        // TODO add your handling code here:
+        ControlNavegacionIngredientes control = new ControlNavegacionIngredientes();
+        control.IniciarFrmMenuIngredientes();
+        this.dispose();
+    }//GEN-LAST:event_btnIngredientesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
