@@ -217,9 +217,7 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(TablaProductos);
 
-        BotonActTabla.setBackground(new java.awt.Color(255, 204, 51));
-        BotonActTabla.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
-        BotonActTabla.setText("ACTUALIZAR TABLA");
+        BotonActTabla.setText("Actualizar Tabla");
         BotonActTabla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonActTablaActionPerformed(evt);
@@ -252,7 +250,7 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
                                 .addGap(26, 26, 26)))
                         .addGap(39, 39, 39))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
+                        .addGap(115, 115, 115)
                         .addComponent(BotonActTabla)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
