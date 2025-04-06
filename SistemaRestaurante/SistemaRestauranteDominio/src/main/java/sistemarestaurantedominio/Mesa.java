@@ -28,7 +28,8 @@ public class Mesa implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name="numero_mesa", nullable=false)
+    
+    @Column(name="numeroMesa", nullable=false)
     private Integer numeroMesa;
     
     @Column(name="capacidad", nullable=false)
@@ -45,6 +46,12 @@ public class Mesa implements Serializable {
     
     
     public Mesa(Integer numeroMesa, Integer capacidad) {
+        this.numeroMesa = numeroMesa;
+        this.capacidad = capacidad;
+    }
+
+    public Mesa(Long id, Integer numeroMesa, Integer capacidad) {
+        this.id = id;
         this.numeroMesa = numeroMesa;
         this.capacidad = capacidad;
     }

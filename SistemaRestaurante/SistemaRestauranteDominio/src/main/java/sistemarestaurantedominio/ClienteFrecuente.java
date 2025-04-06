@@ -42,6 +42,17 @@ public class ClienteFrecuente implements Serializable {
     @Column(name = "fecha_registro", nullable = false)
     private LocalDateTime fechaRegistro;
 
+    public ClienteFrecuente() {
+    }
+
+    public ClienteFrecuente(Long id, String nombre, String apellidoPaterno) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+    }
+    
+    
+    
     public Long getIdCliente() {
         return id;
     }

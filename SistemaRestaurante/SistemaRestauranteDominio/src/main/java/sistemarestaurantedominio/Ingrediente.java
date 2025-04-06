@@ -35,7 +35,6 @@ public class Ingrediente implements Serializable {
     @Column(name="nombre", nullable=false)
     private String nombre;
     
-    @Enumerated(EnumType.STRING)
     @Column(name="unidad_medida", nullable=false)
     @Enumerated(EnumType.STRING)
     private UnidadMedidaIngrediente unidadMedida;
