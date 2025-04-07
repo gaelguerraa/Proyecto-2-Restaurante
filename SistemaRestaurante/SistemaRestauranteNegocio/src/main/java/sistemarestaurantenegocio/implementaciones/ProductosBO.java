@@ -15,12 +15,6 @@ import sistemarestaurantenegocio.excepciones.NegocioException;
 import sistemarestaurantepersistencia.interfaces.IProductosDAO;
 
 /**
- * La clase {@code ProductosBO} maneja la lógica de negocio relacionada con la gestión de productos.
- * Implementa la interfaz {@code IProductosBO} y proporciona métodos para registrar y consultar productos.
- * 
- * <p>Esta clase se encarga de la validación de los datos ingresados antes de guardarlos en la base de datos,
- * incluyendo la validación del nombre del producto y su precio. Si los datos no son válidos, se lanza una
- * excepción {@code NegocioException}.</p>
  * 
  * @author gael_
  */
@@ -31,9 +25,9 @@ public class ProductosBO implements IProductosBO {
     private Float PRECIO_MAXIMO_EJEMPLO = 99999.9f;
 
       /**
-     * Constructor de la clase {@code ProductosBO}.
+     * Constructor de la clase 
      * 
-     * @param productosDAO La instancia de {@code IProductosDAO} que se utilizará para interactuar con la base de datos.
+     * @param productosDAO La instancia de ProductosDAO que se utilizará para interactuar con la base de datos.
      */
     public ProductosBO(IProductosDAO productosDAO){
         this.productosDAO=productosDAO;
@@ -42,13 +36,8 @@ public class ProductosBO implements IProductosBO {
      /**
      * Registra un nuevo producto después de realizar las validaciones correspondientes.
      * 
-     * <p>El nombre del producto no puede estar vacío y solo puede contener letras y espacios.
-     * El precio debe ser un número positivo, menor o igual al precio máximo permitido y debe cumplir con un
-     * formato específico que permite números, comas, puntos y el símbolo '$'. Si alguna de estas condiciones no
-     * se cumple, se lanzará una excepción {@code NegocioException} con un mensaje adecuado.</p>
-     * 
-     * @param nuevoProducto El objeto {@code NuevoProductoDTO} que contiene los datos del nuevo producto a registrar.
-     * @return El objeto {@code Producto} guardado.
+     * @param nuevoProducto El NuevoProductoDTO que contiene los datos del nuevo producto a registrar.
+     * @return El Producto guardado.
      * @throws NegocioException Si alguno de los datos no es válido (nombre vacío, precio incorrecto o formato inválido).
      */
     @Override
@@ -74,8 +63,7 @@ public class ProductosBO implements IProductosBO {
      /**
      * Consulta todos los productos registrados en la base de datos.
      * 
-     * @return Una lista de productos almacenados en la base de datos.
-     * @throws NegocioException Si ocurre algún error al consultar los productos.
+     * @return Una lista de productos almacenados en la base de datos.     
      */
     @Override
     public List<Producto> consultarProducto() {
@@ -120,11 +108,23 @@ public class ProductosBO implements IProductosBO {
         return this.productosDAO.obtenerProductosPorTipoNombre(filtroBusqueda, tipo);
     }
 
+    /**
+     * Obtiene una lista de Productos con su nombre y tipo mas los ingredientes que estan registrados con el producto
+     * con su unidad de medida y su cantidad.
+     * 
+     * @return Lista de ProductoIngredienteDTO.  
+     */
     @Override
     public List<ProductoIngredienteDTO> obtenerProductosJoin() {
         return this.productosDAO.obtenerProductosJoin();
     }
 
+    /**
+     * Obtiene el producto que se selecciona en frmBuscarProducto para buscar un producto e insertarlo en una comanda.
+     * 
+     * @param nombre del producto seleccionado.
+     * @return Producto seleccionado.
+     */
     @Override
     public Producto consultarProductoPorNombre(String nombre) {
         return this.productosDAO.consultarProductoPorNombre(nombre);
