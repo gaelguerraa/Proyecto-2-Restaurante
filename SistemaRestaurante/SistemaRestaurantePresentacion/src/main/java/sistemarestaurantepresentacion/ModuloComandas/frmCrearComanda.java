@@ -44,7 +44,6 @@ public class frmCrearComanda extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(850, 550));
-        setPreferredSize(new java.awt.Dimension(850, 550));
 
         jPanel1.setBackground(new java.awt.Color(241, 209, 165));
 

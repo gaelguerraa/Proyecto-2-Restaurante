@@ -33,8 +33,8 @@ public class frmMenuComandas extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnCrearComanda = new javax.swing.JButton();
+        btnVerComandas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -72,13 +72,23 @@ public class frmMenuComandas extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(241, 209, 165));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        jButton1.setBackground(new java.awt.Color(171, 118, 46));
-        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
-        jButton1.setText("CREAR COMANDA");
+        btnCrearComanda.setBackground(new java.awt.Color(171, 118, 46));
+        btnCrearComanda.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
+        btnCrearComanda.setText("CREAR COMANDA");
+        btnCrearComanda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearComandaActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(171, 118, 46));
-        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
-        jButton2.setText("VER COMANDAS");
+        btnVerComandas.setBackground(new java.awt.Color(171, 118, 46));
+        btnVerComandas.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
+        btnVerComandas.setText("VER COMANDAS");
+        btnVerComandas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerComandasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -87,17 +97,17 @@ public class frmMenuComandas extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(80, 80, 80)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCrearComanda, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                    .addComponent(btnVerComandas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(80, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(62, 62, 62)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCrearComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnVerComandas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(66, Short.MAX_VALUE))
         );
 
@@ -144,12 +154,20 @@ public class frmMenuComandas extends javax.swing.JFrame {
         control.salir();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void btnVerComandasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerComandasActionPerformed
+        control.verListaComandas();
+    }//GEN-LAST:event_btnVerComandasActionPerformed
+
+    private void btnCrearComandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearComandaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCrearComandaActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCrearComanda;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnVerComandas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

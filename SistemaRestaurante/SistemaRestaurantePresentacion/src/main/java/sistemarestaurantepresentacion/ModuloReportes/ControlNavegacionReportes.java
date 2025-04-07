@@ -1,16 +1,22 @@
 package sistemarestaurantepresentacion.ModuloReportes;
 
-import sistemarestaurantenegocio.IReportesBO;
+import java.time.LocalDate;
+import sistemarestaurantenegocio.IClientesFrecuentesBO;
+import sistemarestaurantenegocio.IComandasBO;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
 import sistemarestaurantepresentacion.frmMenuPrincipal;
 
 public class ControlNavegacionReportes {
-    IReportesBO reportesBO;
+    IComandasBO comandasBO;
+    IClientesFrecuentesBO clientesBO;
     frmMenuPrincipal frameMenuPrincipal;
     frmMenuReportes frameMenuReportes;
+    frmReportesComandas frameReportesComandas;
+    frmReportesComandasSeleccionarFecha frameComandaSeleccionFecha;
 
     public ControlNavegacionReportes() {
-        reportesBO = FabricaObjetosNegocio.crearReportesBO();
+        comandasBO = FabricaObjetosNegocio.crearComandasBO();
+        clientesBO = FabricaObjetosNegocio.crearClientesFrecuentesBO();
     }
     
     public void iniciarMenu(){
@@ -22,5 +28,29 @@ public class ControlNavegacionReportes {
         this.frameMenuReportes.dispose();
         frameMenuPrincipal = new frmMenuPrincipal();
         frameMenuPrincipal.setVisible(true);
+    }
+    
+    public void seleccionFechaComanda(){
+        this.frameComandaSeleccionFecha = new frmReportesComandasSeleccionarFecha(this);
+        frameComandaSeleccionFecha.setVisible(true);
+        frameMenuReportes.dispose();
+    }
+    
+    public void volverMenu(){
+        this.frameComandaSeleccionFecha.dispose();
+        this.frameMenuReportes.setVisible(true);
+        
+    }
+    
+    public void mostrarReporteComandas(LocalDate fechaInicio, LocalDate fechaFin){
+        this.frameComandaSeleccionFecha.dispose();
+        this.frameReportesComandas = new frmReportesComandas(this, comandasBO, fechaInicio, fechaFin);
+        frameReportesComandas.setVisible(true);
+    }
+    
+    public void regresarSeleccionFecha(){
+        this.frameReportesComandas.dispose();
+        this.frameComandaSeleccionFecha = new frmReportesComandasSeleccionarFecha(this);
+        frameComandaSeleccionFecha.setVisible(true);
     }
 }
