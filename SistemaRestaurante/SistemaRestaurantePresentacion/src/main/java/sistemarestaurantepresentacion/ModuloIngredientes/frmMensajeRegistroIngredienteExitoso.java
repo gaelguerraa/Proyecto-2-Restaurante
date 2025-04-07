@@ -39,8 +39,18 @@ public class FrmMensajeRegistroIngredienteExitoso extends javax.swing.JFrame {
         lblBuscarIngrediente.setText("REGISTRO INGREDIENTE");
 
         btnRegistrarIngrediente.setText("REGISTRAR OTRO INGREDIENTE");
+        btnRegistrarIngrediente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarIngredienteActionPerformed(evt);
+            }
+        });
 
         btnInicio.setText("INICIO");
+        btnInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInicioActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("El ingrediente se registro correctamente");
 
@@ -76,6 +86,18 @@ public class FrmMensajeRegistroIngredienteExitoso extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegistrarIngredienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarIngredienteActionPerformed
+        // TODO add your handling code here:
+        control.IniciarFrmRegistrarIngrediente();
+        dispose();
+    }//GEN-LAST:event_btnRegistrarIngredienteActionPerformed
+
+    private void btnInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioActionPerformed
+        // TODO add your handling code here:
+        control.IniciarFrmMenuIngredientes();
+        dispose();
+    }//GEN-LAST:event_btnInicioActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInicio;

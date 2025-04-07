@@ -35,6 +35,7 @@ public class Ingrediente implements Serializable {
     @Column(name="nombre", nullable=false)
     private String nombre;
     
+    @Enumerated(EnumType.STRING)
     @Column(name="unidad_medida", nullable=false)
     private UnidadMedidaIngrediente unidadMedida;
     
@@ -54,8 +55,13 @@ public class Ingrediente implements Serializable {
         this.unidadMedida = unidadMedida;
         this.stock = stock;
     }
-    
-    
+
+    public Ingrediente(Long id, String nombre, UnidadMedidaIngrediente unidadMedida, Float stock) {
+        this.id = id;
+        this.nombre = nombre;
+        this.unidadMedida = unidadMedida;
+        this.stock = stock;
+    }
     
     /*Metodos*/
     

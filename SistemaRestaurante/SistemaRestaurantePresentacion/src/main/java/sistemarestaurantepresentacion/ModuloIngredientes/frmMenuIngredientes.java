@@ -62,6 +62,11 @@ public class FrmMenuIngredientes extends javax.swing.JFrame {
         });
 
         btnVolverMenuPrincipal.setText("VOLVER");
+        btnVolverMenuPrincipal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverMenuPrincipalActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlMenuIngredientesLayout = new javax.swing.GroupLayout(pnlMenuIngredientes);
         pnlMenuIngredientes.setLayout(pnlMenuIngredientesLayout);
@@ -128,6 +133,11 @@ public class FrmMenuIngredientes extends javax.swing.JFrame {
         }
         dispose();
     }//GEN-LAST:event_btnBuscarIngredienteActionPerformed
+
+    private void btnVolverMenuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuPrincipalActionPerformed
+        // TODO add your handling code here:
+        control.salir();
+    }//GEN-LAST:event_btnVolverMenuPrincipalActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarIngrediente;

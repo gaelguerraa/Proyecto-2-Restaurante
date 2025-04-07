@@ -6,6 +6,7 @@ package sistemarestaurantepersistencia.DAOS_implementaciones;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -100,27 +101,56 @@ public class IngredientesDAO implements IIngredientesDAO {
         List<Ingrediente> ingredienteEncontrado = em.createQuery(criteria).getResultList();
         em.close();
         
-        return ingredienteEncontrado;
-        
+        return ingredienteEncontrado;        
     }
     
     //Verificar si funciona
     @Override
     public Integer aumentarStock(Ingrediente ingredienteStock, Float cantidadAumentar) {
         EntityManager  em = ManejadorConexiones.getEntityManager();
+        
+        //Registros afectados
+        int resultado = 0; 
         em.getTransaction().begin();
+        String jpqlQuery = """
+                           UPDATE Ingrediente i SET i.stock = i.stock + :cantidadAumentar
+                           WHERE i.id = :idIngrediente
+                           
+                           """;
+        Query query = em.createQuery(jpqlQuery);
+        query.setParameter("idIngrediente", ingredienteStock.getId());
+        query.setParameter("cantidadAumentar", cantidadAumentar);
+       
+        resultado = query.executeUpdate();
         
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaUpdate<Ingrediente> update = builder.createCriteriaUpdate(Ingrediente.class);
-        Root<Ingrediente> root = update.from(Ingrediente.class);
-        
-        update = update.set(root.get("stock"), cantidadAumentar).where(builder.equal(root.get("id"), ingredienteStock.getId()));
-        
-        int resultado = em.createQuery(update).executeUpdate();
         em.getTransaction().commit();
         
         return resultado;
     }
+
+    @Override
+    public Integer disminuirStock(Ingrediente ingredienteStock, Float cantidadDisminuir) {
+        EntityManager  em = ManejadorConexiones.getEntityManager();
+        
+        //Registros afectados
+        int resultado = 0; 
+        em.getTransaction().begin();
+        String jpqlQuery = """
+                           UPDATE Ingrediente i SET i.stock = i.stock - :cantidadDisminuir
+                           WHERE i.id = :idIngrediente
+                           
+                           """;
+        Query query = em.createQuery(jpqlQuery);
+        query.setParameter("idIngrediente", ingredienteStock.getId());
+        query.setParameter("cantidadDisminuir", cantidadDisminuir);
+       
+        resultado = query.executeUpdate();
+        
+        em.getTransaction().commit();
+        
+        return resultado;
+    }
+
 
     
     

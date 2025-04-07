@@ -69,11 +69,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="REGISTRAR OTRO INGREDIENTE"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistrarIngredienteActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnInicio">
       <Properties>
         <Property name="text" type="java.lang.String" value="INICIO"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInicioActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>

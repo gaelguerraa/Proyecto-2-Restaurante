@@ -214,7 +214,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReportesActionPerformed
 
     private void btnIngredientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngredientesActionPerformed
-        // TODO add your handling code here:
+        // MODULO INGREDIENTES
         ControlNavegacionIngredientes control = new ControlNavegacionIngredientes();
         control.IniciarFrmMenuIngredientes();
         this.dispose();

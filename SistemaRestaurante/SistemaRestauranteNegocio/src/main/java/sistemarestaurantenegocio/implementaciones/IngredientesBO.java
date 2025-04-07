@@ -21,6 +21,7 @@ public class IngredientesBO implements IIngredientesBO{
     private IIngredientesDAO ingredienteDAO;
     private final Float CERO = 0.0f;
     private final int LIMITE_CARACTERES_NOMBRE = 50;
+    
 
     public IngredientesBO(IIngredientesDAO ingredienteDAO) {
         this.ingredienteDAO = ingredienteDAO;
@@ -28,6 +29,11 @@ public class IngredientesBO implements IIngredientesBO{
 
     @Override
     public Ingrediente registrarIngrediente(NuevoIngredienteDTO nuevoIngrediente) throws NegocioException{
+        //Obtiene todos los ingredientes para validar que no haya 2 con mismo nombre y unidad de medida
+        List<Ingrediente> ingredientes = this.consultarIngredientes();
+        
+        
+        
         /*Validaciones*/
         /*Nombre vacio*/
         if (nuevoIngrediente.getNombre().isEmpty()) {
@@ -35,13 +41,21 @@ public class IngredientesBO implements IIngredientesBO{
         }
         
         /*Stock menor a 0*/
-        if (nuevoIngrediente.getStock()<CERO) {
+        if (nuevoIngrediente.getStock()<CERO||nuevoIngrediente.getStock()==null) {
             throw new NegocioException("El stock inicial no puede ser menor a 0");
         }
         
         /*Validar que el nombre pueda ser el mismo pero la medida no*/
         
-        //Agregar mas validaciones is hacen falta
+        for (Ingrediente ingrediente : ingredientes) {
+            boolean existeNombre = ingrediente.getNombre().trim().toLowerCase().equals(nuevoIngrediente.getNombre().trim().toLowerCase());
+            boolean existeUnidadMedida = ingrediente.getUnidadMedida().equals(nuevoIngrediente.getUnidadMedida());
+            
+            if (existeNombre && existeUnidadMedida) {
+                throw new NegocioException("No puede haber 2 ingredientes con el mismo nombre y unidad de medida");
+            }
+        }
+        
         
         return ingredienteDAO.guardarIngrediente(nuevoIngrediente);
     }
@@ -49,6 +63,10 @@ public class IngredientesBO implements IIngredientesBO{
     @Override
     public List<Ingrediente> consultarIngredientes() throws NegocioException {
         //Agregar mas validaciones is hacen falta
+        if (ingredienteDAO.obtenerIngredientes().isEmpty()) {
+            throw new NegocioException("No se encontro ningun ingrediente");
+        }
+        
         return ingredienteDAO.obtenerIngredientes();
     }
 
@@ -60,6 +78,9 @@ public class IngredientesBO implements IIngredientesBO{
         if (nombre.length()>=LIMITE_CARACTERES_NOMBRE) {
             throw new NegocioException("Alcanzaste el limite de caracteres para el nombre");
         }
+        if (ingredienteDAO.obtenerIngredientesPorNombre(nombre).isEmpty()) {
+            throw new NegocioException("No se encontro ningun ingrediente");
+        }
         
         //Agregar mas validaciones is hacen falta
         
@@ -68,6 +89,9 @@ public class IngredientesBO implements IIngredientesBO{
 
     @Override
     public List<Ingrediente> consultarIngredientesPorUnidadMedida(String unidadMedida) throws NegocioException {
+        if (ingredienteDAO.obtenerIngredientesPorUnidadMedida(unidadMedida).isEmpty()) {
+            throw new NegocioException("No se encontro ningun ingrediente");
+        }
         return ingredienteDAO.obtenerIngredientesPorUnidadMedida(unidadMedida);
     }
 
@@ -84,8 +108,19 @@ public class IngredientesBO implements IIngredientesBO{
 
     @Override
     public List<Ingrediente> consultarIngredientePorNombreYMedida(String nombre, String unidadMedida) throws NegocioException {
-        
+        if (ingredienteDAO.obtenerIngredientePorNombreYMedida(nombre, unidadMedida).isEmpty()) {
+            throw new NegocioException("No se encontro ningun ingrediente");
+        }
         return ingredienteDAO.obtenerIngredientePorNombreYMedida(nombre, unidadMedida);
+    }
+
+    @Override
+    public Integer disminuirStock(Ingrediente ingredienteStock, Float cantidadDisminuir) throws NegocioException {
+        if (cantidadDisminuir>ingredienteStock.getStock()) {
+            throw new NegocioException("La cantidad no puede ser mayor al stock actual");
+        }
+        
+        return ingredienteDAO.disminuirStock(ingredienteStock, cantidadDisminuir);
     }
     
     

@@ -7,6 +7,7 @@ package sistemarestaurantepresentacion.ModuloIngredientes;
 import sistemarestaurantenegocio.IIngredientesBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
+import sistemarestaurantepresentacion.frmMenuPrincipal;
 
 /**
  *
@@ -18,6 +19,7 @@ public class ControlNavegacionIngredientes {
     private FrmBuscarIngredientes frmBuscarIngredientes;
     private FrmMensajeRegistroIngredienteExitoso frmMensajeRegistroIngredienteExitoso;
     private IIngredientesBO ingredientesBO;
+    frmMenuPrincipal frameMenuPrincipal;
 
     public ControlNavegacionIngredientes() {
         this.ingredientesBO = FabricaObjetosNegocio.crearIngredientesBO();
@@ -45,6 +47,12 @@ public class ControlNavegacionIngredientes {
         this.frmMensajeRegistroIngredienteExitoso = new FrmMensajeRegistroIngredienteExitoso(this);
         this.frmMensajeRegistroIngredienteExitoso.setVisible(true);
         this.frmMensajeRegistroIngredienteExitoso.setLocationRelativeTo(null);
+    }
+    
+    public void salir() {
+        this.frmMenuIngredientes.dispose();
+        frameMenuPrincipal = new frmMenuPrincipal();
+        frameMenuPrincipal.setVisible(true);
     }
     
 }

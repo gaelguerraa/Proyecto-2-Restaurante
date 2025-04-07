@@ -6,6 +6,7 @@ package sistemarestaurantepresentacion.ModuloIngredientes;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import sistemarestaurantedominio.UnidadMedidaIngrediente;
 import sistemarestaurantedominio.dtos.NuevoIngredienteDTO;
 import sistemarestaurantenegocio.IIngredientesBO;
@@ -18,6 +19,8 @@ import sistemarestaurantenegocio.excepciones.NegocioException;
 public class FrmRegistrarIngrediente extends javax.swing.JFrame {
     private ControlNavegacionIngredientes control;
     private IIngredientesBO ingredientesBO;
+    private static final Logger LOG = Logger.getLogger(FrmRegistrarIngrediente.class.getName());
+    
     /**
      * Creates new form frmRegistrarIngrediente
      */
@@ -153,12 +156,8 @@ public class FrmRegistrarIngrediente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        try {
-            // TODO add your handling code here:
-            this.registrarIngrediente();
-        } catch (NegocioException ex) {
-            Logger.getLogger(FrmRegistrarIngrediente.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // TODO add your handling code here:
+        this.registrarIngrediente();
         
     }//GEN-LAST:event_btnRegistrarActionPerformed
     
@@ -168,16 +167,29 @@ public class FrmRegistrarIngrediente extends javax.swing.JFrame {
         }
     }
     
-    private void registrarIngrediente() throws NegocioException{
+    private void registrarIngrediente(){
         String nombreIngrediente = this.txtNombreIngrediente.getText();
         String unidadMedida = this.cmbUnidadMedida.getSelectedItem().toString();
         String sotck = this.txtStock.getText();
         
-        Float stockFloat = Float.valueOf(sotck);
         
-        NuevoIngredienteDTO nuevoIngrediente = new NuevoIngredienteDTO(nombreIngrediente, UnidadMedidaIngrediente.valueOf(unidadMedida), stockFloat);
         
-        this.ingredientesBO.registrarIngrediente(nuevoIngrediente);
+        try {
+            Float stockFloat = Float.valueOf(sotck);
+            NuevoIngredienteDTO nuevoIngrediente = new NuevoIngredienteDTO(nombreIngrediente, UnidadMedidaIngrediente.valueOf(unidadMedida), stockFloat);
+            System.out.println("Voy a llamar a ingredientesBO.registrarIngrediente");
+            this.ingredientesBO.registrarIngrediente(nuevoIngrediente);
+            control.IniciarFrmMensajeRegistroIngredienteExitoso();
+            dispose();
+            
+        } catch (NegocioException e) {
+            LOG.severe("No fue posible registrar el ingrediente: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage(),"Error" , JOptionPane.WARNING_MESSAGE);
+            
+        }catch (NumberFormatException e) {
+            LOG.severe("No fue posible registrar el ingrediente: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "El stock debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        }    
         this.limpiarFormulario();
     }
     
