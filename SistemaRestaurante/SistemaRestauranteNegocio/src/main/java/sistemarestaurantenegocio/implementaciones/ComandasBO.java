@@ -3,6 +3,7 @@ package sistemarestaurantenegocio.implementaciones;
 import java.time.LocalDate;
 import java.util.List;
 import sistemarestaurantedominio.Comanda;
+import sistemarestaurantedominio.Mesa;
 import sistemarestaurantedominio.dtos.NuevaComandaDTO;
 import sistemarestaurantenegocio.IComandasBO;
 import sistemarestaurantepersistencia.interfaces.IComandasDAO;
@@ -29,6 +30,21 @@ public class ComandasBO implements IComandasBO {
     @Override
     public List<NuevaComandaDTO> consultarComandasPorRangoFechas(LocalDate fechaInicio, LocalDate fechaFin) {
         return comandasDAO.consultarComandasPorRangoFechas(fechaInicio, fechaFin);
+    }
+
+    @Override
+    public List<Mesa> obtenerMesas() {
+        return comandasDAO.obtenerMesas();
+    }
+
+    @Override
+    public Mesa buscarMesaPorNumero(int numeroMesa) {
+        return comandasDAO.buscarMesaPorNumero(numeroMesa);
+    }
+
+    @Override
+    public int obtenerConsecutivoDelDia() {
+        return comandasDAO.obtenerConsecutivoDelDia();
     }
     
 }

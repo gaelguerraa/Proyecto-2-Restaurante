@@ -117,7 +117,9 @@ public class DetallesComanda implements Serializable {
         this.comanda = comanda;
     }
 
-    
+    public Float getTotal(){
+        return producto.getPrecio() * cantidadProducto;
+    }
     
       
 

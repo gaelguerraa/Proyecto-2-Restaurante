@@ -68,7 +68,7 @@ public class Producto implements Serializable {
         this.nombre = nombre;
     }
 
-    public double getPrecio() {
+    public Float getPrecio() {
         return precio;
     }
 
