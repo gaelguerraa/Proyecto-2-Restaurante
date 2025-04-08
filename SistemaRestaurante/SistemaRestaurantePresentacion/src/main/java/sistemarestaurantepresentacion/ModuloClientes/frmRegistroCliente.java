@@ -34,7 +34,7 @@ public class frmRegistroCliente extends javax.swing.JFrame {
         NuevoClienteFrecuenteDTO cliente = new NuevoClienteFrecuenteDTO(nombre, apellidoPaterno, apellidoMaterno, telefono, correo, 0.0, 0);
         try {
             clientesFrecuentesBO.registrarCliente(cliente);
-            JOptionPane.showMessageDialog(this, "Se Registro el cliente", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Se Registro el cliente!", "ERROR", JOptionPane.INFORMATION_MESSAGE);
             this.limpiarFormulario();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.INFORMATION_MESSAGE);

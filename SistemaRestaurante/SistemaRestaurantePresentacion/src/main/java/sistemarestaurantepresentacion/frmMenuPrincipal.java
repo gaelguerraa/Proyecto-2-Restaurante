@@ -7,8 +7,8 @@ package sistemarestaurantepresentacion;
 import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
 import sistemarestaurantepresentacion.ModuloComandas.ControlNavegacionComandas;
 import sistemarestaurantepresentacion.ModuloIngredientes.ControlNavegacionIngredientes;
+import sistemarestaurantepresentacion.ModuloMesas.frmMesas;
 import sistemarestaurantepresentacion.ModuloProductos.ControlNavegacionProductos;
-import sistemarestaurantepresentacion.ModuloProductos.frmRegistrarProducto;
 import sistemarestaurantepresentacion.ModuloReportes.ControlNavegacionReportes;
 
 /**
@@ -16,8 +16,7 @@ import sistemarestaurantepresentacion.ModuloReportes.ControlNavegacionReportes;
  * @author jorge
  */
 public class frmMenuPrincipal extends javax.swing.JFrame {
-
-    private static frmRegistrarProducto registrarProducto = null;
+    
     
     /**
      * Creates new form frmMenuPrincipal
@@ -47,6 +46,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         btnIngredientes = new javax.swing.JButton();
         btnClientes = new javax.swing.JButton();
         btnReportes = new javax.swing.JButton();
+        btnMesas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(241, 209, 165));
@@ -63,7 +63,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,7 +92,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         );
 
         jPanel4.setBackground(new java.awt.Color(241, 209, 165));
-        jPanel4.setLayout(new java.awt.GridLayout(5, 2));
+        jPanel4.setLayout(new java.awt.GridLayout(6, 2));
 
         btnComandas.setBackground(new java.awt.Color(171, 118, 46));
         btnComandas.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
@@ -135,10 +135,10 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         });
         jPanel4.add(btnClientes);
 
-        btnReportes.setText("REPORTES");
         btnReportes.setBackground(new java.awt.Color(171, 118, 46));
-        btnReportes.setBorder(null);
         btnReportes.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        btnReportes.setText("REPORTES");
+        btnReportes.setBorder(null);
         btnReportes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnReportes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,6 +146,16 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
             }
         });
         jPanel4.add(btnReportes);
+
+        btnMesas.setBackground(new java.awt.Color(171, 118, 46));
+        btnMesas.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        btnMesas.setText("MESAS");
+        btnMesas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMesasActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnMesas);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -156,7 +166,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(162, 162, 162)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,11 +230,18 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnIngredientesActionPerformed
 
+    private void btnMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMesasActionPerformed
+        frmMesas mesas = new frmMesas();
+        mesas.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnMesasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnComandas;
     private javax.swing.JButton btnIngredientes;
+    private javax.swing.JButton btnMesas;
     private javax.swing.JButton btnProductos;
     private javax.swing.JButton btnReportes;
     private javax.swing.JLabel jLabel1;

@@ -131,12 +131,6 @@ public class ClientesFrecuentesDAO implements IClientesFrecuentesDAO {
         return clientes;
     }
 
-    @Override
-    public List<ClienteFrecuente> buscarClientesPorMinimoVisitas(int minimoVisitas) {
-        //pendiente
-        return null;
-    }
-
     /**
      * Metodo que permite obtener las comandas de un cliente
      *
@@ -260,6 +254,24 @@ public class ClientesFrecuentesDAO implements IClientesFrecuentesDAO {
         TypedQuery<ClienteFrecuente> query = entityManager.createQuery(criteria);
         List<ClienteFrecuente> clientes = query.getResultList();
         return clientes;
+    }
+
+    @Override
+    public List<ClienteFrecuente> buscarClientesPorMinimoVisitas(int minimoVisitas) {
+        EntityManager em = ManejadorConexiones.getEntityManager();
+        String jpql = """
+        SELECT c
+        FROM ClienteFrecuente c
+        WHERE (
+            SELECT COUNT(co)
+            FROM Comanda co
+            WHERE co.cliente = c
+        ) >= :minimoVisitas
+        """;
+
+        return em.createQuery(jpql, ClienteFrecuente.class)
+                .setParameter("minimoVisitas", minimoVisitas)
+                .getResultList();
     }
 
 }

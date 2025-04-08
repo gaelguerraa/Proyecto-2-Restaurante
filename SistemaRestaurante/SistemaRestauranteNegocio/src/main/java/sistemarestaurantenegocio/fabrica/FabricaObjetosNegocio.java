@@ -8,21 +8,25 @@ import sistemarestaurantenegocio.IClientesFrecuentesBO;
 import sistemarestaurantenegocio.IComandasBO;
 import sistemarestaurantenegocio.IIngredientesBO;
 import sistemarestaurantenegocio.IIngredientesProductosBO;
+import sistemarestaurantenegocio.IMesasBO;
 import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.implementaciones.ClientesFrecuentesBO;
 import sistemarestaurantenegocio.implementaciones.ComandasBO;
 import sistemarestaurantenegocio.implementaciones.IngredientesBO;
 import sistemarestaurantenegocio.implementaciones.IngredientesProductosBO;
+import sistemarestaurantenegocio.implementaciones.MesasBO;
 import sistemarestaurantenegocio.implementaciones.ProductosBO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.ClientesFrecuentesDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.ComandasDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.IngredientesDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.IngredientesProductosDAO;
+import sistemarestaurantepersistencia.DAOS_implementaciones.MesasDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
 import sistemarestaurantepersistencia.interfaces.IClientesFrecuentesDAO;
 import sistemarestaurantepersistencia.interfaces.IComandasDAO;
 import sistemarestaurantepersistencia.interfaces.IIngredientesDAO;
 import sistemarestaurantepersistencia.interfaces.IIngredientesProductosDAO;
+import sistemarestaurantepersistencia.interfaces.IMesasDAO;
 import sistemarestaurantepersistencia.interfaces.IProductosDAO;
 
 /**
@@ -60,6 +64,12 @@ public class FabricaObjetosNegocio {
         IComandasDAO comandasDAO = new ComandasDAO();
         IComandasBO comandasBO = new ComandasBO(comandasDAO);
         return comandasBO;
+    }
+    
+    public static IMesasBO crearMesasBO(){
+        IMesasDAO mesasDAO = new MesasDAO();
+        IMesasBO mesasBO = new MesasBO(mesasDAO);
+        return mesasBO;
     }
    
 }

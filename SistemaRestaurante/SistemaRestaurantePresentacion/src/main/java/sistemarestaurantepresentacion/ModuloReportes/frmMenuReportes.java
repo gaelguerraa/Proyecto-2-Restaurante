@@ -74,18 +74,23 @@ public class frmMenuReportes extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(241, 209, 165));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
+        btnComandas.setText("COMANDAS");
         btnComandas.setBackground(new java.awt.Color(171, 118, 46));
         btnComandas.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
-        btnComandas.setText("COMANDAS");
         btnComandas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnComandasActionPerformed(evt);
             }
         });
 
+        btnClientes.setText("CLIENTES FRECUENTES");
         btnClientes.setBackground(new java.awt.Color(171, 118, 46));
         btnClientes.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
-        btnClientes.setText("CLIENTES FRECUENTES");
+        btnClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClientesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -154,6 +159,10 @@ public class frmMenuReportes extends javax.swing.JFrame {
     private void btnComandasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComandasActionPerformed
         control.seleccionFechaComanda();
     }//GEN-LAST:event_btnComandasActionPerformed
+
+    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
+       control.reporteClientes();
+    }//GEN-LAST:event_btnClientesActionPerformed
 
     
 

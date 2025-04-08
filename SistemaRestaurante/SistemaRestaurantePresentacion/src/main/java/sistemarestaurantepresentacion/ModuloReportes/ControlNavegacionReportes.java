@@ -13,6 +13,7 @@ public class ControlNavegacionReportes {
     frmMenuReportes frameMenuReportes;
     frmReportesComandas frameReportesComandas;
     frmReportesComandasSeleccionarFecha frameComandaSeleccionFecha;
+    frmReportesClientesFrecuentes frameReportesClientesFrecuentes;
 
     public ControlNavegacionReportes() {
         comandasBO = FabricaObjetosNegocio.crearComandasBO();
@@ -52,5 +53,17 @@ public class ControlNavegacionReportes {
         this.frameReportesComandas.dispose();
         this.frameComandaSeleccionFecha = new frmReportesComandasSeleccionarFecha(this);
         frameComandaSeleccionFecha.setVisible(true);
+    }
+    
+    public void reporteClientes(){
+        this.frameMenuReportes.dispose();
+        this.frameReportesClientesFrecuentes = new frmReportesClientesFrecuentes(this, clientesBO);
+        frameReportesClientesFrecuentes.setVisible(true);
+    }
+    
+    public void regresarReporteClientes(){
+        this.frameReportesClientesFrecuentes.dispose();
+        this.frameMenuReportes = new frmMenuReportes(this);
+        frameMenuReportes.setVisible(true);
     }
 }

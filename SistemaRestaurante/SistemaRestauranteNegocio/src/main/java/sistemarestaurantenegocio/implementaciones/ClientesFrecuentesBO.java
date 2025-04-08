@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package sistemarestaurantenegocio.implementaciones;
 
 import java.time.LocalDateTime;
@@ -239,5 +235,22 @@ public class ClientesFrecuentesBO implements IClientesFrecuentesBO {
         return clientesFrecuentesDAO.obtenerClientesPorCorreo(correo).stream()
                 .peek(cliente -> cliente.setTelefono(desencriptarTelefono(cliente.getTelefono())))
                 .toList();
+    }
+
+    /**
+     * Metodo que retorna un listado de clientes segun el numero minimo de visitas otorgado (comandas relacionadas)
+     * @param minimoVisita Recibe como parametro un entero siendo el numero de visitas minimas
+     * @return Regresa una lista de clientes los cuales cumplan con el minimo de visitas
+     * @throws NegocioException Lanza la excepcion en caso de que no se pudo acceder a los datos
+     */
+    @Override
+    public List<ClienteFrecuente> consultarClientesMinimoVisita(int minimoVisita) throws NegocioException {
+        try{
+            return clientesFrecuentesDAO.buscarClientesPorMinimoVisitas(minimoVisita);
+        }
+        catch(Exception ex){
+            throw new NegocioException("No se pudo obtener el listado de clientes");
+        }
+        
     }
 }

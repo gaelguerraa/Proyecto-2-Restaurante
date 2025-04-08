@@ -178,6 +178,15 @@ public class ClientesFrecuentesDAOTest {
 //        assertNotNull(clientesObtenidos);
 //        assertEquals(CLIENTES_ESPERADOS, clientesObtenidos.size());
 //    }
+//    
+//    @Test
+//    public void testConsultarClientesMinimoVisita(){
+//        ClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
+//        List<ClienteFrecuente> clientesObtenidos = clientesFrecuentesDAO.buscarClientesPorMinimoVisitas(3);
+//        int CLIENTES_ESPERADOS = 1;
+//        assertNotNull(clientesObtenidos);
+//        assertEquals(CLIENTES_ESPERADOS, clientesObtenidos.size());
+//    }
 
 
     

@@ -21,8 +21,6 @@ public interface IClientesFrecuentesDAO {
     
     public abstract List<ClienteFrecuente> obtenerClientesPorCorreo(String correo);
     
-    public abstract List<ClienteFrecuente> buscarClientesPorMinimoVisitas(int minimoVisitas);
-    
     public abstract List<Comanda> obtenerComandasPorCliente(ClienteFrecuente cliente);
     
     public abstract float obtenerMontoGastado(ClienteFrecuente cliente);
@@ -30,5 +28,7 @@ public interface IClientesFrecuentesDAO {
     public abstract int obtenerNumeroVisitas(ClienteFrecuente cliente);
     
     public abstract LocalDateTime obtenerUltimaVisita(ClienteFrecuente cliente);
+    
+    public abstract List<ClienteFrecuente> buscarClientesPorMinimoVisitas(int minimoVisitas);
     
 }
