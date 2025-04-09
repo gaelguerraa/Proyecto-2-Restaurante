@@ -29,7 +29,7 @@ public class Mesa implements Serializable {
     private Long id;
     
     
-    @Column(name="numeroMesa", nullable=false)
+    @Column(name="numero_mesa", nullable=false)
     private Integer numeroMesa;
     
     @Column(name="capacidad", nullable=false)

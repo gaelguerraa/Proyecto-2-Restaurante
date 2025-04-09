@@ -10,6 +10,7 @@ import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
 import sistemarestaurantenegocio.implementaciones.ProductosBO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
+import sistemarestaurantepresentacion.frmMenuPrincipal;
 
 /**
  *
@@ -23,7 +24,8 @@ public class ControlNavegacionProductos {
     private frmRegistrarProducto registrarProducto;
     private frmAnadirIngredienteProducto anadirIngredienteProducto;
     private frmMostrarProductos mostrarProductos;
-     private frmBuscarProducto buscarProducto;
+    private frmAgregarProductoComanda agregarProductoComanda;
+    private frmMenuPrincipal menuPrincipal;
      
 
 
@@ -34,39 +36,39 @@ public class ControlNavegacionProductos {
     
     
     public void mostrarMenuProductos() {
+        this.menuProductos = new frmMenuProductos(this);
         menuProductos.setVisible(true);
-        registrarProducto.setVisible(false);
-        anadirIngredienteProducto.setVisible(false);
-        mostrarProductos.setVisible(false);
+
     }
 
     public void mostrarRegistrarProducto() {
-        menuProductos.setVisible(false);
+        this.registrarProducto = new frmRegistrarProducto(productosBO, this);
         registrarProducto.setVisible(true);
-        anadirIngredienteProducto.setVisible(false);
-        mostrarProductos.setVisible(false);
+   
     }
 
     public void mostrarAnadirIngredienteProducto() {
-        menuProductos.setVisible(false);
-        registrarProducto.setVisible(false);
+        this.anadirIngredienteProducto = new frmAnadirIngredienteProducto(ingredientesProductosBO, productosBO, this);
         anadirIngredienteProducto.setVisible(true);
-        mostrarProductos.setVisible(false);
     }
     
     public void mostrarProductos(){
-        menuProductos.setVisible(false);
-        registrarProducto.setVisible(false);
-        anadirIngredienteProducto.setVisible(false);
+        this.mostrarProductos = new frmMostrarProductos(productosBO, this);
         mostrarProductos.setVisible(true);
     }
     
-    //metodo para devolver producto a comandas
-    public Producto regresarProductoSeleccionado(){
-        this.buscarProducto = new frmBuscarProducto(productosBO, this);
-        return buscarProducto.devolverProducto();
+    public void regresarMenuPrincipal(){
+        this.menuProductos.dispose();
+        menuPrincipal = new frmMenuPrincipal(); 
+        menuPrincipal.setVisible(true);
     }
     
+    //metodo para devolver producto a comandas
+//    public Producto regresarProductoSeleccionado(){
+//        this.agregarProductoComanda = new frmAgregarProductoComanda(productosBO, this);
+//        return agregarProductoComanda.devolverProducto();
+//    }
+//    
     
     
 }

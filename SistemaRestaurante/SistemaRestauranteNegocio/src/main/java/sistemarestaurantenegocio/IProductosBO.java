@@ -29,4 +29,9 @@ public interface IProductosBO {
     public abstract List<ProductoIngredienteDTO> obtenerProductosJoin();
     
     public abstract Producto consultarProductoPorNombre(String nombre);
+    
+    public abstract Float obtenerPrecioActual(Producto producto);
+    
+    public abstract Float calcularTotal(Producto producto, int cantidad);
+    
 }

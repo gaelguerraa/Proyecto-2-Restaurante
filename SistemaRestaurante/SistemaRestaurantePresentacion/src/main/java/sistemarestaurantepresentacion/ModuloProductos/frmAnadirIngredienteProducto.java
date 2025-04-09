@@ -217,7 +217,7 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(TablaProductos);
 
-        BotonActTabla.setText("Actualizar Tabla");
+        BotonActTabla.setText("ACTUALIZAR TABLA");
         BotonActTabla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonActTablaActionPerformed(evt);
@@ -235,9 +235,9 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(BotonRegistrarProducto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(BotonAnadirIngrediente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -249,10 +249,9 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
                                     .addComponent(jTextFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(26, 26, 26)))
                         .addGap(39, 39, 39))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(BotonActTabla)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(94, 94, 94))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,6 +295,7 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
     private void BotonRegistrarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRegistrarProductoActionPerformed
         controlador.mostrarMenuProductos();
         this.limpiarFormulario();
+        this.dispose();
     }//GEN-LAST:event_BotonRegistrarProductoActionPerformed
 
     private void BotonActTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonActTablaActionPerformed

@@ -216,6 +216,7 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         guardarProducto();
         controlador.mostrarMenuProductos();
         this.limpiarFormulario();
+        this.dispose();
 
     }//GEN-LAST:event_BotonContinuarActionPerformed
 

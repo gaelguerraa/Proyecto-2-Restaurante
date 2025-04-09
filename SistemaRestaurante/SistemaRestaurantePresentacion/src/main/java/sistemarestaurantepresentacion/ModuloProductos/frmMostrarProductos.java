@@ -171,6 +171,7 @@ public class frmMostrarProductos extends javax.swing.JFrame {
 
     private void BotonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRegresarActionPerformed
         controlador.mostrarMenuProductos();
+        this.dispose();
     }//GEN-LAST:event_BotonRegresarActionPerformed
 
     /**

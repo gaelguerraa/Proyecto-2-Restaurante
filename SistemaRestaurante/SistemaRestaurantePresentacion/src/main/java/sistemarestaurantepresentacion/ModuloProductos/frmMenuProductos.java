@@ -15,8 +15,9 @@ public class frmMenuProductos extends javax.swing.JFrame {
      * Creates new form frmMenuProductos
      */
     public frmMenuProductos(ControlNavegacionProductos controlador) {
-        this.controlador=controlador;
         initComponents();
+        this.controlador=controlador;
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -148,18 +149,22 @@ public class frmMenuProductos extends javax.swing.JFrame {
 
     private void BotonAnadirIngredienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAnadirIngredienteActionPerformed
         controlador.mostrarAnadirIngredienteProducto();
+        this.dispose();
     }//GEN-LAST:event_BotonAnadirIngredienteActionPerformed
 
     private void BotonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRegresarActionPerformed
-        // TODO add your handling code here:
+        controlador.regresarMenuPrincipal();
+        this.dispose();
     }//GEN-LAST:event_BotonRegresarActionPerformed
 
     private void BotonAnadirProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAnadirProductoActionPerformed
         controlador.mostrarRegistrarProducto();
+        this.dispose();
     }//GEN-LAST:event_BotonAnadirProductoActionPerformed
 
     private void BotonMostrarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonMostrarProductosActionPerformed
         controlador.mostrarProductos();
+        this.dispose();
     }//GEN-LAST:event_BotonMostrarProductosActionPerformed
 
     /**

@@ -46,5 +46,10 @@ public class ComandasBO implements IComandasBO {
     public int obtenerConsecutivoDelDia() {
         return comandasDAO.obtenerConsecutivoDelDia();
     }
+
+    @Override
+    public Comanda buscarPorFolio(String folio) {
+        return comandasDAO.buscarPorFolio(folio);
+    }
     
 }

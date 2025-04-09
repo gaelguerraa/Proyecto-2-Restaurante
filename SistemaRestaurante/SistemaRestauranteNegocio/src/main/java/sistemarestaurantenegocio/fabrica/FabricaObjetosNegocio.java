@@ -6,24 +6,28 @@ package sistemarestaurantenegocio.fabrica;
 
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
 import sistemarestaurantenegocio.IComandasBO;
+import sistemarestaurantenegocio.IDetallesComandasBO;
 import sistemarestaurantenegocio.IIngredientesBO;
 import sistemarestaurantenegocio.IIngredientesProductosBO;
 import sistemarestaurantenegocio.IMesasBO;
 import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.implementaciones.ClientesFrecuentesBO;
 import sistemarestaurantenegocio.implementaciones.ComandasBO;
+import sistemarestaurantenegocio.implementaciones.DetallesComandasBO;
 import sistemarestaurantenegocio.implementaciones.IngredientesBO;
 import sistemarestaurantenegocio.implementaciones.IngredientesProductosBO;
 import sistemarestaurantenegocio.implementaciones.MesasBO;
 import sistemarestaurantenegocio.implementaciones.ProductosBO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.ClientesFrecuentesDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.ComandasDAO;
+import sistemarestaurantepersistencia.DAOS_implementaciones.DetallesComandasDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.IngredientesDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.IngredientesProductosDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.MesasDAO;
 import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
 import sistemarestaurantepersistencia.interfaces.IClientesFrecuentesDAO;
 import sistemarestaurantepersistencia.interfaces.IComandasDAO;
+import sistemarestaurantepersistencia.interfaces.IDetallesComandasDAO;
 import sistemarestaurantepersistencia.interfaces.IIngredientesDAO;
 import sistemarestaurantepersistencia.interfaces.IIngredientesProductosDAO;
 import sistemarestaurantepersistencia.interfaces.IMesasDAO;
@@ -70,6 +74,12 @@ public class FabricaObjetosNegocio {
         IMesasDAO mesasDAO = new MesasDAO();
         IMesasBO mesasBO = new MesasBO(mesasDAO);
         return mesasBO;
+    }
+    
+    public static IDetallesComandasBO crearDetallesComadasBO(){
+        IDetallesComandasDAO detallesComandasDAO = new DetallesComandasDAO();
+        IDetallesComandasBO detallesComandasBO = new DetallesComandasBO(detallesComandasDAO);
+        return detallesComandasBO;
     }
    
 }

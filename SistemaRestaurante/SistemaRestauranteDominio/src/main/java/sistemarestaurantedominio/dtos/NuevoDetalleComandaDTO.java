@@ -17,6 +17,11 @@ public class NuevoDetalleComandaDTO {
     private Integer cantidad;
     private Float importe;
 
+    public NuevoDetalleComandaDTO() {
+    }
+    
+    
+
     public NuevoDetalleComandaDTO(Producto produto, Float precioActual, String nota, Integer cantidad, Float importe) {
         this.produto = produto;
         this.precioActual = precioActual;
@@ -43,6 +48,26 @@ public class NuevoDetalleComandaDTO {
 
     public Float getImporte() {
         return importe;
+    }
+
+    public void setProduto(Producto produto) {
+        this.produto = produto;
+    }
+
+    public void setPrecioActual(Float precioActual) {
+        this.precioActual = precioActual;
+    }
+
+    public void setNota(String nota) {
+        this.nota = nota;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public void setImporte(Float importe) {
+        this.importe = importe;
     }
     
     

@@ -126,4 +126,18 @@ public class ComandasDAO implements IComandasDAO {
         return total.intValue() + 1; // Se suma 1 para el siguiente folio
     }
 
+    @Override
+    public Comanda buscarPorFolio(String folio) {
+        EntityManager em = ManejadorConexiones.getEntityManager();
+        
+        TypedQuery<Comanda> query = em.createQuery("""
+                                                   SELECT c FROM Comanda c WHERE c.folio = :folio
+                                                   """, Comanda.class);
+        query.setParameter("folio", folio);
+        Comanda comanda = query.getSingleResult();
+        return comanda;
+    }
+    
+    
+
 }

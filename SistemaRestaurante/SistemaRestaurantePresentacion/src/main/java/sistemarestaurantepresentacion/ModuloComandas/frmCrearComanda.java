@@ -10,12 +10,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.JOptionPane;
 import sistemarestaurantedominio.ClienteFrecuente;
+import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.EstadoComanda;
 import sistemarestaurantedominio.Mesa;
 import sistemarestaurantedominio.dtos.NuevaComandaDTO;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
 import sistemarestaurantenegocio.IComandasBO;
 import sistemarestaurantenegocio.implementaciones.ClientesFrecuentesBO;
+import sistemarestaurantepresentacion.ModuloProductos.frmAgregarProductoComanda;
 
 /**
  *
@@ -23,14 +25,17 @@ import sistemarestaurantenegocio.implementaciones.ClientesFrecuentesBO;
  */
 public class frmCrearComanda extends javax.swing.JFrame {
 
+    private Comanda comandaActual;
+    ControlNavegacionComandas controlador;
     IComandasBO comandasBO;
     
 
     /**
      * Creates new form frmCrearComanda
      */
-    public frmCrearComanda() {
+    public frmCrearComanda(ControlNavegacionComandas controlador) {
         initComponents();
+        this.controlador=controlador;
     }
     
     public void LlenarComboboxMesa(){
@@ -53,30 +58,30 @@ public class frmCrearComanda extends javax.swing.JFrame {
         return "OB-" + fechaFormateada + "-" + consecutivoFormateado;
     }
     
+    //poner todo dentro de un try y hacer el BO de comanda para manejar errores
     public void crearComanda(){
     
-            
             String folio = generarFolio();
-            
             EstadoComanda estado = EstadoComanda.ABIERTA;
-            
             LocalDateTime fechaHora = LocalDateTime.now();
-            
             Float total = 0.0f;
             
             int numeroMesaSeleccionada = (int) ComboboxMesa.getSelectedItem(); 
             Mesa mesa = comandasBO.buscarMesaPorNumero(numeroMesaSeleccionada);
                     
-            //HACER ALGO PARA JALAR EL CLIENTE DE BUSCAR CLIENTES ACA
-            
+            //despues de que jorge ponga el cliente
             NuevaComandaDTO nuevaComanda;
-            if(ComboboxCliente.getSelectedItem() == "Publico Gnral"){
-                nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, total, mesa); 
-            } else{
-                nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, total, mesa, cliente); 
-            }
+                if ("Publico Gnral".equals(ComboboxCliente.getSelectedItem())) {
+                    nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, total, mesa);
+                } else {
+                    //Cliente cliente = (Cliente) ComboboxCliente.getSelectedItem();
+                    //nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, total, mesa, cliente);
+                }
                     
-            comandasBO.registrarComanda(nuevaComanda);
+            //comandasBO.registrarComanda(nuevaComanda);
+            
+            //crear metodo buscarPorFol 
+            this.comandaActual = comandasBO.buscarPorFolio(folio);
             JOptionPane.showMessageDialog(null, "¡Comanda creada con folio: " + folio + "!");
 
         
@@ -104,7 +109,7 @@ public class frmCrearComanda extends javax.swing.JFrame {
         TablaComanda = new javax.swing.JTable();
         BotonAgregarProducto = new javax.swing.JButton();
         BotonRegistrarComanda = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        BotonAbrirComanda = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(850, 550));
@@ -182,6 +187,11 @@ public class frmCrearComanda extends javax.swing.JFrame {
         BotonAgregarProducto.setBackground(new java.awt.Color(171, 118, 46));
         BotonAgregarProducto.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         BotonAgregarProducto.setText("AGREGAR PRODUCTO");
+        BotonAgregarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonAgregarProductoActionPerformed(evt);
+            }
+        });
 
         BotonRegistrarComanda.setBackground(new java.awt.Color(171, 118, 46));
         BotonRegistrarComanda.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
@@ -192,12 +202,12 @@ public class frmCrearComanda extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(171, 118, 46));
-        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
-        jButton1.setText("ABRIR COMANDA");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BotonAbrirComanda.setBackground(new java.awt.Color(171, 118, 46));
+        BotonAbrirComanda.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        BotonAbrirComanda.setText("ABRIR COMANDA");
+        BotonAbrirComanda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BotonAbrirComandaActionPerformed(evt);
             }
         });
 
@@ -213,7 +223,7 @@ public class frmCrearComanda extends javax.swing.JFrame {
                         .addComponent(jScrollPane1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
-                        .addComponent(jButton1)
+                        .addComponent(BotonAbrirComanda)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ComboboxMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -252,7 +262,7 @@ public class frmCrearComanda extends javax.swing.JFrame {
                             .addComponent(ComboboxMesa)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(BotonAbrirComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -288,13 +298,22 @@ public class frmCrearComanda extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ComboboxMesaActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void BotonAbrirComandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAbrirComandaActionPerformed
+        crearComanda();
+    }//GEN-LAST:event_BotonAbrirComandaActionPerformed
+
+    private void BotonAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarProductoActionPerformed
+        if(comandaActual == null){
+            JOptionPane.showMessageDialog(null, "Primero debes abrir una comanda.");
+            return;
+        }
+        //abrir frmAgregarProducto
+    }//GEN-LAST:event_BotonAgregarProductoActionPerformed
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BotonAbrirComanda;
     private javax.swing.JButton BotonAgregarProducto;
     private javax.swing.JButton BotonBuscarIngrediente;
     private javax.swing.JButton BotonBuscarProducto;
@@ -302,7 +321,6 @@ public class frmCrearComanda extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> ComboboxCliente;
     private javax.swing.JComboBox<String> ComboboxMesa;
     private javax.swing.JTable TablaComanda;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
