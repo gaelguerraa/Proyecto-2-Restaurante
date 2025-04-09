@@ -4,6 +4,8 @@
  */
 package sistemarestaurantepresentacion.ModuloClientes;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
@@ -25,8 +27,8 @@ public class ControlNavegacionClientes {
     public ControlNavegacionClientes() {
         clientesBO = FabricaObjetosNegocio.crearClientesFrecuentesBO();
     }
-    
-    public void iniciarMenu(){
+
+    public void iniciarMenu() {
         this.frameMenuClientes = new frmMenuClientes(this);
         frameMenuClientes.setVisible(true);
     }
@@ -49,7 +51,7 @@ public class ControlNavegacionClientes {
         this.frameMenuClientes.setVisible(true);
         this.frameRegistroCliente.dispose();
     }
-    
+
     public void regresarMenuClientesConsulta() {
         this.frameMenuClientes = new frmMenuClientes(this);
         this.frameMenuClientes.setVisible(true);
@@ -81,10 +83,9 @@ public class ControlNavegacionClientes {
 
     //metodo para regresar al cliente seleccionado se llamaria desde comanda
     public ClienteFrecuente regresarClienteSeleccionado() {
-        this.frameBuscarCliente = new frmBuscarCliente(clientesBO, this);
-        return frameBuscarCliente.mostrarYObtenerClienteSeleccionado();
+        frmBuscarCliente dialog = new frmBuscarCliente(clientesBO, this);
+        return dialog.mostrarYObtenerClienteSeleccionado();
 
     }
-    
 
 }

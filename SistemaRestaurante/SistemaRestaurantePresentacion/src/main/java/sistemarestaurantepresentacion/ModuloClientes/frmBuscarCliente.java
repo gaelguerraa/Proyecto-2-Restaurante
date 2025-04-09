@@ -1,12 +1,14 @@
 package sistemarestaurantepresentacion.ModuloClientes;
 
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
 
-public class frmBuscarCliente extends javax.swing.JFrame {
+public class frmBuscarCliente extends javax.swing.JDialog {
 
     private IClientesFrecuentesBO clientesFrecuentesBO;
     private String telefonoCliente;
@@ -23,11 +25,13 @@ public class frmBuscarCliente extends javax.swing.JFrame {
      * @param control Recibe un control de navegacion
      */
     public frmBuscarCliente(IClientesFrecuentesBO clientesFrecuentesBO, ControlNavegacionClientes control) {
+        super((JFrame) null, "Buscar Cliente", true); // Hacer el diálogo modal
         initComponents();
         this.clientesFrecuentesBO = clientesFrecuentesBO;
         this.control = control;
         setLocationRelativeTo(null);
         this.llenarTablaClientes();
+
         tblClientes.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int selectedRow = tblClientes.getSelectedRow();
@@ -37,6 +41,9 @@ public class frmBuscarCliente extends javax.swing.JFrame {
                 }
             }
         });
+
+        // Configuración adicional para asegurar el cierre correcto
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -98,20 +105,9 @@ public class frmBuscarCliente extends javax.swing.JFrame {
      * @return Regresa un ClienteFrecuente al seleccionarlo
      */
     public ClienteFrecuente mostrarYObtenerClienteSeleccionado() {
-        this.setVisible(true);
-        btnInformacion.setVisible(false);
+        this.btnInformacion.setVisible(false);
         this.modoSeleccion = true;
-        this.setVisible(true);
-        // Esperar a que el usuario cierre el frame o seleccione un cliente
-        while (!confirmado) {
-            try {
-                Thread.sleep(100); // Espera a que el usuario presione aceptar
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        this.dispose();
+        this.setVisible(true); // El diálogo se bloqueará aquí hasta que se cierre (por ser modal)
         return clienteSeleccionado;
     }
 
@@ -136,7 +132,7 @@ public class frmBuscarCliente extends javax.swing.JFrame {
         tblClientes = new javax.swing.JTable();
         btnInformacion = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(241, 209, 165));
@@ -297,16 +293,19 @@ public class frmBuscarCliente extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         if (modoSeleccion) {
-        if (clienteSeleccionado != null) {
-            confirmado = true; // esto hace que el while se detenga
+            if (clienteSeleccionado != null) {
+                this.dispose(); // Cierra el diálogo y libera el bloqueo
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Selecciona un cliente antes de continuar.",
+                        "Aviso",
+                        JOptionPane.WARNING_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Selecciona un cliente antes de continuar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            control.regresarMenuClientesConsulta();
+
         }
-    } else {
-        // Si no estás en modo selección, comportamiento normal
-        control.regresarMenuClientesConsulta();
-    }
-        
+
 
     }//GEN-LAST:event_btnRegresarActionPerformed
 

@@ -17,6 +17,7 @@ import sistemarestaurantedominio.dtos.NuevaComandaDTO;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
 import sistemarestaurantenegocio.IComandasBO;
 import sistemarestaurantenegocio.implementaciones.ClientesFrecuentesBO;
+import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
 import sistemarestaurantepresentacion.ModuloProductos.frmAgregarProductoComanda;
 
 /**
@@ -28,14 +29,18 @@ public class frmCrearComanda extends javax.swing.JFrame {
     private Comanda comandaActual;
     ControlNavegacionComandas controlador;
     IComandasBO comandasBO;
+    ClienteFrecuente cliente;
     
 
     /**
      * Creates new form frmCrearComanda
      */
-    public frmCrearComanda(ControlNavegacionComandas controlador) {
+    public frmCrearComanda(ControlNavegacionComandas controlador, IComandasBO comandasBO) {
         initComponents();
         this.controlador=controlador;
+        this.comandasBO = comandasBO;
+        setLocationRelativeTo(null);
+        this.LlenarComboboxMesa();
     }
     
     public void LlenarComboboxMesa(){
@@ -45,11 +50,7 @@ public class frmCrearComanda extends javax.swing.JFrame {
             ComboboxMesa.addItem(String.valueOf(m.getNumeroMesa()));
         }
     }
-    
-    public void LlenarComboboxCliente(){
-        //todo
-    }
-    
+       
     public String generarFolio(){
         LocalDate hoy = LocalDate.now();
         String fechaFormateada = hoy.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
@@ -71,17 +72,16 @@ public class frmCrearComanda extends javax.swing.JFrame {
                     
             //despues de que jorge ponga el cliente
             NuevaComandaDTO nuevaComanda;
-                if ("Publico Gnral".equals(ComboboxCliente.getSelectedItem())) {
+                if ("Publico General".equals(txtCliente.getText())) {
                     nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, total, mesa);
                 } else {
-                    //Cliente cliente = (Cliente) ComboboxCliente.getSelectedItem();
-                    //nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, total, mesa, cliente);
+                    nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, total, mesa, cliente);
                 }
                     
             //comandasBO.registrarComanda(nuevaComanda);
             
             //crear metodo buscarPorFol 
-            this.comandaActual = comandasBO.buscarPorFolio(folio);
+            //this.comandaActual = comandasBO.buscarPorFolio(folio);
             JOptionPane.showMessageDialog(null, "¡Comanda creada con folio: " + folio + "!");
 
         
@@ -102,14 +102,13 @@ public class frmCrearComanda extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         ComboboxMesa = new javax.swing.JComboBox<>();
-        ComboboxCliente = new javax.swing.JComboBox<>();
-        BotonBuscarIngrediente = new javax.swing.JButton();
+        btnBuscarCliente = new javax.swing.JButton();
         BotonBuscarProducto = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaComanda = new javax.swing.JTable();
-        BotonAgregarProducto = new javax.swing.JButton();
         BotonRegistrarComanda = new javax.swing.JButton();
-        BotonAbrirComanda = new javax.swing.JButton();
+        txtCliente = new javax.swing.JTextField();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(850, 550));
@@ -126,7 +125,7 @@ public class frmCrearComanda extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(298, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(270, 270, 270))
         );
@@ -144,23 +143,21 @@ public class frmCrearComanda extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         jLabel3.setText("Mesa:");
 
-        ComboboxMesa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ComboboxMesa.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         ComboboxMesa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ComboboxMesaActionPerformed(evt);
             }
         });
 
-        ComboboxCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Publico Gnral" }));
-        ComboboxCliente.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscarCliente.setBackground(new java.awt.Color(171, 118, 46));
+        btnBuscarCliente.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        btnBuscarCliente.setText("BUSCAR CLIENTE");
+        btnBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboboxClienteActionPerformed(evt);
+                btnBuscarClienteActionPerformed(evt);
             }
         });
-
-        BotonBuscarIngrediente.setBackground(new java.awt.Color(171, 118, 46));
-        BotonBuscarIngrediente.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
-        BotonBuscarIngrediente.setText("BUSCAR CLIENTE");
 
         BotonBuscarProducto.setBackground(new java.awt.Color(171, 118, 46));
         BotonBuscarProducto.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
@@ -184,15 +181,6 @@ public class frmCrearComanda extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(TablaComanda);
 
-        BotonAgregarProducto.setBackground(new java.awt.Color(171, 118, 46));
-        BotonAgregarProducto.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
-        BotonAgregarProducto.setText("AGREGAR PRODUCTO");
-        BotonAgregarProducto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonAgregarProductoActionPerformed(evt);
-            }
-        });
-
         BotonRegistrarComanda.setBackground(new java.awt.Color(171, 118, 46));
         BotonRegistrarComanda.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         BotonRegistrarComanda.setText("REGISTRAR COMANDA");
@@ -202,12 +190,16 @@ public class frmCrearComanda extends javax.swing.JFrame {
             }
         });
 
-        BotonAbrirComanda.setBackground(new java.awt.Color(171, 118, 46));
-        BotonAbrirComanda.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
-        BotonAbrirComanda.setText("ABRIR COMANDA");
-        BotonAbrirComanda.addActionListener(new java.awt.event.ActionListener() {
+        txtCliente.setEditable(false);
+        txtCliente.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        txtCliente.setText("Publico General");
+
+        btnRegresar.setBackground(new java.awt.Color(171, 118, 46));
+        btnRegresar.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        btnRegresar.setText("REGRESAR");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonAbrirComandaActionPerformed(evt);
+                btnRegresarActionPerformed(evt);
             }
         });
 
@@ -219,57 +211,52 @@ public class frmCrearComanda extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(jScrollPane1))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 815, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(BotonAbrirComanda)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addGap(56, 56, 56)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ComboboxMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(49, 49, 49)
+                            .addComponent(jLabel3)
+                            .addComponent(ComboboxMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(53, 53, 53)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(ComboboxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(130, 130, 130)
+                            .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(BotonBuscarIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBuscarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(BotonBuscarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(28, 28, 28))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(197, 197, 197)
-                .addComponent(BotonAgregarProducto)
-                .addGap(38, 38, 38)
-                .addComponent(BotonRegistrarComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(BotonRegistrarComanda, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                    .addComponent(btnRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(320, 320, 320))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(BotonBuscarIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(BotonBuscarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-                            .addComponent(ComboboxCliente)
-                            .addComponent(ComboboxMesa)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(BotonAbrirComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                        .addComponent(BotonBuscarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                        .addComponent(ComboboxMesa))
+                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BotonAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BotonRegistrarComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BotonRegistrarComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -290,42 +277,42 @@ public class frmCrearComanda extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonRegistrarComandaActionPerformed
 
-    private void ComboboxClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboboxClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ComboboxClienteActionPerformed
-
     private void ComboboxMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboboxMesaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ComboboxMesaActionPerformed
 
-    private void BotonAbrirComandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAbrirComandaActionPerformed
-        crearComanda();
-    }//GEN-LAST:event_BotonAbrirComandaActionPerformed
+    private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
 
-    private void BotonAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarProductoActionPerformed
-        if(comandaActual == null){
-            JOptionPane.showMessageDialog(null, "Primero debes abrir una comanda.");
-            return;
+        this.cliente = controlador.obtenerCliente();
+        if(cliente != null){
+            txtCliente.setText(cliente.getNombre() + " " + cliente.getApellidoPaterno());
         }
-        //abrir frmAgregarProducto
-    }//GEN-LAST:event_BotonAgregarProductoActionPerformed
+        else{
+            txtCliente.setText("Publico General");
+        }
+        
+        
+    }//GEN-LAST:event_btnBuscarClienteActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        controlador.regresarMenuCrearComanda();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BotonAbrirComanda;
-    private javax.swing.JButton BotonAgregarProducto;
-    private javax.swing.JButton BotonBuscarIngrediente;
     private javax.swing.JButton BotonBuscarProducto;
     private javax.swing.JButton BotonRegistrarComanda;
-    private javax.swing.JComboBox<String> ComboboxCliente;
     private javax.swing.JComboBox<String> ComboboxMesa;
     private javax.swing.JTable TablaComanda;
+    private javax.swing.JButton btnBuscarCliente;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txtCliente;
     // End of variables declaration//GEN-END:variables
 }

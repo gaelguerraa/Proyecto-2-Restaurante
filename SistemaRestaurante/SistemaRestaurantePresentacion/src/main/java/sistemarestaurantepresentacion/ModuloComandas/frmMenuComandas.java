@@ -159,7 +159,7 @@ public class frmMenuComandas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVerComandasActionPerformed
 
     private void btnCrearComandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearComandaActionPerformed
-        // TODO add your handling code here:
+        control.crearComanda();
     }//GEN-LAST:event_btnCrearComandaActionPerformed
 
     

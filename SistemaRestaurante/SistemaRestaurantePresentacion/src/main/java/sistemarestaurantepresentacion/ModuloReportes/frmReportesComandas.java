@@ -35,13 +35,14 @@ public class frmReportesComandas extends javax.swing.JFrame {
                 nombreCliente = comanda.getClienteFrecuente().getNombre() + " "
                         + comanda.getClienteFrecuente().getApellidoPaterno();
             }
+            String totalFormateado = String.format("$%,.2f", comanda.getTotal());
             Object[] fila = {
                 comanda.getFolio(),
                 comanda.getFechaHora(),
                 comanda.getNumeroMesa().getNumeroMesa(),
                 comanda.getEstado(),
                 nombreCliente,
-                comanda.getTotal()
+                totalFormateado
             };
             modeloTabla.addRow(fila);
         }

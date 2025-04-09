@@ -3,15 +3,6 @@
  */
 package sistemarestaurantepresentacion;
 
-import sistemarestaurantedominio.ClienteFrecuente;
-import sistemarestaurantenegocio.IClientesFrecuentesBO;
-import sistemarestaurantenegocio.IIngredientesProductosBO;
-import sistemarestaurantenegocio.IProductosBO;
-import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
-import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
-import sistemarestaurantepresentacion.ModuloClientes.frmBuscarCliente;
-import sistemarestaurantepresentacion.ModuloProductos.ControlNavegacionProductos;
-import sistemarestaurantepresentacion.ModuloProductos.frmMenuProductos;
 
 /**
  *
@@ -21,30 +12,8 @@ public class SistemaRestaurantePresentacion {
 
     public static void main(String[] args) {
 
-        //PARA TESTEAR EL BUSCADOR CLIENTES
-//        IClientesFrecuentesBO clientesBO = FabricaObjetosNegocio.crearClientesFrecuentesBO();
-//        frmBuscarCliente formBuscarClientes = new frmBuscarCliente(clientesBO);
-//        formBuscarClientes.setVisible(true);
-    
-        
-
-//
-//        IIngredientesProductosBO ingredientesProductosBO = FabricaObjetosNegocio.crearIngredientesProductosBO();
-//        IProductosBO productosBO = FabricaObjetosNegocio.crearProductosBO();
-//        
-//        ControladorProductos controlador = new ControladorProductos(ingredientesProductosBO, productosBO);
-
-
-        // Crear y mostrar el formulario del menú de productos
-//        frmMenuProductos menuProductos = new frmMenuProductos(controlador);
-//        menuProductos.setVisible(true);  
-
         frmMenuPrincipal menu = new frmMenuPrincipal();
         menu.setVisible(true);
         
-
-        
-
-
     }
 }
