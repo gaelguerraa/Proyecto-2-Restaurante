@@ -5,7 +5,8 @@
 package sistemarestaurantepresentacion.ModuloProductos;
 
 import java.util.List;
-import java.util.logging.Logger;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sistemarestaurantedominio.Producto;
@@ -16,27 +17,30 @@ import sistemarestaurantenegocio.IProductosBO;
  *
  * @author gael_
  */
-public class frmBuscarProducto extends javax.swing.JFrame {
+public class frmBuscarProducto extends javax.swing.JDialog {
 
     
-     private IProductosBO productosBO;
-    private ControlNavegacionProductos controlador;
+    private IProductosBO productosBO;
     private Producto productoSeleccionado; 
     private String nombreProducto;
     private boolean confirmado = false;
     private boolean modoSeleccion = false;
-    private static final Logger LOG = Logger.getLogger(frmBuscarProducto.class.getName());
+    private ControlNavegacionProductos controlador;
+
     
     
     /**
      * Creates new form frmBuscarProducto
      */
       public frmBuscarProducto(IProductosBO productosBO, ControlNavegacionProductos controlador) {
+        super((JFrame) null, "Buscar Producto", true); 
+        initComponents();
         this.productosBO=productosBO;
         this.controlador=controlador;
-        initComponents();
+        setLocationRelativeTo(null);
         LlenarComboBoxTipoProducto();
         this.LlenarTablaProductos();
+        
         TablaProductos.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int selectedRow = TablaProductos.getSelectedRow();
@@ -47,6 +51,7 @@ public class frmBuscarProducto extends javax.swing.JFrame {
             }
         });
 
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
     
         private void LlenarComboBoxTipoProducto(){
@@ -56,13 +61,11 @@ public class frmBuscarProducto extends javax.swing.JFrame {
         }
         
         private void LlenarTablaProductos(){
-        String nombreFiltro = txtFiltro.getText().trim();
-        String tipoSeleccionado = (String) ComboBoxFiltro.getSelectedItem();
         List<Producto> productosConsultados;
         
         String nombreProducto = txtFiltro.getText().trim();
-        String tipoSeleccionadoo = (String) ComboBoxFiltro.getSelectedItem();
-        if(nombreProducto.isEmpty() && tipoSeleccionadoo == "CUALQUIERA"){
+        String tipoSeleccionado = (String) ComboBoxFiltro.getSelectedItem();
+        if(nombreProducto.isEmpty() && tipoSeleccionado.equals("CUALQUIERA")){
             productosConsultados = productosBO.consultarProducto();
             DefaultTableModel modeloTabla = (DefaultTableModel) this.TablaProductos.getModel();
             modeloTabla.setRowCount(0);
@@ -74,7 +77,7 @@ public class frmBuscarProducto extends javax.swing.JFrame {
                 };
                 modeloTabla.addRow(fila);
             }
-        }else if(!nombreProducto.isEmpty() && tipoSeleccionadoo == "CUALQUIERA"){
+        }else if(!nombreProducto.isEmpty() && tipoSeleccionado.equals("CUALQUIERA")){
             productosConsultados = productosBO.obtenerProductosFiltroNombre(nombreProducto);
             DefaultTableModel modeloTabla = (DefaultTableModel) this.TablaProductos.getModel();
             modeloTabla.setRowCount(0);
@@ -86,7 +89,7 @@ public class frmBuscarProducto extends javax.swing.JFrame {
                 };
                 modeloTabla.addRow(fila);
             }
-        }else if(nombreProducto.isEmpty() && tipoSeleccionadoo != null){
+        }else if(nombreProducto.isEmpty() && tipoSeleccionado != null && !tipoSeleccionado.equals("CUALQUIERA")){
             productosConsultados = productosBO.obtenerProductosPorTipo(tipoSeleccionado);
             DefaultTableModel modeloTabla = (DefaultTableModel) this.TablaProductos.getModel();
             modeloTabla.setRowCount(0);
@@ -98,9 +101,10 @@ public class frmBuscarProducto extends javax.swing.JFrame {
                 };
                 modeloTabla.addRow(fila);
             }
-        }else if(!nombreProducto.isEmpty() && tipoSeleccionadoo != null){
+        }else if(!nombreProducto.isEmpty() && tipoSeleccionado != null && !tipoSeleccionado.equals("CUALQUIERA")){
             productosConsultados = productosBO.obtenerProductosPorTipoNombre(nombreProducto, tipoSeleccionado);
             DefaultTableModel modeloTabla = (DefaultTableModel) this.TablaProductos.getModel();
+            modeloTabla.setRowCount(0); 
             for(Producto p : productosConsultados){
                 Object[] fila = {
                     p.getNombre(),
@@ -114,13 +118,7 @@ public class frmBuscarProducto extends javax.swing.JFrame {
     } 
         
      public Producto devolverProducto(){
-        if (productoSeleccionado != null) {
-            return productoSeleccionado; // Devuelve el producto seleccionado
-        } else {
-            JOptionPane.showMessageDialog(this, "No has seleccionado un producto.", "Aviso", JOptionPane.WARNING_MESSAGE);
-            return null; // Si no se ha seleccionado un producto, devuelve null
-        }
- 
+        return productoSeleccionado;
       }      
     
     
@@ -146,7 +144,7 @@ public class frmBuscarProducto extends javax.swing.JFrame {
         TablaProductos = new javax.swing.JTable();
         BotonSeleccionarProducto = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(850, 670));
 
         jPanel1.setBackground(new java.awt.Color(241, 209, 165));
@@ -308,19 +306,13 @@ public class frmBuscarProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonBuscarActionPerformed
 
     private void BotonSeleccionarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonSeleccionarProductoActionPerformed
-                if (modoSeleccion) {
-        Producto producto = devolverProducto(); // Llama a devolverProducto
-        if (producto != null) {
-            confirmado = true; // Esto hace que el proceso de selección continúe
-            // Aquí puedes agregar el código para continuar con el proceso de selección del producto, 
-            // o hacer lo que sea necesario con el producto devuelto.
+        if (productoSeleccionado != null) {
+            confirmado = true;
+            this.dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Selecciona un producto antes de continuar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Selecciona un producto antes de continuar.",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
         }
-    } else {
-        // Si no estás en modo selección, puedes agregar otro comportamiento si lo deseas
-        // controlador.regresarMenuProductos();
-    }
     }//GEN-LAST:event_BotonSeleccionarProductoActionPerformed
 
     /**

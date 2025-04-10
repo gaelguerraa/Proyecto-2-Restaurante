@@ -1,20 +1,28 @@
 package sistemarestaurantepresentacion.ModuloComandas;
 
 import sistemarestaurantedominio.ClienteFrecuente;
+import sistemarestaurantedominio.Producto;
+import sistemarestaurantedominio.dtos.NuevoDetalleComandaDTO;
 import sistemarestaurantenegocio.IComandasBO;
+import sistemarestaurantenegocio.IDetallesComandasBO;
+import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
 import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
+import sistemarestaurantepresentacion.ModuloProductos.ControlNavegacionProductos;
 import sistemarestaurantepresentacion.ModuloProductos.frmAgregarProductoComanda;
 import sistemarestaurantepresentacion.frmMenuPrincipal;
 
 public class ControlNavegacionComandas {
 
     private IComandasBO comandasBO;
+    private IProductosBO productosBO;
+    private IDetallesComandasBO detallesComandasBO;
     private frmMenuPrincipal frameMenuPrincipal;
     private frmMenuComandas frameMenuComandas;
     private frmVerComandas frameVerComandas;
     private frmCrearComanda frameCrearComanda;
     private ControlNavegacionClientes controlClientes;
+    private ControlNavegacionProductos controlProductos;
 
     private frmAgregarProductoComanda frameAgregarProductoComanda;
 
@@ -36,7 +44,7 @@ public class ControlNavegacionComandas {
     //Esta por verse como queda esto
     public void crearComanda() {
         this.frameMenuComandas.dispose();
-        this.frameCrearComanda = new frmCrearComanda(this, comandasBO);
+        this.frameCrearComanda = new frmCrearComanda(this, comandasBO, productosBO, detallesComandasBO);
         frameCrearComanda.setVisible(true);
 //        this.frameAgregarProductoComanda = new frmAgregarProductoComanda(this, comandaActual);
 
@@ -65,5 +73,12 @@ public class ControlNavegacionComandas {
         return controlClientes.regresarClienteSeleccionado();
 
     }
+    
+    //
+    public Producto obtenerProducto(){
+        controlProductos = new ControlNavegacionProductos();
+        return controlProductos.regresarProducto();
+    }
+    
 
 }

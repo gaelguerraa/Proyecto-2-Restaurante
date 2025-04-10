@@ -212,6 +212,16 @@ public class ProductosDAOTest {
 //        
 
 //    }
+    
+//    @Test
+//    public void testConsultarProductoPorNombre() {
+//        EntityManager em = ManejadorConexiones.getEntityManager();
+//        ProductosDAO productosDAO = new ProductosDAO(); 
+//        String nombre = "Pepsi";
+//        Producto producto = productosDAO.consultarProductoPorNombre(nombre);
+//
+//        assertNotNull(producto);
+//    }
 
     
 }

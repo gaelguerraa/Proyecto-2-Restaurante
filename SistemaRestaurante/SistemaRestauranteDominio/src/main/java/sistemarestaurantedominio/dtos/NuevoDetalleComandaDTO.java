@@ -4,6 +4,7 @@
  */
 package sistemarestaurantedominio.dtos;
 
+import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.Producto;
 
 /**
@@ -12,6 +13,7 @@ import sistemarestaurantedominio.Producto;
  */
 public class NuevoDetalleComandaDTO {
     private Producto produto;
+    private Comanda comanda;
     private Float precioActual;
     private String nota;
     private Integer cantidad;
@@ -22,8 +24,9 @@ public class NuevoDetalleComandaDTO {
     
     
 
-    public NuevoDetalleComandaDTO(Producto produto, Float precioActual, String nota, Integer cantidad, Float importe) {
+    public NuevoDetalleComandaDTO(Producto produto, Comanda comanda, Float precioActual, String nota, Integer cantidad, Float importe) {
         this.produto = produto;
+        this.comanda = comanda;
         this.precioActual = precioActual;
         this.nota = nota;
         this.cantidad = cantidad;
@@ -50,7 +53,15 @@ public class NuevoDetalleComandaDTO {
         return importe;
     }
 
-    public void setProduto(Producto produto) {
+    public Comanda getComanda() {
+        return comanda;
+    }
+
+    public void setComanda(Comanda comanda) {
+        this.comanda = comanda;
+    }
+    
+        public void setProduto(Producto produto) {
         this.produto = produto;
     }
 

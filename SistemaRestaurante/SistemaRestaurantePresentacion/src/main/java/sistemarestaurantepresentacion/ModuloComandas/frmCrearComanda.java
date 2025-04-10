@@ -8,17 +8,25 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.EstadoComanda;
 import sistemarestaurantedominio.Mesa;
+import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.dtos.NuevaComandaDTO;
-import sistemarestaurantenegocio.IClientesFrecuentesBO;
+import sistemarestaurantedominio.dtos.NuevoDetalleComandaDTO;
 import sistemarestaurantenegocio.IComandasBO;
-import sistemarestaurantenegocio.implementaciones.ClientesFrecuentesBO;
-import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
-import sistemarestaurantepresentacion.ModuloProductos.frmAgregarProductoComanda;
+import sistemarestaurantenegocio.IDetallesComandasBO;
+import sistemarestaurantenegocio.IProductosBO;
+import sistemarestaurantenegocio.excepciones.NegocioException;
+
+
+
 
 /**
  *
@@ -26,21 +34,33 @@ import sistemarestaurantepresentacion.ModuloProductos.frmAgregarProductoComanda;
  */
 public class frmCrearComanda extends javax.swing.JFrame {
 
-    private Comanda comandaActual;
+    Comanda comandaActual;
     ControlNavegacionComandas controlador;
     IComandasBO comandasBO;
+    IProductosBO productosBO;
     ClienteFrecuente cliente;
+    Producto producto;
+    private static final Logger LOG = Logger.getLogger(frmCrearComanda.class.getName());
+    
+    
+    NuevoDetalleComandaDTO detalleComanda;
+    IDetallesComandasBO detallesComandasBO;
     
 
     /**
      * Creates new form frmCrearComanda
      */
-    public frmCrearComanda(ControlNavegacionComandas controlador, IComandasBO comandasBO) {
+    public frmCrearComanda(ControlNavegacionComandas controlador, IComandasBO comandasBO, IProductosBO productosBO, IDetallesComandasBO detallesComandasBO ) {
         initComponents();
         this.controlador=controlador;
         this.comandasBO = comandasBO;
+        this.productosBO = productosBO;
+        this.detallesComandasBO = detallesComandasBO;
         setLocationRelativeTo(null);
         this.LlenarComboboxMesa();
+        configurarListenersTabla();
+        txtTotal.setEditable(false);
+
     }
     
     public void LlenarComboboxMesa(){
@@ -60,32 +80,133 @@ public class frmCrearComanda extends javax.swing.JFrame {
     }
     
     //poner todo dentro de un try y hacer el BO de comanda para manejar errores
-    public void crearComanda(){
-    
-            String folio = generarFolio();
-            EstadoComanda estado = EstadoComanda.ABIERTA;
-            LocalDateTime fechaHora = LocalDateTime.now();
-            Float total = 0.0f;
-            
-            int numeroMesaSeleccionada = (int) ComboboxMesa.getSelectedItem(); 
-            Mesa mesa = comandasBO.buscarMesaPorNumero(numeroMesaSeleccionada);
-                    
-            //despues de que jorge ponga el cliente
-            NuevaComandaDTO nuevaComanda;
-                if ("Publico General".equals(txtCliente.getText())) {
-                    nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, total, mesa);
-                } else {
-                    nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, total, mesa, cliente);
-                }
-                    
-            //comandasBO.registrarComanda(nuevaComanda);
-            
-            //crear metodo buscarPorFol 
-            //this.comandaActual = comandasBO.buscarPorFolio(folio);
-            JOptionPane.showMessageDialog(null, "¡Comanda creada con folio: " + folio + "!");
-
+    public void crearComanda() {
+        String folio = generarFolio(); 
+        EstadoComanda estado = EstadoComanda.ABIERTA;
+        LocalDateTime fechaHora = LocalDateTime.now();
+        Float importeTotal = 0.0f;
         
+        int numeroMesaSeleccionada = Integer.parseInt((String) ComboboxMesa.getSelectedItem());
+        Mesa mesa = comandasBO.buscarMesaPorNumero(numeroMesaSeleccionada);
+        
+        NuevaComandaDTO nuevaComanda;
+        if ("Publico General".equals(txtCliente.getText())) {
+            nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, importeTotal, mesa);
+        } else {
+            nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, importeTotal, mesa, cliente);
+        }
+        
+        comandasBO.registrarComanda(nuevaComanda);
+        this.comandaActual = comandasBO.buscarPorFolio(folio);
+        JOptionPane.showMessageDialog(null, "¡Comanda creada con folio: " + folio + "!");
+        
+        //para detallesComanda
+        DefaultTableModel model = (DefaultTableModel) TablaComanda.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            try {
+                String nombreProducto = (String) model.getValueAt(i, 0); // Asumir que la primera columna es String
+                Object cantidadObj = model.getValueAt(i, 1); // Obtenemos el valor como Object
+                int cantidad = 0;
+                if (cantidadObj instanceof Integer) {
+                    cantidad = (Integer) cantidadObj;
+                } else if (cantidadObj instanceof String) {
+                    cantidad = Integer.parseInt((String) cantidadObj);
+                }
+
+                String nota = (String) model.getValueAt(i, 2); // Asumir que la tercera columna es String
+                Object precioObj = model.getValueAt(i, 3); // Obtenemos el valor como Object
+                float precio = 0.0f;
+                if (precioObj instanceof Float) {
+                    precio = (Float) precioObj;
+                } else if (precioObj instanceof String) {
+                    precio = Float.parseFloat((String) precioObj);
+                }
+
+                Object totalObj = model.getValueAt(i, 4); // Obtenemos el valor como Object
+                float total = 0.0f;
+                if (totalObj instanceof Float) {
+                    total = (Float) totalObj;
+                } else if (totalObj instanceof String) {
+                    total = Float.parseFloat((String) totalObj);
+                }
+
+                Producto producto = this.productosBO.consultarProductoPorNombre(nombreProducto); // Asumiendo que exista este método
+
+                NuevoDetalleComandaDTO detalle = new NuevoDetalleComandaDTO(producto, comandaActual, precio, nota, cantidad, total);
+                detallesComandasBO.guardarDetalleComanda(detalle);
+
+            } catch (ClassCastException e) {
+                JOptionPane.showMessageDialog(null, "Error de tipo en la fila " + (i + 1) + ": " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Error de formato de número en la fila " + (i + 1) + ": " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error en la fila " + (i + 1) + ": " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
+}
+
+    
+    
+    private void configurarListenersTabla() {
+        TablaComanda.getModel().addTableModelListener(e -> {
+            // Solo responder a cambios en la columna de cantidad (columna 1)
+            if (e.getColumn() == 1) {
+                actualizarImporteFila(e.getFirstRow());
+                calcularTotalComanda();
+            }
+        });
     }
+    
+    private void actualizarImporteFila(int fila) {
+        DefaultTableModel model = (DefaultTableModel) TablaComanda.getModel();
+        try {
+            // Obtener el valor de la celda de forma segura
+            Object valor = model.getValueAt(fila, 1);
+            int cantidad;
+
+            // Convertir el valor a entero sin importar su tipo original
+            if (valor instanceof Number) {
+                cantidad = ((Number) valor).intValue();
+            } else if (valor instanceof String) {
+                cantidad = Integer.parseInt((String) valor);
+            } else {
+                throw new NumberFormatException();
+            }
+
+            // Validar que la cantidad sea positiva
+            if (cantidad <= 0) {
+                throw new NumberFormatException();
+            }
+
+            float precioUnitario = (float) model.getValueAt(fila, 3);
+            float importe = cantidad * precioUnitario;
+            model.setValueAt(importe, fila, 4);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, 
+                "Ingrese un número entero positivo válido", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+            model.setValueAt(1, fila, 1); // Restablecer a cantidad 1
+            model.setValueAt(model.getValueAt(fila, 3), fila, 4); // Restablecer importe
+        }
+    }
+    
+    private void calcularTotalComanda() {
+        DefaultTableModel model = (DefaultTableModel) TablaComanda.getModel();
+        float total = 0;
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            total += (float) model.getValueAt(i, 4); // Sumar columna de importe
+        }
+
+        // Actualizar el campo de texto del total
+        txtTotal.setText(String.format("$%,.2f", total));
+    }
+    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -109,6 +230,8 @@ public class frmCrearComanda extends javax.swing.JFrame {
         BotonRegistrarComanda = new javax.swing.JButton();
         txtCliente = new javax.swing.JTextField();
         btnRegresar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        txtTotal = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(850, 550));
@@ -162,6 +285,11 @@ public class frmCrearComanda extends javax.swing.JFrame {
         BotonBuscarProducto.setBackground(new java.awt.Color(171, 118, 46));
         BotonBuscarProducto.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         BotonBuscarProducto.setText("BUSCAR PRODUCTO");
+        BotonBuscarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonBuscarProductoActionPerformed(evt);
+            }
+        });
 
         TablaComanda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -172,11 +300,18 @@ public class frmCrearComanda extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.Float.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(TablaComanda);
@@ -203,6 +338,9 @@ public class frmCrearComanda extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        jLabel4.setText("Total:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -220,8 +358,12 @@ public class frmCrearComanda extends javax.swing.JFrame {
                             .addComponent(ComboboxMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(53, 53, 53)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnBuscarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -243,13 +385,16 @@ public class frmCrearComanda extends javax.swing.JFrame {
                     .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(jLabel3)))
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                         .addComponent(BotonBuscarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                         .addComponent(ComboboxMesa))
-                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txtTotal, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtCliente, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -274,7 +419,9 @@ public class frmCrearComanda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonRegistrarComandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRegistrarComandaActionPerformed
-        // TODO add your handling code here:
+            crearComanda();
+
+
     }//GEN-LAST:event_BotonRegistrarComandaActionPerformed
 
     private void ComboboxMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboboxMesaActionPerformed
@@ -298,6 +445,38 @@ public class frmCrearComanda extends javax.swing.JFrame {
         controlador.regresarMenuCrearComanda();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void BotonBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscarProductoActionPerformed
+        this.producto = controlador.obtenerProducto();
+        
+        if (producto != null) {
+            DefaultTableModel model = (DefaultTableModel) TablaComanda.getModel();
+            Object[] row = new Object[]{
+                producto.getNombre(), // Nombre del producto
+                1,                    // Cantidad predeterminada
+                "",                   // Nota vacía
+                producto.getPrecio(), // Precio unitario
+                producto.getPrecio() // Importe total (inicialmente igual al precio unitario)
+            };
+            model.addRow(row);
+
+        // Configurar editor para la columna de cantidad
+        TablaComanda.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(new JTextField()) {
+            @Override
+            public boolean stopCellEditing() {
+                try {
+                    // Validar que sea un número entero
+                    Integer.parseInt(getCellEditorValue().toString());
+                    return super.stopCellEditing();
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Ingrese un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            }
+        });
+    }
+        
+    }//GEN-LAST:event_BotonBuscarProductoActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -310,9 +489,11 @@ public class frmCrearComanda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtCliente;
+    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

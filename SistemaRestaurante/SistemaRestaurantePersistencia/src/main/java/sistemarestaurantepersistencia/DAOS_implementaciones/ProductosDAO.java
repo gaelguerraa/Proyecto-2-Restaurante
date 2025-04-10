@@ -177,14 +177,10 @@ public class ProductosDAO implements IProductosDAO{
     public Producto consultarProductoPorNombre(String nombre){
         EntityManager entityManager = ManejadorConexiones.getEntityManager();
 
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-
-        CriteriaQuery<Producto> criteria = builder.createQuery(Producto.class);
-        Root<Producto> producto = criteria.from(Producto.class);
-
-        criteria = criteria.select(producto).where(builder.like(producto.get("nombre"), nombre));
-
-        TypedQuery<Producto> query = entityManager.createQuery(criteria);
+        String jpql = "SELECT p FROM Producto p WHERE p.nombre LIKE :nombre";
+    
+        TypedQuery<Producto> query = entityManager.createQuery(jpql, Producto.class);
+        query.setParameter("nombre", nombre);
         return query.getSingleResult();
     }
     

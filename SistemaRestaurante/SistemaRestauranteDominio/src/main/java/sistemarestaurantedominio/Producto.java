@@ -134,7 +134,7 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return "sistemarestaurantedominio.Producto[ id=" + id + " ]";
+        return this.nombre;
     }
     
 }

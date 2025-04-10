@@ -4,7 +4,9 @@
  */
 package sistemarestaurantepresentacion.ModuloProductos;
 
+import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.Producto;
+import sistemarestaurantedominio.dtos.NuevoDetalleComandaDTO;
 import sistemarestaurantenegocio.IIngredientesProductosBO;
 import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
@@ -26,7 +28,8 @@ public class ControlNavegacionProductos {
     private frmMostrarProductos mostrarProductos;
     private frmAgregarProductoComanda agregarProductoComanda;
     private frmMenuPrincipal menuPrincipal;
-     
+    
+    private frmBuscarProducto buscarProducto;
 
 
     public ControlNavegacionProductos() {
@@ -64,11 +67,13 @@ public class ControlNavegacionProductos {
     }
     
     //metodo para devolver producto a comandas
-//    public Producto regresarProductoSeleccionado(){
-//        this.agregarProductoComanda = new frmAgregarProductoComanda(productosBO, this);
-//        return agregarProductoComanda.devolverProducto();
-//    }
-//    
+ 
+    public Producto regresarProducto(){
+        this.buscarProducto = new frmBuscarProducto(productosBO, this);
+        buscarProducto.setVisible(true);
+        return buscarProducto.devolverProducto();
+        
+    }
     
     
 }
