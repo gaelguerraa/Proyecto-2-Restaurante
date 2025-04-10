@@ -1,6 +1,7 @@
 package sistemarestaurantepresentacion.ModuloComandas;
 
 import sistemarestaurantedominio.ClienteFrecuente;
+import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.Producto;
 import sistemarestaurantenegocio.IComandasBO;
 import sistemarestaurantenegocio.IDetallesComandasBO;
@@ -19,6 +20,7 @@ public class ControlNavegacionComandas {
     private frmMenuComandas frameMenuComandas;
     private frmVerComandas frameVerComandas;
     private frmCrearComanda frameCrearComanda;
+    private frmVerDetalleComanda frameDetalleComanda;
     private ControlNavegacionClientes controlClientes;
     private ControlNavegacionProductos controlProductos;
 
@@ -53,6 +55,12 @@ public class ControlNavegacionComandas {
         this.frameMenuComandas.dispose();
         this.frameVerComandas = new frmVerComandas(this, comandasBO);
         frameVerComandas.setVisible(true);
+    }
+    
+    public void detallesComanda(Comanda comandaSeleccionada){
+        this.frameVerComandas.dispose();
+        this.frameDetalleComanda = new frmVerDetalleComanda(this.detallesComandasBO,comandaSeleccionada, this);
+        this.frameDetalleComanda.setVisible(true);
     }
 
     public void regresarMenu() {
