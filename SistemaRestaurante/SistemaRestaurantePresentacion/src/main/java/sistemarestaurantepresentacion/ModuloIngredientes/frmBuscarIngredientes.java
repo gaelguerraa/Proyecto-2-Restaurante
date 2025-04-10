@@ -14,10 +14,6 @@ import sistemarestaurantedominio.UnidadMedidaIngrediente;
 import sistemarestaurantenegocio.IIngredientesBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
 
-/**
- *
- * @author jalt2
- */
 public class FrmBuscarIngredientes extends javax.swing.JFrame {
     private ControlNavegacionIngredientes control;
     private IIngredientesBO ingredientesBO;
@@ -32,7 +28,7 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
         this.control = control;
         this.ingredientesBO = ingredientesBO;
         this.llenarComboBoxMedida();
-        
+        setTitle("Buscar ingredientes");
     }
     
     private void seleccionarIngredienteAumentarStock(){

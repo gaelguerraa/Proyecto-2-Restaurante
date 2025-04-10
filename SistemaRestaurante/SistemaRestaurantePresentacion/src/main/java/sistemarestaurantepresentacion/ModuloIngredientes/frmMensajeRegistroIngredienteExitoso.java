@@ -4,10 +4,7 @@
  */
 package sistemarestaurantepresentacion.ModuloIngredientes;
 
-/**
- *
- * @author jalt2
- */
+
 public class FrmMensajeRegistroIngredienteExitoso extends javax.swing.JFrame {
     private ControlNavegacionIngredientes control;
     /**
@@ -16,6 +13,7 @@ public class FrmMensajeRegistroIngredienteExitoso extends javax.swing.JFrame {
     public FrmMensajeRegistroIngredienteExitoso(ControlNavegacionIngredientes control) {
         this.control=control;
         initComponents();
+        setTitle("Registro exitoso");
     }
 
     /**

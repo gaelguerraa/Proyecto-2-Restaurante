@@ -29,6 +29,7 @@ public class frmMostrarProductos extends javax.swing.JFrame {
         this.productosBO=productosBO;
         this.controlador=controlador;
         LlenarTablaProductosIngredientes();
+        setTitle("Listado de productos");
     }
     
     public void LlenarTablaProductosIngredientes(){

@@ -16,14 +16,25 @@ import sistemarestaurantepresentacion.ModuloReportes.ControlNavegacionReportes;
  * @author jorge
  */
 public class frmMenuPrincipal extends javax.swing.JFrame {
-    
-    
-    /**
-     * Creates new form frmMenuPrincipal
-     */
+
     public frmMenuPrincipal() {
         initComponents();
         setLocationRelativeTo(null);
+
+        if (frmTipoAcceso.esAdmin) {
+            setTitle("Menú Principal - Administrador");
+        } else {
+            setTitle("Menú Principal - Mesero");
+            desactivarOpcionesMesero();
+        }
+    }
+
+    private void desactivarOpcionesMesero() {
+        btnReportes.setVisible(false);
+        btnMesas.setVisible(false);
+        btnProductos.setVisible(false);
+        btnIngredientes.setVisible(false);
+        btnClientes.setVisible(false);
     }
 
     /**
@@ -47,6 +58,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         btnClientes = new javax.swing.JButton();
         btnReportes = new javax.swing.JButton();
         btnMesas = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(241, 209, 165));
@@ -157,6 +169,15 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         });
         jPanel4.add(btnMesas);
 
+        btnSalir.setBackground(new java.awt.Color(171, 118, 46));
+        btnSalir.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        btnSalir.setText("SALIR");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -167,6 +188,10 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
                 .addGap(162, 162, 162)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(372, 372, 372))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,7 +201,9 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 110, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addComponent(btnSalir)
+                .addGap(20, 20, 20))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -236,6 +263,11 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnMesasActionPerformed
 
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+        System.exit(0);
+    }//GEN-LAST:event_btnSalirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClientes;
@@ -244,6 +276,7 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnMesas;
     private javax.swing.JButton btnProductos;
     private javax.swing.JButton btnReportes;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

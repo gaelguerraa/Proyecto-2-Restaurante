@@ -24,6 +24,7 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
         this.control=control;
         this.detallesComandasBO = detallesComandasBO;
         this.cargarInformacionComanda(comandaSeleccionada);
+        setTitle("Detalles de comanda");
         setLocationRelativeTo(null);
     }
     
@@ -35,7 +36,7 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
             this.txtCliente.setText("N/A");
         }
         this.txtEstadoComanda.setText(comanda.getEstado().toString());
-        this.txtImporteTotal.setText(comanda.getTotal().toString());
+        this.txtImporteTotal.setText("$" + String.format("%.2f", comanda.getTotal()));
         this.txtMesa.setText(comanda.getNumeroMesa().getNumeroMesa().toString());
         this.lblFolio.setText(comanda.getFolio());
         
@@ -56,7 +57,6 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         lblFolio = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtFechaHora = new javax.swing.JTextField();
@@ -99,28 +99,21 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(241, 209, 165));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("FOLIO:");
-
-        lblFolio.setText("N/A");
+        lblFolio.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        lblFolio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFolio.setText("FOLIO");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(lblFolio, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(307, 307, 307))
+                .addComponent(lblFolio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                .addComponent(lblFolio, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(lblFolio, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
@@ -277,7 +270,7 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEntregada, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -310,7 +303,6 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
     private javax.swing.JButton btnEntregada;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

@@ -12,8 +12,8 @@ public class SistemaRestaurantePresentacion {
 
     public static void main(String[] args) {
 
-        frmMenuPrincipal menu = new frmMenuPrincipal();
-        menu.setVisible(true);
+        frmTipoAcceso acceso = new frmTipoAcceso();
+        acceso.setVisible(true);
         
     }
 }

@@ -29,6 +29,7 @@ public class frmBuscarCliente extends javax.swing.JDialog {
         initComponents();
         this.clientesFrecuentesBO = clientesFrecuentesBO;
         this.control = control;
+        setTitle("Buscador de clientes");
         setLocationRelativeTo(null);
         this.llenarTablaClientes();
 

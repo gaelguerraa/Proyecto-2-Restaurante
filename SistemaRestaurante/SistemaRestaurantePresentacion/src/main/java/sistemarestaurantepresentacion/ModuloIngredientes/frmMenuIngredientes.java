@@ -8,10 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import sistemarestaurantenegocio.excepciones.NegocioException;
 
-/**
- *
- * @author jalt2
- */
 public class FrmMenuIngredientes extends javax.swing.JFrame {
     
     private ControlNavegacionIngredientes control;
@@ -22,6 +18,7 @@ public class FrmMenuIngredientes extends javax.swing.JFrame {
     public FrmMenuIngredientes(ControlNavegacionIngredientes control) {
         this.control=control;
         initComponents();
+        setTitle("Menu ingredientes");
     }
 
     /**

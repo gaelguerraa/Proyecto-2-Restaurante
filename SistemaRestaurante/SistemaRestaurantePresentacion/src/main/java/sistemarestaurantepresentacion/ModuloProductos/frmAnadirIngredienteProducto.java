@@ -33,6 +33,7 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         this.controlador = controlador;
         this.ingredientesProductosBO=ingredientesProductosBO;
         this.productosBO=productosBO;
+        setTitle("Añadir ingredientes");
         initComponents();
         LlenarComboBoxIngrediente();
         LlenarTablaProductos();

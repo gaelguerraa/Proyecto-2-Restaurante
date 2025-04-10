@@ -31,41 +31,46 @@ public class frmVerComandas extends javax.swing.JFrame {
         this.comandasBO = comandasBO;
         this.llenarTablaComandas();
         this.seleccionarComanda();
+        setTitle("Listado de comandas");
     }
-    
-    private void seleccionarComanda(){
-            this.tblTabla.getSelectionModel().addListSelectionListener(e -> {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedRow = tblTabla.getSelectedRow();
-                    if (selectedRow != -1) {
-                        this.folio = (String) tblTabla.getValueAt(selectedRow, 0);
-                        // aqui hay que llamar al metodo para consultar la comanda a detalle con el folio
-                        this.comandaSeleccionada = this.comandasBO.buscarPorFolio(this.folio);
-                        //this.clienteSeleccionado = clientesFrecuentesBO.consultarClienteTelefono(telefonoCliente);
-                        control.detallesComanda(comandaSeleccionada);
-                        System.out.println(folio);
-                    }
+
+    private void seleccionarComanda() {
+        this.tblTabla.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = tblTabla.getSelectedRow();
+                if (selectedRow != -1) {
+                    this.folio = (String) tblTabla.getValueAt(selectedRow, 0);
+                    // aqui hay que llamar al metodo para consultar la comanda a detalle con el folio
+                    this.comandaSeleccionada = this.comandasBO.buscarPorFolio(this.folio);
+                    //this.clienteSeleccionado = clientesFrecuentesBO.consultarClienteTelefono(telefonoCliente);
+                    control.detallesComanda(comandaSeleccionada);
+                    System.out.println(folio);
                 }
-            });
+            }
+        });
     }
-    
+
     public void llenarTablaComandas() {
         List<NuevaComandaDTO> comandas = comandasBO.consultarComandas();
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblTabla.getModel();
         modeloTabla.setRowCount(0);
+
         for (NuevaComandaDTO comanda : comandas) {
             String nombreCliente = "Sin cliente";
             if (comanda.getClienteFrecuente() != null) {
                 nombreCliente = comanda.getClienteFrecuente().getNombre() + " "
                         + comanda.getClienteFrecuente().getApellidoPaterno();
             }
+
+            String totalFormateado = "$" + String.format("%.2f", comanda.getTotal());
+
             Object[] fila = {
                 comanda.getFolio(),
                 comanda.getFechaHora(),
                 comanda.getNumeroMesa().getNumeroMesa(),
                 comanda.getEstado(),
                 nombreCliente,
-                comanda.getTotal()
+                totalFormateado
             };
             modeloTabla.addRow(fila);
         }

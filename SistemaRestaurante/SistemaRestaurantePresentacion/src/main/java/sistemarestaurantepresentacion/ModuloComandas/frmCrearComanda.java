@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package sistemarestaurantepresentacion.ModuloComandas;
 
 import java.time.LocalDate;
@@ -25,13 +21,6 @@ import sistemarestaurantenegocio.IDetallesComandasBO;
 import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
 
-
-
-
-/**
- *
- * @author gael_
- */
 public class frmCrearComanda extends javax.swing.JFrame {
 
     Comanda comandaActual;
@@ -58,7 +47,7 @@ public class frmCrearComanda extends javax.swing.JFrame {
         this.LlenarComboboxMesa();
         configurarListenersTabla();
         txtTotal.setEditable(false);
-
+        setTitle("Crear Comanda");
     }
     
     public void LlenarComboboxMesa(){

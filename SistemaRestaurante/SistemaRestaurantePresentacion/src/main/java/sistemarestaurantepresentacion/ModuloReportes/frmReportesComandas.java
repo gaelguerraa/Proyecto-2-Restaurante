@@ -23,6 +23,7 @@ public class frmReportesComandas extends javax.swing.JFrame {
         this.llenarTablaComandas();
         this.ponerFechaLabel();
         setLocationRelativeTo(null);
+        setTitle("Reporte de comandas");
     }
     
     private void llenarTablaComandas() {

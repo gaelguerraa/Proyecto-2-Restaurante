@@ -19,6 +19,7 @@ public class frmReportesComandasSeleccionarFecha extends javax.swing.JFrame {
         initComponents();
         this.control = control;
         setLocationRelativeTo(null);
+        setTitle("Seleccion de periodo");
     }
 
     /**

@@ -25,6 +25,7 @@ public class frmAgregarProductoComanda extends javax.swing.JFrame {
     private IProductosBO productosBO;
     private NuevoDetalleComandaDTO detalleComanda;
     private static final Logger LOG = Logger.getLogger(frmAgregarProductoComanda.class.getName());
+    
     /**
      * Creates new form frmAgregarProducto
      */
@@ -35,6 +36,7 @@ public class frmAgregarProductoComanda extends javax.swing.JFrame {
         initComponents();
         LlenarTablaProductos();
         txtFolio.setText(String.valueOf(comandaActual.getFolio()));
+        setTitle("Agregar producto");
     }
     
     private void LlenarComboBoxTipoProducto(){

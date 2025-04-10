@@ -23,6 +23,8 @@ public interface IClientesFrecuentesDAO {
     
     public abstract List<Comanda> obtenerComandasPorCliente(ClienteFrecuente cliente);
     
+    public abstract List<Comanda> obtenerComandasCompletadasPorCliente(ClienteFrecuente cliente);
+    
     public abstract float obtenerMontoGastado(ClienteFrecuente cliente);
     
     public abstract int obtenerNumeroVisitas(ClienteFrecuente cliente);

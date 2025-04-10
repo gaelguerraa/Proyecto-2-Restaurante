@@ -33,6 +33,7 @@ public class frmReportesClientesFrecuentes extends javax.swing.JFrame {
         this.clientesFrecuentesBO = clientesBO;
         setLocationRelativeTo(null);
         this.llenarTablaClientes();
+        setTitle("Reporte de clientes");
     }
 
     /**

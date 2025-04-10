@@ -12,13 +12,16 @@ public class frmRegistroCliente extends javax.swing.JFrame {
     private ControlNavegacionClientes control;
 
     /**
-     * Creates new form frmRegistroCliente
+     * Constructor para registrar clientes
+     * @param clientesFrecuentesBO Recibe como parametro una BO de clientes para registrar datos
+     * @param control Recibe como parametro un control de navegacion
      */
     public frmRegistroCliente(IClientesFrecuentesBO clientesFrecuentesBO, ControlNavegacionClientes control) {
         initComponents();
         this.clientesFrecuentesBO = clientesFrecuentesBO;
         this.control = control;
         setLocationRelativeTo(null);
+        setTitle("Registro de clientes");
     }
 
     /**

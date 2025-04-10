@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package sistemarestaurantepresentacion.ModuloIngredientes;
 
 import java.util.logging.Level;
@@ -12,10 +8,6 @@ import sistemarestaurantedominio.dtos.NuevoIngredienteDTO;
 import sistemarestaurantenegocio.IIngredientesBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
 
-/**
- *
- * @author jalt2
- */
 public class FrmRegistrarIngrediente extends javax.swing.JFrame {
     private ControlNavegacionIngredientes control;
     private IIngredientesBO ingredientesBO;
@@ -29,6 +21,7 @@ public class FrmRegistrarIngrediente extends javax.swing.JFrame {
         this.control = control;
         this.ingredientesBO=ingredientesBO;
         this.llenarComboBoxMedida();
+        setTitle("Registro ingredientes");
     }
 
     /**

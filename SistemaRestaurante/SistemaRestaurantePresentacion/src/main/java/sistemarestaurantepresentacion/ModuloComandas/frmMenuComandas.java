@@ -17,6 +17,7 @@ public class frmMenuComandas extends javax.swing.JFrame {
         initComponents();
         this.control = control;
         setLocationRelativeTo(null);
+        setTitle("Menu Comandas");
     }
 
     /**

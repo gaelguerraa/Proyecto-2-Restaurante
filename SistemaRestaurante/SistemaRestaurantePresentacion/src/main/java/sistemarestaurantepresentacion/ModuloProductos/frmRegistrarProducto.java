@@ -32,7 +32,7 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         initComponents();
         this.productosBO=productosBO;
         LlenarComboBoxTipoProducto();
-
+        setTitle("Registro de productos");
 
     }
     

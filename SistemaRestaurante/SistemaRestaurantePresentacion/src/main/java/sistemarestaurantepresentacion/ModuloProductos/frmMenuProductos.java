@@ -18,6 +18,7 @@ public class frmMenuProductos extends javax.swing.JFrame {
         initComponents();
         this.controlador=controlador;
         setLocationRelativeTo(null);
+        setTitle("Menu de productos");
     }
 
     /**

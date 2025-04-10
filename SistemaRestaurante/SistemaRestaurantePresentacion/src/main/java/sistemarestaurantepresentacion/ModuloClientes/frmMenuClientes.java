@@ -1,14 +1,17 @@
 package sistemarestaurantepresentacion.ModuloClientes;
 
 public class frmMenuClientes extends javax.swing.JFrame {
-
     private ControlNavegacionClientes control;
 
-
+    /**
+     * Constructor que recibe un control como parametro
+     * @param control 
+     */
     public frmMenuClientes(ControlNavegacionClientes control) {
         this.control = control;
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("Menu de clientes");
     }
 
     /**
@@ -143,9 +146,7 @@ public class frmMenuClientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-
         control.consultar();
-
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed

@@ -40,6 +40,7 @@ public class frmBuscarProducto extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         LlenarComboBoxTipoProducto();
         this.LlenarTablaProductos();
+        setTitle("Buscador de productos");
         
         TablaProductos.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {

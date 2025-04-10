@@ -23,6 +23,7 @@ public class frmMesas extends javax.swing.JFrame {
     public frmMesas() {
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("Cargado de mesas");
     }
 
     /**

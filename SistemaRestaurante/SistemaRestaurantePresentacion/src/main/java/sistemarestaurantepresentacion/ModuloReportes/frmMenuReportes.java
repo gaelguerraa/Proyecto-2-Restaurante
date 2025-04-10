@@ -19,6 +19,7 @@ public class frmMenuReportes extends javax.swing.JFrame {
         initComponents();
         this.control = control;
         setLocationRelativeTo(null);
+        setTitle("Menu de reportes");
     }
 
     /**

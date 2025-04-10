@@ -13,8 +13,15 @@ public class frmInformacionCliente extends javax.swing.JFrame {
     private NuevoClienteFrecuenteDTO cliente;
     private ControlNavegacionClientes control;
 
+    /**
+     * Constructor para ver informacion detallada de un cliente seleccionado
+     * @param clientesFrecuentesBO Recibe una BO para recuperar datos
+     * @param cliente Recibe un cliente
+     * @param control Recibe un control de navegacion
+     */
     public frmInformacionCliente(IClientesFrecuentesBO clientesFrecuentesBO, ClienteFrecuente cliente, ControlNavegacionClientes control) {
         initComponents();
+        setTitle("Informacion de cliente");
         this.control = control;
         this.clientesFrecuentesBO = clientesFrecuentesBO;
         this.cargarInformacion(cliente);

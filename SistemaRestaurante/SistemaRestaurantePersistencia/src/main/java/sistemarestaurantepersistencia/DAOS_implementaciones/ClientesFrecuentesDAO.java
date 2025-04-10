@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantedominio.Comanda;
+import sistemarestaurantedominio.EstadoComanda;
 import sistemarestaurantedominio.dtos.NuevoClienteFrecuenteDTO;
 import sistemarestaurantepersistencia.interfaces.IClientesFrecuentesDAO;
 
@@ -155,6 +156,25 @@ public class ClientesFrecuentesDAO implements IClientesFrecuentesDAO {
         return comandas;
     }
 
+    @Override
+    public List<Comanda> obtenerComandasCompletadasPorCliente(ClienteFrecuente cliente) {
+        EntityManager entityManager = ManejadorConexiones.getEntityManager();
+        List<Comanda> comandas = new ArrayList<>();
+
+        try {
+            TypedQuery<Comanda> query = entityManager.createQuery(
+                    "SELECT c FROM Comanda c WHERE c.cliente = :cliente AND c.estado = :estado",
+                    Comanda.class);
+            query.setParameter("cliente", cliente);
+            query.setParameter("estado", EstadoComanda.ENTREGADA);
+            comandas = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return comandas;
+    }
+
     /**
      * Metodo que obtiene el monto gastado de un cliente segun las comandas que
      * tenga relacionadas
@@ -164,7 +184,7 @@ public class ClientesFrecuentesDAO implements IClientesFrecuentesDAO {
      */
     @Override
     public float obtenerMontoGastado(ClienteFrecuente cliente) {
-        List<Comanda> comandas = this.obtenerComandasPorCliente(cliente);
+        List<Comanda> comandas = this.obtenerComandasCompletadasPorCliente(cliente);
 
         float montoTotal = 0;
 
