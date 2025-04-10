@@ -41,8 +41,6 @@ public class frmCrearComanda extends javax.swing.JFrame {
     ClienteFrecuente cliente;
     Producto producto;
     private static final Logger LOG = Logger.getLogger(frmCrearComanda.class.getName());
-    
-    
     NuevoDetalleComandaDTO detalleComanda;
     IDetallesComandasBO detallesComandasBO;
     
@@ -65,8 +63,7 @@ public class frmCrearComanda extends javax.swing.JFrame {
     
     public void LlenarComboboxMesa(){
         List<Mesa> mesas = comandasBO.obtenerMesas();
-        
-        for(Mesa m : mesas){
+            for(Mesa m : mesas){
             ComboboxMesa.addItem(String.valueOf(m.getNumeroMesa()));
         }
     }
@@ -78,81 +75,148 @@ public class frmCrearComanda extends javax.swing.JFrame {
         String consecutivoFormateado = String.format("%03d", consecutivo);
         return "OB-" + fechaFormateada + "-" + consecutivoFormateado;
     }
-    
-    //poner todo dentro de un try y hacer el BO de comanda para manejar errores
+ 
     public void crearComanda() {
-        String folio = generarFolio(); 
-        EstadoComanda estado = EstadoComanda.ABIERTA;
-        LocalDateTime fechaHora = LocalDateTime.now();
-        Float importeTotal = 0.0f;
-        
-        int numeroMesaSeleccionada = Integer.parseInt((String) ComboboxMesa.getSelectedItem());
-        Mesa mesa = comandasBO.buscarMesaPorNumero(numeroMesaSeleccionada);
-        
-        NuevaComandaDTO nuevaComanda;
-        if ("Publico General".equals(txtCliente.getText())) {
-            nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, importeTotal, mesa);
-        } else {
-            nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, importeTotal, mesa, cliente);
+        try {
+            
+            String folio = generarFolio();
+            EstadoComanda estado = EstadoComanda.ABIERTA;
+            LocalDateTime fechaHora = LocalDateTime.now();
+
+            float importeTotal = calcularTotalReal();
+
+            int numeroMesaSeleccionada = Integer.parseInt((String) ComboboxMesa.getSelectedItem());
+            Mesa mesa = comandasBO.buscarMesaPorNumero(numeroMesaSeleccionada);
+
+            if (mesa == null) {
+                throw new NegocioException("Mesa no encontrada");
+            }
+
+            NuevaComandaDTO nuevaComanda;
+            if ("Publico General".equals(txtCliente.getText())) {
+                nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, importeTotal, mesa);
+            } else {
+                nuevaComanda = new NuevaComandaDTO(folio, estado, fechaHora, importeTotal, mesa, cliente);
+            }
+
+            this.comandaActual = comandasBO.registrarComanda(nuevaComanda);
+
+            if (comandaActual == null || comandaActual.getId() == null) {
+                throw new NegocioException("No se pudo persistir la comanda");
+            }
+
+            registrarDetallesComanda();
+
+            JOptionPane.showMessageDialog(null, "¡Comanda creada con folio: " + folio + "!");
+
+        } catch (NegocioException e) {
+            JOptionPane.showMessageDialog(null, "Error al crear comanda: " + e.getMessage(), 
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage(), 
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
-        
-        comandasBO.registrarComanda(nuevaComanda);
-        this.comandaActual = comandasBO.buscarPorFolio(folio);
-        JOptionPane.showMessageDialog(null, "¡Comanda creada con folio: " + folio + "!");
-        
-        //para detallesComanda
+    }
+    
+    private Comanda obtenerComandaActualDetectada() throws NegocioException {
+        if (comandaActual != null) {
+            return comandaActual; 
+        }
+
+        String folio = generarFolio(); 
+        Comanda encontrada = comandasBO.buscarPorFolio(folio);
+
+        if (encontrada == null) {
+            throw new NegocioException("No se encontró la comanda con folio: " + folio);
+        }
+
+        comandaActual = encontrada; 
+        return encontrada;
+    }
+
+
+    private float calcularTotalReal() throws NegocioException {
+        DefaultTableModel model = (DefaultTableModel) TablaComanda.getModel();
+        float total = 0;
+        for (int i = 0; i < model.getRowCount(); i++) {
+            total += obtenerValorNumerico(model.getValueAt(i, 4));
+        }
+        return total;
+    }
+
+    private void registrarDetallesComanda() throws NegocioException {
+        Comanda comanda = obtenerComandaActualDetectada();
         DefaultTableModel model = (DefaultTableModel) TablaComanda.getModel();
         for (int i = 0; i < model.getRowCount(); i++) {
             try {
-                String nombreProducto = (String) model.getValueAt(i, 0); // Asumir que la primera columna es String
-                Object cantidadObj = model.getValueAt(i, 1); // Obtenemos el valor como Object
-                int cantidad = 0;
-                if (cantidadObj instanceof Integer) {
-                    cantidad = (Integer) cantidadObj;
-                } else if (cantidadObj instanceof String) {
-                    cantidad = Integer.parseInt((String) cantidadObj);
-                }
+                
+                String nombreProducto = model.getValueAt(i, 0).toString();
 
-                String nota = (String) model.getValueAt(i, 2); // Asumir que la tercera columna es String
-                Object precioObj = model.getValueAt(i, 3); // Obtenemos el valor como Object
-                float precio = 0.0f;
-                if (precioObj instanceof Float) {
-                    precio = (Float) precioObj;
-                } else if (precioObj instanceof String) {
-                    precio = Float.parseFloat((String) precioObj);
-                }
+                int cantidad = obtenerCantidad(model.getValueAt(i, 1));
 
-                Object totalObj = model.getValueAt(i, 4); // Obtenemos el valor como Object
-                float total = 0.0f;
-                if (totalObj instanceof Float) {
-                    total = (Float) totalObj;
-                } else if (totalObj instanceof String) {
-                    total = Float.parseFloat((String) totalObj);
+                String nota = obtenerNota(model.getValueAt(i, 2));
+
+                float precioUnitario = obtenerValorNumerico(model.getValueAt(i, 3));
+                float total = obtenerValorNumerico(model.getValueAt(i, 4));
+
+                Producto producto = productosBO.consultarProductoPorNombre(nombreProducto);
+                if (producto == null) {
+                    throw new NegocioException("Producto no encontrado: " + nombreProducto);
                 }
                 
-                Producto producto = this.productosBO.consultarProductoPorNombre(nombreProducto); // Asumiendo que exista este método
 
-                NuevoDetalleComandaDTO detalle = new NuevoDetalleComandaDTO(producto, comandaActual, precio, nota, cantidad, total);
+                NuevoDetalleComandaDTO detalle = new NuevoDetalleComandaDTO(
+                    producto, comandaActual, precioUnitario, nota, cantidad, total
+                );
+
                 detallesComandasBO.guardarDetalleComanda(detalle);
 
-            } catch (ClassCastException e) {
-                JOptionPane.showMessageDialog(null, "Error de tipo en la fila " + (i + 1) + ": " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                e.printStackTrace();
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Error de formato de número en la fila " + (i + 1) + ": " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                e.printStackTrace();
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error en la fila " + (i + 1) + ": " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                e.printStackTrace();
+                throw new NegocioException("Error en fila " + (i+1) + ": " + e.getMessage());
             }
         }
-}
+    }
 
+    private String obtenerNota(Object valorNota) {
+        if (valorNota == null) {
+            return "";
+        }
+
+        if (valorNota instanceof String) {
+            return (String) valorNota;
+        }
+
+        return valorNota.toString();
+    }
+
+    private int obtenerCantidad(Object valorCantidad) throws NegocioException {
+        try {
+            if (valorCantidad instanceof Number) {
+                return ((Number) valorCantidad).intValue();
+            }
+            return Integer.parseInt(valorCantidad.toString());
+        } catch (Exception e) {
+            throw new NegocioException("Cantidad inválida: " + valorCantidad);
+        }
+    }
+
+    private float obtenerValorNumerico(Object valor) throws NegocioException {
+        try {
+            if (valor instanceof Number) {
+                return ((Number) valor).floatValue();
+            }
+            String strValor = valor.toString().replace("$", "").replace(",", "");
+            return Float.parseFloat(strValor);
+        } catch (Exception e) {
+            throw new NegocioException("Valor numérico inválido: " + valor);
+        }
+    }
     
     
     private void configurarListenersTabla() {
         TablaComanda.getModel().addTableModelListener(e -> {
-            // Solo responder a cambios en la columna de cantidad (columna 1)
             if (e.getColumn() == 1) {
                 actualizarImporteFila(e.getFirstRow());
                 calcularTotalComanda();
@@ -163,11 +227,10 @@ public class frmCrearComanda extends javax.swing.JFrame {
     private void actualizarImporteFila(int fila) {
         DefaultTableModel model = (DefaultTableModel) TablaComanda.getModel();
         try {
-            // Obtener el valor de la celda de forma segura
+
             Object valor = model.getValueAt(fila, 1);
             int cantidad;
 
-            // Convertir el valor a entero sin importar su tipo original
             if (valor instanceof Number) {
                 cantidad = ((Number) valor).intValue();
             } else if (valor instanceof String) {
@@ -176,7 +239,6 @@ public class frmCrearComanda extends javax.swing.JFrame {
                 throw new NumberFormatException();
             }
 
-            // Validar que la cantidad sea positiva
             if (cantidad <= 0) {
                 throw new NumberFormatException();
             }
@@ -189,8 +251,8 @@ public class frmCrearComanda extends javax.swing.JFrame {
                 "Ingrese un número entero positivo válido", 
                 "Error", 
                 JOptionPane.ERROR_MESSAGE);
-            model.setValueAt(1, fila, 1); // Restablecer a cantidad 1
-            model.setValueAt(model.getValueAt(fila, 3), fila, 4); // Restablecer importe
+            model.setValueAt(1, fila, 1); 
+            model.setValueAt(model.getValueAt(fila, 3), fila, 4); 
         }
     }
     
@@ -199,10 +261,8 @@ public class frmCrearComanda extends javax.swing.JFrame {
         float total = 0;
 
         for (int i = 0; i < model.getRowCount(); i++) {
-            total += (float) model.getValueAt(i, 4); // Sumar columna de importe
+            total += (float) model.getValueAt(i, 4); 
         }
-
-        // Actualizar el campo de texto del total
         txtTotal.setText(String.format("$%,.2f", total));
     }
     
@@ -383,10 +443,11 @@ public class frmCrearComanda extends javax.swing.JFrame {
                 .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
@@ -420,8 +481,7 @@ public class frmCrearComanda extends javax.swing.JFrame {
 
     private void BotonRegistrarComandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRegistrarComandaActionPerformed
             crearComanda();
-
-
+            controlador.regresarMenuCrearComanda();
     }//GEN-LAST:event_BotonRegistrarComandaActionPerformed
 
     private void ComboboxMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboboxMesaActionPerformed
@@ -429,16 +489,13 @@ public class frmCrearComanda extends javax.swing.JFrame {
     }//GEN-LAST:event_ComboboxMesaActionPerformed
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
-
         this.cliente = controlador.obtenerCliente();
-        if(cliente != null){
-            txtCliente.setText(cliente.getNombre() + " " + cliente.getApellidoPaterno());
-        }
-        else{
-            txtCliente.setText("Publico General");
-        }
-        
-        
+            if(cliente != null){
+                txtCliente.setText(cliente.getNombre() + " " + cliente.getApellidoPaterno());
+            }
+            else{
+                txtCliente.setText("Publico General");
+            }  
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
@@ -451,20 +508,19 @@ public class frmCrearComanda extends javax.swing.JFrame {
         if (producto != null) {
             DefaultTableModel model = (DefaultTableModel) TablaComanda.getModel();
             Object[] row = new Object[]{
-                producto.getNombre(), // Nombre del producto
-                1,                    // Cantidad predeterminada
-                "",                   // Nota vacía
-                producto.getPrecio(), // Precio unitario
-                producto.getPrecio() // Importe total (inicialmente igual al precio unitario)
+                producto.getNombre(), 
+                1,                    
+                "",                  
+                producto.getPrecio(), 
+                producto.getPrecio()
             };
             model.addRow(row);
 
-        // Configurar editor para la columna de cantidad
         TablaComanda.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(new JTextField()) {
             @Override
             public boolean stopCellEditing() {
                 try {
-                    // Validar que sea un número entero
+
                     Integer.parseInt(getCellEditorValue().toString());
                     return super.stopCellEditing();
                 } catch (NumberFormatException e) {

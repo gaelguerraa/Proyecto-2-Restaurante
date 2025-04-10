@@ -38,7 +38,7 @@ public class frmMostrarProductos extends javax.swing.JFrame {
         
         for(ProductoIngredienteDTO pi : listaPI ){
             Object[] fila = {
-                pi.getNombreIngrediente(),
+                pi.getNombreProducto(),
                 pi.getTipoProducto(),
                 pi.getNombreIngrediente(),
                 pi.getMedidaIngrediente(),

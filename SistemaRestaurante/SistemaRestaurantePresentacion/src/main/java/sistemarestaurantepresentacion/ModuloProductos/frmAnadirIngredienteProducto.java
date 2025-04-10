@@ -10,13 +10,10 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sistemarestaurantedominio.Ingrediente;
 import sistemarestaurantedominio.Producto;
-import sistemarestaurantedominio.UnidadMedidaIngrediente;
 import sistemarestaurantedominio.dtos.NuevoIngredienteProductoDTO;
-import sistemarestaurantedominio.dtos.NuevoProductoDTO;
 import sistemarestaurantenegocio.IIngredientesProductosBO;
 import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
-import sistemarestaurantepresentacion.frmMenuPrincipal;
 
 /**
  *

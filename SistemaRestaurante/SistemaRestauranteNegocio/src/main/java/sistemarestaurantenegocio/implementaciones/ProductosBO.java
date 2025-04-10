@@ -129,15 +129,6 @@ public class ProductosBO implements IProductosBO {
     public Producto consultarProductoPorNombre(String nombre) {
         return this.productosDAO.consultarProductoPorNombre(nombre);
     }
-  
-    @Override
-    public Float obtenerPrecioActual(Producto producto) {
-        return producto.getPrecio();
-    }
 
-    @Override
-    public Float calcularTotal(Producto producto, int cantidad) {
-        return producto.getPrecio() * cantidad;
-    }
     
 }

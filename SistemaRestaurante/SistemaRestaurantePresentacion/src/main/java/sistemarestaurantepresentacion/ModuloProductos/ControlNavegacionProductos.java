@@ -4,14 +4,10 @@
  */
 package sistemarestaurantepresentacion.ModuloProductos;
 
-import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.Producto;
-import sistemarestaurantedominio.dtos.NuevoDetalleComandaDTO;
 import sistemarestaurantenegocio.IIngredientesProductosBO;
 import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
-import sistemarestaurantenegocio.implementaciones.ProductosBO;
-import sistemarestaurantepersistencia.DAOS_implementaciones.ProductosDAO;
 import sistemarestaurantepresentacion.frmMenuPrincipal;
 
 /**
@@ -26,9 +22,7 @@ public class ControlNavegacionProductos {
     private frmRegistrarProducto registrarProducto;
     private frmAnadirIngredienteProducto anadirIngredienteProducto;
     private frmMostrarProductos mostrarProductos;
-    private frmAgregarProductoComanda agregarProductoComanda;
-    private frmMenuPrincipal menuPrincipal;
-    
+    private frmMenuPrincipal menuPrincipal;    
     private frmBuscarProducto buscarProducto;
 
 

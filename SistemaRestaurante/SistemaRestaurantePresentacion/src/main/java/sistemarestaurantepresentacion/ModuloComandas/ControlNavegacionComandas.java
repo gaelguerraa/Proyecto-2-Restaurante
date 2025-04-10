@@ -2,14 +2,12 @@ package sistemarestaurantepresentacion.ModuloComandas;
 
 import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantedominio.Producto;
-import sistemarestaurantedominio.dtos.NuevoDetalleComandaDTO;
 import sistemarestaurantenegocio.IComandasBO;
 import sistemarestaurantenegocio.IDetallesComandasBO;
 import sistemarestaurantenegocio.IProductosBO;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
 import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
 import sistemarestaurantepresentacion.ModuloProductos.ControlNavegacionProductos;
-import sistemarestaurantepresentacion.ModuloProductos.frmAgregarProductoComanda;
 import sistemarestaurantepresentacion.frmMenuPrincipal;
 
 public class ControlNavegacionComandas {
@@ -24,7 +22,6 @@ public class ControlNavegacionComandas {
     private ControlNavegacionClientes controlClientes;
     private ControlNavegacionProductos controlProductos;
 
-    private frmAgregarProductoComanda frameAgregarProductoComanda;
 
     public ControlNavegacionComandas() {
         comandasBO = FabricaObjetosNegocio.crearComandasBO();
