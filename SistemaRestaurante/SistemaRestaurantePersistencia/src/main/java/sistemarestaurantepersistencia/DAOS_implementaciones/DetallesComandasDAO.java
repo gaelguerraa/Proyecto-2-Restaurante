@@ -26,6 +26,7 @@ public class DetallesComandasDAO implements IDetallesComandasDAO {
         dc.setPrecioUnitarioProducto(detalleComanda.getPrecioActual());
         dc.setImporteTotal(detalleComanda.getImporte());
         dc.setNota(detalleComanda.getNota());
+        dc.setComanda(detalleComanda.getComanda());
         dc.setProducto(detalleComanda.getProduto());
         
         em.persist(dc);
