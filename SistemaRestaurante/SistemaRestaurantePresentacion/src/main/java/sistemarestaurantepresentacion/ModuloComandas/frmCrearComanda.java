@@ -129,7 +129,7 @@ public class frmCrearComanda extends javax.swing.JFrame {
                 } else if (totalObj instanceof String) {
                     total = Float.parseFloat((String) totalObj);
                 }
-
+                
                 Producto producto = this.productosBO.consultarProductoPorNombre(nombreProducto); // Asumiendo que exista este método
 
                 NuevoDetalleComandaDTO detalle = new NuevoDetalleComandaDTO(producto, comandaActual, precio, nota, cantidad, total);

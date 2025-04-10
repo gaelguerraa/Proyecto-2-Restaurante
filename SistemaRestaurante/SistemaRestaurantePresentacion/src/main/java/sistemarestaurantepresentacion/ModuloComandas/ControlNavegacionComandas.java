@@ -28,6 +28,8 @@ public class ControlNavegacionComandas {
 
     public ControlNavegacionComandas() {
         comandasBO = FabricaObjetosNegocio.crearComandasBO();
+        productosBO = FabricaObjetosNegocio.crearProductosBO();
+        detallesComandasBO = FabricaObjetosNegocio.crearDetallesComadasBO();
     }
 
     public void iniciarMenu() {

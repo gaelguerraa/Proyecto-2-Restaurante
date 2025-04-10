@@ -87,7 +87,7 @@ public class frmReportesClientesFrecuentes extends javax.swing.JFrame {
                     float monto = clientesFrecuentesBO.obtenerMontoGastado(cliente);
                     int numVisitas = clientesFrecuentesBO.obtenerNumVisitas(cliente);
                     String ultimaVisitaStr = "N/A";
-
+                    String montoFormateado = String.format("$%,.2f", monto);
                     LocalDateTime ultimaVisita;
                     try {
                         ultimaVisita = clientesFrecuentesBO.obtenerUltimaVisita(cliente);
@@ -103,7 +103,7 @@ public class frmReportesClientesFrecuentes extends javax.swing.JFrame {
                         cliente.getNombre(),
                         cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno(),
                         numVisitas,
-                        monto,
+                        montoFormateado,
                         cliente.getPuntosFidelidad(),
                         ultimaVisitaStr
                     };
