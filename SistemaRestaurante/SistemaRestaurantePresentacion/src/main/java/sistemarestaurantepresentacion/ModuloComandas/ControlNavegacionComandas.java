@@ -6,7 +6,9 @@ import sistemarestaurantedominio.Producto;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
 import sistemarestaurantenegocio.IComandasBO;
 import sistemarestaurantenegocio.IDetallesComandasBO;
+import sistemarestaurantenegocio.IIngredientesBO;
 import sistemarestaurantenegocio.IProductosBO;
+import sistemarestaurantenegocio.excepciones.NegocioException;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
 import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
 import sistemarestaurantepresentacion.ModuloProductos.ControlNavegacionProductos;
@@ -15,6 +17,7 @@ import sistemarestaurantepresentacion.frmMenuPrincipal;
 public class ControlNavegacionComandas {
 
     private IComandasBO comandasBO;
+    private IIngredientesBO ingredientesBO;
     private IProductosBO productosBO;
     private IDetallesComandasBO detallesComandasBO;
     private IClientesFrecuentesBO clientesBO;
@@ -27,11 +30,12 @@ public class ControlNavegacionComandas {
     private ControlNavegacionProductos controlProductos;
 
 
-    public ControlNavegacionComandas() {
+    public ControlNavegacionComandas() throws NegocioException {
         comandasBO = FabricaObjetosNegocio.crearComandasBO();
         productosBO = FabricaObjetosNegocio.crearProductosBO();
         detallesComandasBO = FabricaObjetosNegocio.crearDetallesComadasBO();
         clientesBO = FabricaObjetosNegocio.crearClientesFrecuentesBO();
+        ingredientesBO = FabricaObjetosNegocio.crearIngredientesBO();
     }
 
     public void iniciarMenu() {
@@ -62,7 +66,7 @@ public class ControlNavegacionComandas {
     
     public void detallesComanda(Comanda comandaSeleccionada){
         this.frameVerComandas.dispose();
-        this.frameDetalleComanda = new frmVerDetalleComanda(this.detallesComandasBO,comandaSeleccionada, this, comandasBO, clientesBO);
+        this.frameDetalleComanda = new frmVerDetalleComanda(this.ingredientesBO,this.detallesComandasBO,comandaSeleccionada, this, comandasBO, clientesBO);
         this.frameDetalleComanda.setVisible(true);
     }
 

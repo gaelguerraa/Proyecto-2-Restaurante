@@ -225,9 +225,16 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
 
     private void btnComandasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComandasActionPerformed
         // MODULO COMANDAS
-        ControlNavegacionComandas control = new ControlNavegacionComandas();
-        control.iniciarMenu();
-        this.dispose();
+        ControlNavegacionComandas control;
+        try {
+            control = new ControlNavegacionComandas();
+            control.iniciarMenu();
+            this.dispose();
+        } catch (NegocioException ex) {
+            Logger.getLogger(frmMenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         
     }//GEN-LAST:event_btnComandasActionPerformed
 

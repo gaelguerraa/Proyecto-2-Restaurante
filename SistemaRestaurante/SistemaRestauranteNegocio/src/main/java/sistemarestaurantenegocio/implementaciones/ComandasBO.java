@@ -3,6 +3,8 @@ package sistemarestaurantenegocio.implementaciones;
 import java.time.LocalDate;
 import java.util.List;
 import sistemarestaurantedominio.Comanda;
+import sistemarestaurantedominio.DetallesComanda;
+import sistemarestaurantedominio.EstadoComanda;
 import sistemarestaurantedominio.Mesa;
 import sistemarestaurantedominio.dtos.NuevaComandaDTO;
 import sistemarestaurantedominio.dtos.ProductoComandaDTO;
@@ -61,6 +63,11 @@ public class ComandasBO implements IComandasBO {
     @Override
     public List<ProductoComandaDTO> obtenerProductosDetalladosComanda(String folio) {
         return comandasDAO.obtenerProductosDetalladosComanda(folio);
+    }
+
+    @Override
+    public Integer actualizarEstadoComanda(Comanda comanda, EstadoComanda estado) {
+        return comandasDAO.actualizarEstadoComanda(comanda, estado);
     }
     
 }

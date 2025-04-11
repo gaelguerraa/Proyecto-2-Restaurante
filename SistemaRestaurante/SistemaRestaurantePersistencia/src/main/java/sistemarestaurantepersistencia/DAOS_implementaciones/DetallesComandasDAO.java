@@ -5,6 +5,7 @@
 package sistemarestaurantepersistencia.DAOS_implementaciones;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import sistemarestaurantedominio.DetallesComanda;
 import sistemarestaurantedominio.dtos.NuevoDetalleComandaDTO;
 import sistemarestaurantepersistencia.interfaces.IDetallesComandasDAO;
@@ -34,5 +35,6 @@ public class DetallesComandasDAO implements IDetallesComandasDAO {
         
         return dc;
     }
+
     
 }

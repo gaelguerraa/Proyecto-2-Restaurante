@@ -11,11 +11,14 @@ import javax.swing.table.DefaultTableModel;
 import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.DetallesComanda;
 import sistemarestaurantedominio.EstadoComanda;
+import sistemarestaurantedominio.Ingrediente;
+import sistemarestaurantedominio.IngredienteProducto;
 import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.dtos.ProductoComandaDTO;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
 import sistemarestaurantenegocio.IComandasBO;
 import sistemarestaurantenegocio.IDetallesComandasBO;
+import sistemarestaurantenegocio.IIngredientesBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
 
 /**
@@ -27,19 +30,22 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
     private Comanda comandaSeleccionada;
     private ControlNavegacionComandas control;
     private IDetallesComandasBO detallesComandasBO;
-    private List<DetallesComanda> listaProductoComanda;
-    private DetallesComanda detalleComanda;
     private IComandasBO comandasBO;
+    private IIngredientesBO ingredientesBO;
     private IClientesFrecuentesBO clientesBO;
+    private static final Logger LOG = Logger.getLogger(frmVerDetalleComanda.class.getName());
+    
 
     /**
      * Creates new form frmVerDetalleComanda
      */
-    public frmVerDetalleComanda(IDetallesComandasBO detallesComandasBO, Comanda comandaSeleccionada, ControlNavegacionComandas control, IComandasBO comandasBO, IClientesFrecuentesBO clientesBO) {
+    public frmVerDetalleComanda(IIngredientesBO ingredientesBO,IDetallesComandasBO detallesComandasBO, Comanda comandaSeleccionada, ControlNavegacionComandas control, IComandasBO comandasBO, IClientesFrecuentesBO clientesBO) {
         initComponents();
         this.comandaSeleccionada = comandaSeleccionada;
         this.comandasBO = comandasBO;
         this.clientesBO = clientesBO;
+        this.detallesComandasBO=detallesComandasBO;
+        this.ingredientesBO = ingredientesBO;
         if (comandaSeleccionada.getEstado().equals(EstadoComanda.ENTREGADA)) {
             this.btnEditar.setVisible(false);
             this.btnEntregada.setVisible(false);
@@ -244,7 +250,12 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
 
         btnCancelar.setBackground(new java.awt.Color(220, 145, 79));
         btnCancelar.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
-        btnCancelar.setText("CANCELAR");
+        btnCancelar.setText("CANCELAR COMANDA");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -278,7 +289,7 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnEntregada, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(43, 43, 43)
-                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btnCancelar)))))
                 .addContainerGap(16, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -355,6 +366,22 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
         // AQUI ACTUALIZARA STOCK Y PUNTOS CLIENTE
         //metodo para actualizar estado.... con validacion si hay stock
         //metodo para actualizar stock....
+        try {
+            //Actualizar Stock
+            for(DetallesComanda detallesComanda: comandaSeleccionada.getDetallesComanda()){ 
+                for(IngredienteProducto ingredienteProducto : detallesComanda.getProducto().getIngredientes()){
+                    ingredientesBO.disminuirStock(ingredienteProducto.getIngrediente(), ingredienteProducto.getCantidadIngrediente());
+                }          
+            }
+            
+        } catch (NegocioException ex) {
+            LOG.severe("No se pudo actualizar el stock: " + ex.getMessage());
+        }
+
+        comandasBO.actualizarEstadoComanda(comandaSeleccionada, EstadoComanda.ENTREGADA);
+
+        this.txtEstadoComanda.setText(EstadoComanda.ENTREGADA.toString());
+        
         
         //CLIENTE
         try {
@@ -363,6 +390,13 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
             Logger.getLogger(frmVerDetalleComanda.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEntregadaActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        comandasBO.actualizarEstadoComanda(comandaSeleccionada, EstadoComanda.CANCELADA);
+
+        this.txtEstadoComanda.setText(EstadoComanda.CANCELADA.toString());
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

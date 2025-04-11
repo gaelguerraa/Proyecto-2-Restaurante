@@ -14,4 +14,5 @@ import sistemarestaurantenegocio.excepciones.NegocioException;
  */
 public interface IDetallesComandasBO {
     public abstract DetallesComanda guardarDetalleComanda(NuevoDetalleComandaDTO detalleComanda) throws NegocioException;
+    
 }

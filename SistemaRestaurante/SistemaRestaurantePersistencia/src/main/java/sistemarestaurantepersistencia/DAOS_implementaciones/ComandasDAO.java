@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.DetallesComanda;
+import sistemarestaurantedominio.EstadoComanda;
 import sistemarestaurantedominio.Mesa;
 import sistemarestaurantedominio.dtos.NuevaComandaDTO;
 import sistemarestaurantedominio.dtos.ProductoComandaDTO;
@@ -188,6 +190,28 @@ public class ComandasDAO implements IComandasDAO {
         }
 
         return productosComanda;
+    }
+
+    @Override
+    public Integer actualizarEstadoComanda(Comanda comanda, EstadoComanda estado) {
+        EntityManager  em = ManejadorConexiones.getEntityManager();
+        
+        //Registros afectados
+        int resultado = 0; 
+        em.getTransaction().begin();
+        String jpqlQuery = """
+                           UPDATE Comanda c SET c.estado = :nuevoEstado
+                           WHERE c.id = :idComanda
+                           """;
+        Query query = em.createQuery(jpqlQuery);
+        query.setParameter("idComanda", comanda.getId());
+        query.setParameter("nuevoEstado", estado);
+       
+        resultado = query.executeUpdate();
+        
+        em.getTransaction().commit();
+        
+        return resultado;
     }
 
 }

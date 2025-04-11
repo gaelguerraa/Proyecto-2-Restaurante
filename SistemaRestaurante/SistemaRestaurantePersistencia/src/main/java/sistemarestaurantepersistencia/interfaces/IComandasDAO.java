@@ -3,6 +3,7 @@ package sistemarestaurantepersistencia.interfaces;
 import java.time.LocalDate;
 import java.util.List;
 import sistemarestaurantedominio.Comanda;
+import sistemarestaurantedominio.EstadoComanda;
 import sistemarestaurantedominio.Mesa;
 import sistemarestaurantedominio.dtos.NuevaComandaDTO;
 import sistemarestaurantedominio.dtos.ProductoComandaDTO;
@@ -11,6 +12,7 @@ public interface IComandasDAO {
     public abstract Comanda guardarComanda(NuevaComandaDTO nuevaComanda);
     public abstract List<NuevaComandaDTO> consultarComandas();
     public abstract List<NuevaComandaDTO> consultarComandasPorRangoFechas(LocalDate fechaInicio, LocalDate fechaFin);
+    public abstract Integer actualizarEstadoComanda(Comanda comanda, EstadoComanda estado);
     //van en mesasDAO
     public abstract List<Mesa> obtenerMesas();
     public abstract Mesa buscarMesaPorNumero(int numeroMesa);
