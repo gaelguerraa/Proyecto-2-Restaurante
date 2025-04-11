@@ -30,6 +30,6 @@ public interface IProductosBO {
     
     public abstract Producto consultarProductoPorNombre(String nombre);
     
-   
+    public abstract void actualizarPrecioProducto(Producto producto, Float nuevoPrecio) throws NegocioException;
     
 }

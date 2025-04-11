@@ -24,6 +24,7 @@ public class ControlNavegacionProductos {
     private frmMostrarProductos mostrarProductos;
     private frmMenuPrincipal menuPrincipal;    
     private frmBuscarProducto buscarProducto;
+    private frmCambiarPrecioProducto cambiarPrecio;
 
 
     public ControlNavegacionProductos() {
@@ -69,5 +70,9 @@ public class ControlNavegacionProductos {
         
     }
     
+    public void cambiarPrecioProducto(){
+        this.cambiarPrecio = new frmCambiarPrecioProducto(productosBO, this);
+        cambiarPrecio.setVisible(true);
+    }
     
 }

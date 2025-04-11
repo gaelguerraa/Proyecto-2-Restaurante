@@ -28,4 +28,6 @@ public interface IProductosDAO {
     public abstract List<ProductoIngredienteDTO> obtenerProductosJoin();
     
     public abstract Producto consultarProductoPorNombre(String nombre);
+    
+    public abstract void actualizarPrecioProducto(Producto producto, Float nuevoPrecio);
 }

@@ -184,7 +184,26 @@ public class ProductosDAO implements IProductosDAO{
         return query.getSingleResult();
     }
     
-    
+    /**
+     * Cambia el precio de un producto por un precio nuevo.
+     * 
+     * @param producto
+     * @param nuevoPrecio 
+     */
+    @Override
+    public void actualizarPrecioProducto(Producto producto, Float nuevoPrecio){
+        EntityManager em = ManejadorConexiones.getEntityManager();
+        em.getTransaction().begin();
+        em.createQuery("UPDATE Producto p SET p.precio = :precio WHERE p.nombre = :nombre")
+        .setParameter("precio", nuevoPrecio)
+        .setParameter("nombre", producto.getNombre())
+                
+        .executeUpdate();
+        producto.setPrecio(nuevoPrecio);
+
+        em.getTransaction().commit();
+        em.close();
+    }
  
     
     

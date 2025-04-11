@@ -223,5 +223,30 @@ public class ProductosDAOTest {
 //        assertNotNull(producto);
 //    }
 
+//    @Test
+//    public void testActualizarPrecioProducto(){
+//        EntityManager em = ManejadorConexiones.getEntityManager();
+//        ProductosDAO productosDAO = new ProductosDAO(); 
+//        
+//        em.getTransaction().begin();
+//        Producto producto1 = new Producto();
+//        producto1.setNombre("Pane");
+//        producto1.setPrecio(15.00f);
+//        producto1.setTipo(TipoProducto.PLATILLO);
+//        em.persist(producto1);
+//        em.getTransaction().commit();
+//        
+//        float nuevoPrecio = 20.00f;
+//        productosDAO.actualizarPrecioProducto(producto1, nuevoPrecio);
+//        
+//         Producto actualizado = em.createQuery("SELECT p FROM Producto p WHERE p.nombre = :nombre", Producto.class)
+//                                 .setParameter("nombre", "Pane")
+//                                 .getSingleResult();
+//
+//        
+//        assertEquals(nuevoPrecio, actualizado.getPrecio());
+//
+//
+//    }
     
 }

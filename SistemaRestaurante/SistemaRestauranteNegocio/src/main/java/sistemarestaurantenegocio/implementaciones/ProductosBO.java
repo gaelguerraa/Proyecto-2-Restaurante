@@ -130,5 +130,20 @@ public class ProductosBO implements IProductosBO {
         return this.productosDAO.consultarProductoPorNombre(nombre);
     }
 
+    /**
+     * Cambia el precio de un producto por un precio nuevo.
+     * 
+     * @param producto
+     * @param nuevoPrecio
+     * @throws NegocioException 
+     */
+    @Override
+    public void actualizarPrecioProducto(Producto producto, Float nuevoPrecio) throws NegocioException {
+        if(nuevoPrecio <= CERO || nuevoPrecio > PRECIO_MAXIMO_EJEMPLO){
+            throw new NegocioException("Eliga un precio mayor a cero y menor a 10 mil.");
+        }
+        this.productosDAO.actualizarPrecioProducto(producto, nuevoPrecio);
+    }
+
     
 }
