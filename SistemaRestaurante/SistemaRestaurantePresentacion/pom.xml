@@ -56,8 +56,8 @@
         </dependency>
     </dependencies>
     <properties>
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
         <exec.mainClass>com.sistemarestaurantepresentacion.SistemaRestaurantePresentacion</exec.mainClass>
     </properties>
 </project>

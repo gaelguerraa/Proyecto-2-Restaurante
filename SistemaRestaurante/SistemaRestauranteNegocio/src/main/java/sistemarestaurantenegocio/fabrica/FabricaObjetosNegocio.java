@@ -11,6 +11,7 @@ import sistemarestaurantenegocio.IIngredientesBO;
 import sistemarestaurantenegocio.IIngredientesProductosBO;
 import sistemarestaurantenegocio.IMesasBO;
 import sistemarestaurantenegocio.IProductosBO;
+import sistemarestaurantenegocio.excepciones.NegocioException;
 import sistemarestaurantenegocio.implementaciones.ClientesFrecuentesBO;
 import sistemarestaurantenegocio.implementaciones.ComandasBO;
 import sistemarestaurantenegocio.implementaciones.DetallesComandasBO;
@@ -58,7 +59,7 @@ public class FabricaObjetosNegocio {
         return ingredientesProductosBO;
     }
     
-    public static IIngredientesBO crearIngredientesBO(){
+    public static IIngredientesBO crearIngredientesBO() throws NegocioException{
         IIngredientesDAO ingredientesDAO = new IngredientesDAO();
         IIngredientesBO ingredientesBO = new IngredientesBO(ingredientesDAO);
         return ingredientesBO;

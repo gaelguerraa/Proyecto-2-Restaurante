@@ -4,8 +4,7 @@
  */
 package sistemarestaurantepresentacion.ModuloIngredientes;
 
-
-public class FrmMensajeRegistroIngredienteExitoso extends javax.swing.JFrame {
+ public class FrmMensajeRegistroIngredienteExitoso extends javax.swing.JFrame {
     private ControlNavegacionIngredientes control;
     /**
      * Creates new form frmMensajeRegistroIngredienteExitoso

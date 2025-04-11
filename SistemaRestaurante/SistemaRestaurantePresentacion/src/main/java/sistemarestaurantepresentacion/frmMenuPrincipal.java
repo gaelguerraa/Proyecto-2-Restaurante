@@ -4,6 +4,9 @@
  */
 package sistemarestaurantepresentacion;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import sistemarestaurantenegocio.excepciones.NegocioException;
 import sistemarestaurantepresentacion.ModuloClientes.ControlNavegacionClientes;
 import sistemarestaurantepresentacion.ModuloComandas.ControlNavegacionComandas;
 import sistemarestaurantepresentacion.ModuloIngredientes.ControlNavegacionIngredientes;
@@ -252,8 +255,14 @@ public class frmMenuPrincipal extends javax.swing.JFrame {
 
     private void btnIngredientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngredientesActionPerformed
         // MODULO INGREDIENTES
-        ControlNavegacionIngredientes control = new ControlNavegacionIngredientes();
-        control.IniciarFrmMenuIngredientes();
+        ControlNavegacionIngredientes control;
+        try {
+            control = new ControlNavegacionIngredientes();
+            control.IniciarFrmMenuIngredientes();
+        } catch (NegocioException ex) {
+            Logger.getLogger(frmMenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         this.dispose();
     }//GEN-LAST:event_btnIngredientesActionPerformed
 

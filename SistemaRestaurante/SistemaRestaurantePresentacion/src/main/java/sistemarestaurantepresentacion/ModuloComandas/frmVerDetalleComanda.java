@@ -4,7 +4,11 @@
  */
 package sistemarestaurantepresentacion.ModuloComandas;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 import sistemarestaurantedominio.Comanda;
+import sistemarestaurantedominio.DetallesComanda;
+import sistemarestaurantedominio.Producto;
 import sistemarestaurantenegocio.IDetallesComandasBO;
 
 /**
@@ -15,12 +19,16 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
     private Comanda comandaSeleccionada;
     private ControlNavegacionComandas control;
     private IDetallesComandasBO detallesComandasBO;
+    private List<DetallesComanda> listaProductoComanda;
+    private DetallesComanda detalleComanda;
+    
     /**
      * Creates new form frmVerDetalleComanda
      */
     public frmVerDetalleComanda(IDetallesComandasBO detallesComandasBO,Comanda comandaSeleccionada,ControlNavegacionComandas control) {
         initComponents();
         this.comandaSeleccionada = comandaSeleccionada;
+        this.listaProductoComanda = detalleComanda.;
         this.control=control;
         this.detallesComandasBO = detallesComandasBO;
         this.cargarInformacionComanda(comandaSeleccionada);
@@ -39,6 +47,15 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
         this.txtImporteTotal.setText("$" + String.format("%.2f", comanda.getTotal()));
         this.txtMesa.setText(comanda.getNumeroMesa().getNumeroMesa().toString());
         this.lblFolio.setText(comanda.getFolio());
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel)this.tblProducto.getModel();
+        modeloTabla.setRowCount(0);
+        
+        
+        
+        for(Producto producto: productoComanda){
+            
+        }
         
         
         
@@ -67,7 +84,7 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtMesa = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblProducto = new javax.swing.JTable();
         btnRegresar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         btnEditar = new javax.swing.JButton();
@@ -138,7 +155,7 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
 
         txtMesa.setEditable(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblProducto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -157,13 +174,13 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        jScrollPane1.setViewportView(tblProducto);
+        if (tblProducto.getColumnModel().getColumnCount() > 0) {
+            tblProducto.getColumnModel().getColumn(0).setResizable(false);
+            tblProducto.getColumnModel().getColumn(1).setResizable(false);
+            tblProducto.getColumnModel().getColumn(2).setResizable(false);
+            tblProducto.getColumnModel().getColumn(3).setResizable(false);
+            tblProducto.getColumnModel().getColumn(4).setResizable(false);
         }
 
         btnRegresar.setBackground(new java.awt.Color(171, 118, 46));
@@ -312,8 +329,8 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblFolio;
+    private javax.swing.JTable tblProducto;
     private javax.swing.JTextField txtCliente;
     private javax.swing.JLabel txtEstadoComanda;
     private javax.swing.JTextField txtFechaHora;

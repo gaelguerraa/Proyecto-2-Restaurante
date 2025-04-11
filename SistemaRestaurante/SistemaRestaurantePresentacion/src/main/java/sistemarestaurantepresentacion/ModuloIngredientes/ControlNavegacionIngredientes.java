@@ -21,7 +21,7 @@ public class ControlNavegacionIngredientes {
     private IIngredientesBO ingredientesBO;
     frmMenuPrincipal frameMenuPrincipal;
 
-    public ControlNavegacionIngredientes() {
+    public ControlNavegacionIngredientes() throws NegocioException {
         this.ingredientesBO = FabricaObjetosNegocio.crearIngredientesBO();
     }
     

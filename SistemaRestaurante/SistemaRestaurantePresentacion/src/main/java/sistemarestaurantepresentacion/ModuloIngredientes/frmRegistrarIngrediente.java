@@ -170,7 +170,6 @@ public class FrmRegistrarIngrediente extends javax.swing.JFrame {
         try {
             Float stockFloat = Float.valueOf(sotck);
             NuevoIngredienteDTO nuevoIngrediente = new NuevoIngredienteDTO(nombreIngrediente, UnidadMedidaIngrediente.valueOf(unidadMedida), stockFloat);
-            System.out.println("Voy a llamar a ingredientesBO.registrarIngrediente");
             this.ingredientesBO.registrarIngrediente(nuevoIngrediente);
             control.IniciarFrmMensajeRegistroIngredienteExitoso();
             dispose();
