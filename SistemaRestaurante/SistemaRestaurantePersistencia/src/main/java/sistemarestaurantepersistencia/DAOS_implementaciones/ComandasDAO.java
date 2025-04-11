@@ -3,6 +3,7 @@ package sistemarestaurantepersistencia.DAOS_implementaciones;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -10,8 +11,10 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import sistemarestaurantedominio.Comanda;
+import sistemarestaurantedominio.DetallesComanda;
 import sistemarestaurantedominio.Mesa;
 import sistemarestaurantedominio.dtos.NuevaComandaDTO;
+import sistemarestaurantedominio.dtos.ProductoComandaDTO;
 import sistemarestaurantepersistencia.interfaces.IComandasDAO;
 
 public class ComandasDAO implements IComandasDAO {
@@ -83,21 +86,21 @@ public class ComandasDAO implements IComandasDAO {
     }
 
     @Override
-    public List<Mesa> obtenerMesas(){
+    public List<Mesa> obtenerMesas() {
         EntityManager entityManager = ManejadorConexiones.getEntityManager();
-        
+
         entityManager.getTransaction().begin();
-         
+
         TypedQuery<Mesa> query = entityManager.createQuery("SELECT m FROM Mesa m", Mesa.class);
-        
+
         List<Mesa> mesas = query.getResultList();
 
         entityManager.close();
         return mesas;
     }
-    
+
     @Override
-    public Mesa buscarMesaPorNumero(int numeroMesa){
+    public Mesa buscarMesaPorNumero(int numeroMesa) {
         EntityManager em = ManejadorConexiones.getEntityManager();
         TypedQuery<Mesa> query = em.createQuery("""
                                                 SELECT m FROM Mesa m WHERE m.numeroMesa = :numeroMesa
@@ -105,7 +108,7 @@ public class ComandasDAO implements IComandasDAO {
         query.setParameter("numeroMesa", numeroMesa);
         return query.getSingleResult();
     }
-    
+
     @Override
     public int obtenerConsecutivoDelDia() {
         EntityManager em = ManejadorConexiones.getEntityManager();
@@ -129,7 +132,7 @@ public class ComandasDAO implements IComandasDAO {
     @Override
     public Comanda buscarPorFolio(String folio) {
         EntityManager em = ManejadorConexiones.getEntityManager();
-        
+
         TypedQuery<Comanda> query = em.createQuery("""
                                                    SELECT c FROM Comanda c WHERE c.folio = :folio
                                                    """, Comanda.class);
@@ -137,7 +140,54 @@ public class ComandasDAO implements IComandasDAO {
         Comanda comanda = query.getSingleResult();
         return comanda;
     }
-    
-    
+
+    @Override
+    public List<ProductoComandaDTO> obtenerProductosComanda(String folioComanda) {
+        Comanda comanda = buscarPorFolio(folioComanda);
+
+        // Lista para almacenar los DTOs de productos asociados a la comanda
+        List<ProductoComandaDTO> productosComanda = new ArrayList<>();
+
+        //la comanda existe y tiene detalles
+        if (comanda != null && comanda.getDetallesComanda() != null) {
+            for (DetallesComanda detalle : comanda.getDetallesComanda()) {
+                // Crear el DTO con la cantidad y el nombre del producto
+                ProductoComandaDTO productoDTO = new ProductoComandaDTO(
+                        comanda.getFolio(),
+                        detalle.getProducto().getNombre(),
+                        detalle.getCantidadProducto()
+                );
+                productosComanda.add(productoDTO);
+            }
+        }
+
+        return productosComanda;
+    }
+
+    @Override
+    public List<ProductoComandaDTO> obtenerProductosDetalladosComanda(String folioComanda) {
+        Comanda comanda = buscarPorFolio(folioComanda);
+
+        // Lista para almacenar los DTOs de productos asociados a la comanda
+        List<ProductoComandaDTO> productosComanda = new ArrayList<>();
+
+        //la comanda existe y tiene detalles
+        if (comanda != null && comanda.getDetallesComanda() != null) {
+            for (DetallesComanda detalle : comanda.getDetallesComanda()) {
+                // Crear el DTO con la cantidad y el nombre del producto
+                ProductoComandaDTO productoDTO = new ProductoComandaDTO(
+                        comanda.getFolio(),
+                        detalle.getProducto().getNombre(),
+                        detalle.getCantidadProducto(),
+                        detalle.getNota(),
+                        detalle.getPrecioUnitarioProducto(),
+                        detalle.getTotal()
+                );
+                productosComanda.add(productoDTO);
+            }
+        }
+
+        return productosComanda;
+    }
 
 }

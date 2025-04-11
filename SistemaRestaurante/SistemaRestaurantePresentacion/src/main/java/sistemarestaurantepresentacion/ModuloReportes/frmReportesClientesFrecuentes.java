@@ -9,6 +9,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import java.io.FileOutputStream;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sistemarestaurantedominio.ClienteFrecuente;
@@ -114,6 +117,83 @@ public class frmReportesClientesFrecuentes extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Ingrese un numero para ese filtro!", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 
+        }
+    }
+
+    /**
+     * Metodo que genera PDF a partir de los datos obtenidos en la tabla segun los filtros proporcionados
+     * Al pdf se le da formato, se genera y se almacena en la carpeta del proyecto bajo presentacion.
+     */
+    public void generarPDFClientes() {
+        try {
+            Document documento = new Document();
+            PdfWriter.getInstance(documento, new FileOutputStream("ReporteClientes.pdf"));
+            documento.open();
+
+            // Título
+            Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+            Paragraph titulo = new Paragraph("Reporte de Clientes Frecuentes", fontTitulo);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            documento.add(titulo);
+
+            // Filtro
+            String opcionSeleccionada = (String) boxTipoFiltro.getSelectedItem();
+            String textoFiltro = txtTextoFiltrar.getText();
+            if (textoFiltro == null || textoFiltro.isEmpty()) {
+                textoFiltro = "Sin filtro";
+            }
+            if (opcionSeleccionada.equals("Nombre")) {
+                Paragraph textoFiltrado = new Paragraph("Clientes filtrados por nombre: " + textoFiltro, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12));
+                textoFiltrado.setAlignment(Element.ALIGN_CENTER);
+                documento.add(textoFiltrado);
+                documento.add(Chunk.NEWLINE);
+            } else if (opcionSeleccionada.equals("Min. Visitas")) {
+                Paragraph textoFiltrado = new Paragraph("Clientes filtrados minimo de visita: " + textoFiltro, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12));
+                textoFiltrado.setAlignment(Element.ALIGN_CENTER);
+                documento.add(textoFiltrado);
+                documento.add(Chunk.NEWLINE);
+            }
+
+            // Tabla
+            PdfPTable tabla = new PdfPTable(6);
+            tabla.setWidthPercentage(100);
+
+            // Encabezados
+            String[] encabezados = {"Nombre", "Apellido", "Visitas", "Monto Gastado", "Puntos Fidelidad", "Ultima Visita"};
+            for (String encabezado : encabezados) {
+                PdfPCell celda = new PdfPCell(new Phrase(encabezado));
+                celda.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                tabla.addCell(celda);
+            }
+
+            // Obtener los datos de la tabla de clientes
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tblTabla.getModel();
+
+            // Recorrer las filas de la tabla y añadirlas al documento
+            for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+                String nombre = (String) modeloTabla.getValueAt(i, 0);
+                String apellido = (String) modeloTabla.getValueAt(i, 1);
+                int numVisitas = (int) modeloTabla.getValueAt(i, 2);
+                String montoGastado = (String) modeloTabla.getValueAt(i, 3);
+                int puntosFidelidad = (int) modeloTabla.getValueAt(i, 4);
+                String ultimaVisita = (String) modeloTabla.getValueAt(i, 5);
+
+                tabla.addCell(nombre);
+                tabla.addCell(apellido);
+                tabla.addCell(String.valueOf(numVisitas));
+                tabla.addCell(montoGastado);
+                tabla.addCell(String.valueOf(puntosFidelidad));
+                tabla.addCell(ultimaVisita);
+            }
+
+            // Agregar la tabla al documento
+            documento.add(tabla);
+            documento.close();
+
+            JOptionPane.showMessageDialog(this, "PDF generado correctamente!, lo puedes encontrar en la carpeta del proyecto (presentacion).", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al generar el PDF: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -295,7 +375,7 @@ public class frmReportesClientesFrecuentes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnGenerarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPDFActionPerformed
-        // TODO add your handling code here:
+        generarPDFClientes();
     }//GEN-LAST:event_btnGenerarPDFActionPerformed
 
 

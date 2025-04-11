@@ -1,16 +1,23 @@
 package sistemarestaurantepresentacion.ModuloReportes;
 
 import java.time.LocalDate;
+import java.io.FileOutputStream;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import sistemarestaurantedominio.dtos.NuevaComandaDTO;
+import sistemarestaurantedominio.dtos.ProductoComandaDTO;
 import sistemarestaurantenegocio.IComandasBO;
 
 public class frmReportesComandas extends javax.swing.JFrame {
+
     private ControlNavegacionReportes control;
     private IComandasBO comandasBO;
     LocalDate fechaInicio;
     LocalDate fechaFin;
+
     /**
      * Creates new form frmReportesComandas
      */
@@ -25,31 +32,118 @@ public class frmReportesComandas extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("Reporte de comandas");
     }
-    
+
     private void llenarTablaComandas() {
         List<NuevaComandaDTO> comandas = comandasBO.consultarComandasPorRangoFechas(fechaInicio, fechaFin);
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblTabla.getModel();
         modeloTabla.setRowCount(0);
+
         for (NuevaComandaDTO comanda : comandas) {
-            String nombreCliente = "Sin cliente";
+            String nombreCliente = "Publico General";
             if (comanda.getClienteFrecuente() != null) {
                 nombreCliente = comanda.getClienteFrecuente().getNombre() + " "
                         + comanda.getClienteFrecuente().getApellidoPaterno();
+            } // concatenar el nombre con apellido
+            String totalFormateado = String.format("$%,.2f", comanda.getTotal()); //darle formato al total
+
+            // Obtener los productos de la comanda
+            List<ProductoComandaDTO> productos = comandasBO.obtenerProductosComanda(comanda.getFolio());
+            String productosConcatenados = "";
+            for (ProductoComandaDTO producto : productos) {
+                productosConcatenados += " " + producto.getCantidad() + " x " + producto.getProducto() + "\n ";
             }
-            String totalFormateado = String.format("$%,.2f", comanda.getTotal());
+
+            // Agregar la fila a la tabla
             Object[] fila = {
                 comanda.getFolio(),
                 comanda.getFechaHora(),
                 comanda.getNumeroMesa().getNumeroMesa(),
                 comanda.getEstado(),
                 nombreCliente,
+                productosConcatenados, // Mostrar los productos concatenados
                 totalFormateado
             };
             modeloTabla.addRow(fila);
         }
     }
-    
-    private void ponerFechaLabel(){
+
+    /**
+     *
+     * Metodo que genera PDF a partir de los datos obtenidos en la tabla segun
+     * el rango de fechas proporcionado Al pdf se le da formato, se genera y se
+     * almacena en la carpeta del proyecto bajo presentacion.
+     *
+     * @param comandas Recibe un listado de comandas (obtenido en base a la
+     * fechas proporcionadas)
+     */
+    public void generarPDFComandas(List<NuevaComandaDTO> comandas) {
+        Document documento = new Document();
+        try {
+            PdfWriter.getInstance(documento, new FileOutputStream("ReporteComandas.pdf"));
+            documento.open();
+
+            // Título
+            Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+            Paragraph titulo = new Paragraph("Reporte de Comandas", fontTitulo);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            documento.add(titulo);
+            // Rango de fechas
+            Paragraph rangoFechasParagraph = new Paragraph(lblRangoFechas.getText(), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12));
+            rangoFechasParagraph.setAlignment(Element.ALIGN_CENTER);
+            documento.add(rangoFechasParagraph);
+            documento.add(new Paragraph(" ")); // Espacio en blanco
+
+            // Tabla
+            PdfPTable tabla = new PdfPTable(7);
+            tabla.setWidthPercentage(110);
+            tabla.setSpacingBefore(5f);
+            tabla.setSpacingAfter(5f);
+
+            // Encabezados
+            String[] encabezados = {"Folio", "Fecha", "Mesa", "Estado", "Cliente", "Productos", "Total"};
+            for (String encabezado : encabezados) {
+                PdfPCell celda = new PdfPCell(new Phrase(encabezado));
+                celda.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                tabla.addCell(celda);
+            }
+
+            // Llenado de la tabla
+            for (NuevaComandaDTO comanda : comandas) {
+                String nombreCliente = "Sin cliente";
+                if (comanda.getClienteFrecuente() != null) {
+                    nombreCliente = comanda.getClienteFrecuente().getNombre() + " "
+                            + comanda.getClienteFrecuente().getApellidoPaterno();
+                }
+                String totalFormateado = String.format("$%,.2f", comanda.getTotal());
+
+                // Obtener los productos de la comanda
+                List<ProductoComandaDTO> productos = comandasBO.obtenerProductosComanda(comanda.getFolio());
+                String productosConcatenados = "";
+                for (ProductoComandaDTO producto : productos) {
+                    productosConcatenados += producto.getCantidad() + " x " + producto.getProducto() + "\n";
+                }
+
+                // Agregar las celdas a la tabla
+                tabla.addCell(String.valueOf(comanda.getFolio()));
+                tabla.addCell(comanda.getFechaHora().toString());
+                tabla.addCell(String.valueOf(comanda.getNumeroMesa().getNumeroMesa()));
+                tabla.addCell(comanda.getEstado().toString());
+                tabla.addCell(nombreCliente);
+                tabla.addCell(productosConcatenados);  // productos concatenados con cantidad
+                tabla.addCell(totalFormateado);
+            }
+
+            documento.add(tabla);
+            documento.close();
+
+            JOptionPane.showMessageDialog(null, "PDF generado exitosamente!, lo puedes encontrar en la carpeta del proyecto (presentacion).");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al generar el PDF.");
+        }
+    }
+
+    private void ponerFechaLabel() {
         this.lblRangoFechas.setText(fechaInicio + "   -   " + fechaFin);
     }
 
@@ -102,17 +196,17 @@ public class frmReportesComandas extends javax.swing.JFrame {
 
         tblTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Folio", "Fecha / Hora", "Mesa", "Estado", "Cliente", "Total"
+                "Folio", "Fecha / Hora", "Mesa", "Estado", "Cliente", "Productos", "Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, true, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -121,7 +215,13 @@ public class frmReportesComandas extends javax.swing.JFrame {
         });
         tblTablaComandas.setViewportView(tblTabla);
         if (tblTabla.getColumnModel().getColumnCount() > 0) {
+            tblTabla.getColumnModel().getColumn(0).setResizable(false);
+            tblTabla.getColumnModel().getColumn(1).setResizable(false);
+            tblTabla.getColumnModel().getColumn(2).setResizable(false);
+            tblTabla.getColumnModel().getColumn(3).setResizable(false);
+            tblTabla.getColumnModel().getColumn(4).setResizable(false);
             tblTabla.getColumnModel().getColumn(5).setResizable(false);
+            tblTabla.getColumnModel().getColumn(6).setResizable(false);
         }
 
         btnPDF.setBackground(new java.awt.Color(171, 118, 46));
@@ -187,10 +287,10 @@ public class frmReportesComandas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPDFActionPerformed
-        // TODO add your handling code here:
+        List<NuevaComandaDTO> comandas = comandasBO.consultarComandasPorRangoFechas(fechaInicio, fechaFin);
+        generarPDFComandas(comandas);
     }//GEN-LAST:event_btnPDFActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPDF;

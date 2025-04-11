@@ -5,6 +5,7 @@ import java.util.List;
 import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.Mesa;
 import sistemarestaurantedominio.dtos.NuevaComandaDTO;
+import sistemarestaurantedominio.dtos.ProductoComandaDTO;
 
 public interface IComandasDAO {
     public abstract Comanda guardarComanda(NuevaComandaDTO nuevaComanda);
@@ -16,4 +17,7 @@ public interface IComandasDAO {
     //si van aqui
     public abstract int obtenerConsecutivoDelDia();
     public abstract Comanda buscarPorFolio(String folio);
+    public abstract List<ProductoComandaDTO> obtenerProductosComanda(String folioComanda);
+    public abstract List<ProductoComandaDTO> obtenerProductosDetalladosComanda(String folioComanda);
+    
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -276,6 +277,13 @@ public class ClientesFrecuentesDAO implements IClientesFrecuentesDAO {
         return clientes;
     }
 
+    /**
+     * Metodo que regresa una lista de clientes cuyo minimo de visitas sea igual
+     * o mayor (comandas relacionadas)
+     *
+     * @param minimoVisitas Recibe un int como numero minimo de visitas
+     * @return Retorna una lista de clientes
+     */
     @Override
     public List<ClienteFrecuente> buscarClientesPorMinimoVisitas(int minimoVisitas) {
         EntityManager em = ManejadorConexiones.getEntityManager();
@@ -292,6 +300,43 @@ public class ClientesFrecuentesDAO implements IClientesFrecuentesDAO {
         return em.createQuery(jpql, ClienteFrecuente.class)
                 .setParameter("minimoVisitas", minimoVisitas)
                 .getResultList();
+    }
+
+    @Override
+    public void procesarPuntosClientePorComandaEntregada(Long idComanda) throws PersistenceException {
+        EntityManager em = ManejadorConexiones.getEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            Comanda comanda = em.find(Comanda.class, idComanda);
+
+            if (comanda == null) {
+                throw new PersistenceException("La comanda no existe.");
+            }
+
+            if (comanda.getEstado() != EstadoComanda.ENTREGADA) {
+                // Si no esta entregada, no se procesan puntos
+                return;
+            }
+
+            ClienteFrecuente cliente = comanda.getCliente();
+            if (cliente != null) {
+                // Calcular nuevos puntos
+                int nuevosPuntos = (int) (comanda.getTotal() / 20);
+                cliente.setPuntosFidelidad(cliente.getPuntosFidelidad() + nuevosPuntos);
+
+                // Persistir cambios
+                em.merge(cliente);
+            }
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new PersistenceException("Error al procesar puntos del cliente: " + ex.getMessage(), ex);
+        } finally {
+            em.close();
+        }
     }
 
 }

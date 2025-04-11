@@ -32,14 +32,13 @@ public class frmCrearComanda extends javax.swing.JFrame {
     private static final Logger LOG = Logger.getLogger(frmCrearComanda.class.getName());
     NuevoDetalleComandaDTO detalleComanda;
     IDetallesComandasBO detallesComandasBO;
-    
 
     /**
      * Creates new form frmCrearComanda
      */
-    public frmCrearComanda(ControlNavegacionComandas controlador, IComandasBO comandasBO, IProductosBO productosBO, IDetallesComandasBO detallesComandasBO ) {
+    public frmCrearComanda(ControlNavegacionComandas controlador, IComandasBO comandasBO, IProductosBO productosBO, IDetallesComandasBO detallesComandasBO) {
         initComponents();
-        this.controlador=controlador;
+        this.controlador = controlador;
         this.comandasBO = comandasBO;
         this.productosBO = productosBO;
         this.detallesComandasBO = detallesComandasBO;
@@ -49,25 +48,25 @@ public class frmCrearComanda extends javax.swing.JFrame {
         txtTotal.setEditable(false);
         setTitle("Crear Comanda");
     }
-    
-    public void LlenarComboboxMesa(){
+
+    public void LlenarComboboxMesa() {
         List<Mesa> mesas = comandasBO.obtenerMesas();
-            for(Mesa m : mesas){
+        for (Mesa m : mesas) {
             ComboboxMesa.addItem(String.valueOf(m.getNumeroMesa()));
         }
     }
-       
-    public String generarFolio(){
+
+    public String generarFolio() {
         LocalDate hoy = LocalDate.now();
         String fechaFormateada = hoy.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         int consecutivo = comandasBO.obtenerConsecutivoDelDia();
         String consecutivoFormateado = String.format("%03d", consecutivo);
         return "OB-" + fechaFormateada + "-" + consecutivoFormateado;
     }
- 
+
     public void crearComanda() {
         try {
-            
+
             String folio = generarFolio();
             EstadoComanda estado = EstadoComanda.ABIERTA;
             LocalDateTime fechaHora = LocalDateTime.now();
@@ -99,32 +98,31 @@ public class frmCrearComanda extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "¡Comanda creada con folio: " + folio + "!");
 
         } catch (NegocioException e) {
-            JOptionPane.showMessageDialog(null, "Error al crear comanda: " + e.getMessage(), 
-                                        "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al crear comanda: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage(), 
-                                        "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
-    
+
     private Comanda obtenerComandaActualDetectada() throws NegocioException {
         if (comandaActual != null) {
-            return comandaActual; 
+            return comandaActual;
         }
 
-        String folio = generarFolio(); 
+        String folio = generarFolio();
         Comanda encontrada = comandasBO.buscarPorFolio(folio);
 
         if (encontrada == null) {
             throw new NegocioException("No se encontró la comanda con folio: " + folio);
         }
 
-        comandaActual = encontrada; 
+        comandaActual = encontrada;
         return encontrada;
     }
-
 
     private float calcularTotalReal() throws NegocioException {
         DefaultTableModel model = (DefaultTableModel) TablaComanda.getModel();
@@ -132,6 +130,7 @@ public class frmCrearComanda extends javax.swing.JFrame {
         for (int i = 0; i < model.getRowCount(); i++) {
             total += obtenerValorNumerico(model.getValueAt(i, 4));
         }
+
         return total;
     }
 
@@ -140,7 +139,7 @@ public class frmCrearComanda extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) TablaComanda.getModel();
         for (int i = 0; i < model.getRowCount(); i++) {
             try {
-                
+
                 String nombreProducto = model.getValueAt(i, 0).toString();
 
                 int cantidad = obtenerCantidad(model.getValueAt(i, 1));
@@ -154,16 +153,15 @@ public class frmCrearComanda extends javax.swing.JFrame {
                 if (producto == null) {
                     throw new NegocioException("Producto no encontrado: " + nombreProducto);
                 }
-                
 
                 NuevoDetalleComandaDTO detalle = new NuevoDetalleComandaDTO(
-                    producto, comandaActual, precioUnitario, nota, cantidad, total
+                        producto, comandaActual, precioUnitario, nota, cantidad, total
                 );
 
                 detallesComandasBO.guardarDetalleComanda(detalle);
 
             } catch (Exception e) {
-                throw new NegocioException("Error en fila " + (i+1) + ": " + e.getMessage());
+                throw new NegocioException("Error en fila " + (i + 1) + ": " + e.getMessage());
             }
         }
     }
@@ -202,8 +200,7 @@ public class frmCrearComanda extends javax.swing.JFrame {
             throw new NegocioException("Valor numérico inválido: " + valor);
         }
     }
-    
-    
+
     private void configurarListenersTabla() {
         TablaComanda.getModel().addTableModelListener(e -> {
             if (e.getColumn() == 1) {
@@ -212,7 +209,7 @@ public class frmCrearComanda extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private void actualizarImporteFila(int fila) {
         DefaultTableModel model = (DefaultTableModel) TablaComanda.getModel();
         try {
@@ -236,26 +233,24 @@ public class frmCrearComanda extends javax.swing.JFrame {
             float importe = cantidad * precioUnitario;
             model.setValueAt(importe, fila, 4);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, 
-                "Ingrese un número entero positivo válido", 
-                "Error", 
-                JOptionPane.ERROR_MESSAGE);
-            model.setValueAt(1, fila, 1); 
-            model.setValueAt(model.getValueAt(fila, 3), fila, 4); 
+            JOptionPane.showMessageDialog(this,
+                    "Ingrese un número entero positivo válido",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            model.setValueAt(1, fila, 1);
+            model.setValueAt(model.getValueAt(fila, 3), fila, 4);
         }
     }
-    
+
     private void calcularTotalComanda() {
         DefaultTableModel model = (DefaultTableModel) TablaComanda.getModel();
         float total = 0;
 
         for (int i = 0; i < model.getRowCount(); i++) {
-            total += (float) model.getValueAt(i, 4); 
+            total += (float) model.getValueAt(i, 4);
         }
         txtTotal.setText(String.format("$%,.2f", total));
     }
-    
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -390,6 +385,8 @@ public class frmCrearComanda extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         jLabel4.setText("Total:");
 
+        txtTotal.setText("0.00");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -469,8 +466,8 @@ public class frmCrearComanda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotonRegistrarComandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRegistrarComandaActionPerformed
-            crearComanda();
-            controlador.regresarMenuCrearComanda();
+        crearComanda();
+        controlador.regresarMenuCrearComanda();
     }//GEN-LAST:event_BotonRegistrarComandaActionPerformed
 
     private void ComboboxMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboboxMesaActionPerformed
@@ -479,12 +476,11 @@ public class frmCrearComanda extends javax.swing.JFrame {
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
         this.cliente = controlador.obtenerCliente();
-            if(cliente != null){
-                txtCliente.setText(cliente.getNombre() + " " + cliente.getApellidoPaterno());
-            }
-            else{
-                txtCliente.setText("Publico General");
-            }  
+        if (cliente != null) {
+            txtCliente.setText(cliente.getNombre() + " " + cliente.getApellidoPaterno());
+        } else {
+            txtCliente.setText("Publico General");
+        }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
@@ -493,35 +489,36 @@ public class frmCrearComanda extends javax.swing.JFrame {
 
     private void BotonBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBuscarProductoActionPerformed
         this.producto = controlador.obtenerProducto();
-        
+
         if (producto != null) {
             DefaultTableModel model = (DefaultTableModel) TablaComanda.getModel();
             Object[] row = new Object[]{
-                producto.getNombre(), 
-                1,                    
-                "",                  
-                producto.getPrecio(), 
+                producto.getNombre(),
+                1,
+                "",
+                producto.getPrecio(),
                 producto.getPrecio()
             };
             model.addRow(row);
+            float valorActual = Float.parseFloat(txtTotal.getText());
+            float nuevoTotal = valorActual + producto.getPrecio();
+            txtTotal.setText(String.valueOf(nuevoTotal));
+            TablaComanda.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(new JTextField()) {
+                @Override
+                public boolean stopCellEditing() {
+                    try {
 
-        TablaComanda.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(new JTextField()) {
-            @Override
-            public boolean stopCellEditing() {
-                try {
-
-                    Integer.parseInt(getCellEditorValue().toString());
-                    return super.stopCellEditing();
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Ingrese un número válido", "Error", JOptionPane.ERROR_MESSAGE);
-                    return false;
+                        Integer.parseInt(getCellEditorValue().toString());
+                        return super.stopCellEditing();
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Ingrese un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+                        return false;
+                    }
                 }
-            }
-        });
-    }
-        
-    }//GEN-LAST:event_BotonBuscarProductoActionPerformed
+            });
+        }
 
+    }//GEN-LAST:event_BotonBuscarProductoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

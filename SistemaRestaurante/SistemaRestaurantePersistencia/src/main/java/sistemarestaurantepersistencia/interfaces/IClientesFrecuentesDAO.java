@@ -33,4 +33,6 @@ public interface IClientesFrecuentesDAO {
     
     public abstract List<ClienteFrecuente> buscarClientesPorMinimoVisitas(int minimoVisitas);
     
+    public abstract void procesarPuntosClientePorComandaEntregada(Long idComanda);
+
 }

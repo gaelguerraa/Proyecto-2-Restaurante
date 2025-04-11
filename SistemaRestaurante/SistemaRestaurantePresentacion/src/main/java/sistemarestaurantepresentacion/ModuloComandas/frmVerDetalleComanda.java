@@ -5,60 +5,84 @@
 package sistemarestaurantepresentacion.ModuloComandas;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.DetallesComanda;
+import sistemarestaurantedominio.EstadoComanda;
 import sistemarestaurantedominio.Producto;
+import sistemarestaurantedominio.dtos.ProductoComandaDTO;
+import sistemarestaurantenegocio.IClientesFrecuentesBO;
+import sistemarestaurantenegocio.IComandasBO;
 import sistemarestaurantenegocio.IDetallesComandasBO;
+import sistemarestaurantenegocio.excepciones.NegocioException;
 
 /**
  *
  * @author jorge
  */
 public class frmVerDetalleComanda extends javax.swing.JFrame {
+
     private Comanda comandaSeleccionada;
     private ControlNavegacionComandas control;
     private IDetallesComandasBO detallesComandasBO;
     private List<DetallesComanda> listaProductoComanda;
     private DetallesComanda detalleComanda;
-    
+    private IComandasBO comandasBO;
+    private IClientesFrecuentesBO clientesBO;
+
     /**
      * Creates new form frmVerDetalleComanda
      */
-    public frmVerDetalleComanda(IDetallesComandasBO detallesComandasBO,Comanda comandaSeleccionada,ControlNavegacionComandas control) {
+    public frmVerDetalleComanda(IDetallesComandasBO detallesComandasBO, Comanda comandaSeleccionada, ControlNavegacionComandas control, IComandasBO comandasBO, IClientesFrecuentesBO clientesBO) {
         initComponents();
         this.comandaSeleccionada = comandaSeleccionada;
-        this.listaProductoComanda = detalleComanda.;
-        this.control=control;
+        this.comandasBO = comandasBO;
+        this.clientesBO = clientesBO;
+        if (comandaSeleccionada.getEstado().equals(EstadoComanda.ENTREGADA)) {
+            this.btnEditar.setVisible(false);
+            this.btnEntregada.setVisible(false);
+            this.btnCancelar.setVisible(false);
+        }
+        if (comandaSeleccionada.getEstado().equals(EstadoComanda.CANCELADA)) {
+            this.btnEditar.setVisible(false);
+            this.btnEntregada.setVisible(false);
+            this.btnCancelar.setVisible(false);
+        }
+        this.control = control;
         this.detallesComandasBO = detallesComandasBO;
         this.cargarInformacionComanda(comandaSeleccionada);
         setTitle("Detalles de comanda");
         setLocationRelativeTo(null);
     }
-    
-    private void cargarInformacionComanda(Comanda comanda){
+
+    private void cargarInformacionComanda(Comanda comanda) {
         this.txtFechaHora.setText(comanda.getFechaHora().toString());
-        if (comanda.getCliente()!=null) {
+        if (comanda.getCliente() != null) {
             this.txtCliente.setText(comanda.getCliente().getNombre() + " " + comanda.getCliente().getApellidoPaterno());
-        }else{
+        } else {
             this.txtCliente.setText("N/A");
         }
         this.txtEstadoComanda.setText(comanda.getEstado().toString());
         this.txtImporteTotal.setText("$" + String.format("%.2f", comanda.getTotal()));
         this.txtMesa.setText(comanda.getNumeroMesa().getNumeroMesa().toString());
         this.lblFolio.setText(comanda.getFolio());
-        
-        DefaultTableModel modeloTabla = (DefaultTableModel)this.tblProducto.getModel();
+
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblProducto.getModel();
         modeloTabla.setRowCount(0);
-        
-        
-        
-        for(Producto producto: productoComanda){
-            
+
+        List<ProductoComandaDTO> productos = comandasBO.obtenerProductosDetalladosComanda(comanda.getFolio());
+        for (ProductoComandaDTO producto : productos) {
+            Object[] fila = {
+                producto.getCantidad(),
+                producto.getProducto(),
+                producto.getNota(),
+                producto.getCosto(),
+                producto.getTotal()
+            };
+            modeloTabla.addRow(fila);
         }
-        
-        
-        
     }
 
     /**
@@ -155,6 +179,7 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
 
         txtMesa.setEditable(false);
 
+        tblProducto.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         tblProducto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -199,6 +224,11 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
         btnEditar.setBackground(new java.awt.Color(171, 118, 46));
         btnEditar.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         btnEditar.setText("EDITAR");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         txtEstadoComanda.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         txtEstadoComanda.setText("N/A");
@@ -206,6 +236,11 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
         btnEntregada.setBackground(new java.awt.Color(220, 145, 79));
         btnEntregada.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         btnEntregada.setText("MARCAR COMO ENTREGADA");
+        btnEntregada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEntregadaActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setBackground(new java.awt.Color(220, 145, 79));
         btnCancelar.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
@@ -312,7 +347,23 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
-   
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // aqui se supone te lleva a crear comanda denuevo con datos precargados
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnEntregadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntregadaActionPerformed
+        // AQUI ACTUALIZARA STOCK Y PUNTOS CLIENTE
+        //metodo para actualizar estado.... con validacion si hay stock
+        //metodo para actualizar stock....
+        
+        //CLIENTE
+        try {
+            clientesBO.procesarPuntosClientePorComanda(comandaSeleccionada.getId());
+        } catch (NegocioException ex) {
+            Logger.getLogger(frmVerDetalleComanda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnEntregadaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

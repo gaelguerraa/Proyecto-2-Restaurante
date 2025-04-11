@@ -5,6 +5,7 @@ import java.util.List;
 import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.Mesa;
 import sistemarestaurantedominio.dtos.NuevaComandaDTO;
+import sistemarestaurantedominio.dtos.ProductoComandaDTO;
 import sistemarestaurantenegocio.IComandasBO;
 import sistemarestaurantepersistencia.interfaces.IComandasDAO;
 
@@ -50,6 +51,16 @@ public class ComandasBO implements IComandasBO {
     @Override
     public Comanda buscarPorFolio(String folio) {
         return comandasDAO.buscarPorFolio(folio);
+    }
+
+    @Override
+    public List<ProductoComandaDTO> obtenerProductosComanda(String folio) {
+        return comandasDAO.obtenerProductosComanda(folio);
+    }
+
+    @Override
+    public List<ProductoComandaDTO> obtenerProductosDetalladosComanda(String folio) {
+        return comandasDAO.obtenerProductosDetalladosComanda(folio);
     }
     
 }

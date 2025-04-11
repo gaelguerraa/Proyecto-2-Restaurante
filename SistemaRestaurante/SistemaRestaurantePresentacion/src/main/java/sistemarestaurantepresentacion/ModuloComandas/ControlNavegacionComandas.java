@@ -3,6 +3,7 @@ package sistemarestaurantepresentacion.ModuloComandas;
 import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.Producto;
+import sistemarestaurantenegocio.IClientesFrecuentesBO;
 import sistemarestaurantenegocio.IComandasBO;
 import sistemarestaurantenegocio.IDetallesComandasBO;
 import sistemarestaurantenegocio.IProductosBO;
@@ -16,6 +17,7 @@ public class ControlNavegacionComandas {
     private IComandasBO comandasBO;
     private IProductosBO productosBO;
     private IDetallesComandasBO detallesComandasBO;
+    private IClientesFrecuentesBO clientesBO;
     private frmMenuPrincipal frameMenuPrincipal;
     private frmMenuComandas frameMenuComandas;
     private frmVerComandas frameVerComandas;
@@ -29,6 +31,7 @@ public class ControlNavegacionComandas {
         comandasBO = FabricaObjetosNegocio.crearComandasBO();
         productosBO = FabricaObjetosNegocio.crearProductosBO();
         detallesComandasBO = FabricaObjetosNegocio.crearDetallesComadasBO();
+        clientesBO = FabricaObjetosNegocio.crearClientesFrecuentesBO();
     }
 
     public void iniciarMenu() {
@@ -59,7 +62,7 @@ public class ControlNavegacionComandas {
     
     public void detallesComanda(Comanda comandaSeleccionada){
         this.frameVerComandas.dispose();
-        this.frameDetalleComanda = new frmVerDetalleComanda(this.detallesComandasBO,comandaSeleccionada, this);
+        this.frameDetalleComanda = new frmVerDetalleComanda(this.detallesComandasBO,comandaSeleccionada, this, comandasBO, clientesBO);
         this.frameDetalleComanda.setVisible(true);
     }
 

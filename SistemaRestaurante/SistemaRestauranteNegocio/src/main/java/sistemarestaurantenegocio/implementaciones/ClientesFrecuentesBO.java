@@ -5,6 +5,7 @@ import java.util.Base64;
 import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import javax.persistence.PersistenceException;
 import org.eclipse.persistence.exceptions.DatabaseException;
 import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantedominio.dtos.NuevoClienteFrecuenteDTO;
@@ -252,5 +253,20 @@ public class ClientesFrecuentesBO implements IClientesFrecuentesBO {
             throw new NegocioException("No se pudo obtener el listado de clientes");
         }
         
+    }
+
+    /**
+     * Metodo que obtiene un id de comanda y suma los puntos correspondientes al cliente correspondiente
+     * @param idComanda Recibe un id de una comanda cuyo haya sido ENTREGADA
+     * @throws NegocioException Lanza esta excepcion en caso de que no se logren procesar los puntos
+     */
+    @Override
+    public void procesarPuntosClientePorComanda(Long idComanda) throws NegocioException {
+        try{
+            clientesFrecuentesDAO.procesarPuntosClientePorComandaEntregada(idComanda);
+        }
+        catch(PersistenceException ex){
+            throw new NegocioException(ex.getMessage());
+        }
     }
 }

@@ -32,5 +32,7 @@ public interface IClientesFrecuentesBO {
     public abstract LocalDateTime obtenerUltimaVisita(ClienteFrecuente cliente) throws NegocioException;
     
     public abstract List<ClienteFrecuente> consultarClientesMinimoVisita(int minimoVisita) throws NegocioException;
+    
+    public abstract void procesarPuntosClientePorComanda(Long idComanda) throws NegocioException;
    
 }
