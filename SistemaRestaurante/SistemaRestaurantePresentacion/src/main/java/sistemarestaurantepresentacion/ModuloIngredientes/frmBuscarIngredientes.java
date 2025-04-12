@@ -19,11 +19,12 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
     /**
      * Creates new form frmBuscarIngredientes
      */
-    public FrmBuscarIngredientes(ControlNavegacionIngredientes control, IIngredientesBO ingredientesBO) {
+    public FrmBuscarIngredientes(ControlNavegacionIngredientes control, IIngredientesBO ingredientesBO) throws NegocioException {
         initComponents();
         this.control = control;
         this.ingredientesBO = ingredientesBO;
         this.llenarComboBoxMedida();
+        this.llenarTablaCompleta();
         setTitle("Buscar ingredientes");
         setLocationRelativeTo(null);
     }
@@ -107,6 +108,21 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
         
     }
     
+    private void llenarTablaCompleta() throws NegocioException{
+        DefaultTableModel modeloTabla = (DefaultTableModel)this.tblIngredientes.getModel();
+        modeloTabla.setRowCount(0);
+        List<Ingrediente> ingredientesConsultados=ingredientesBO.consultarIngredientes();
+        
+        for(Ingrediente ingrediente : ingredientesConsultados){
+               Object[] fila = {
+                   ingrediente.getNombre(),
+                   ingrediente.getUnidadMedida().name(),
+                   ingrediente.getStock()
+                   
+               };
+               modeloTabla.addRow(fila);
+           }
+    }
     
     private void llenarTabla(List<Ingrediente> ingredientesConsultados) throws NegocioException{
         DefaultTableModel modeloTabla = (DefaultTableModel)this.tblIngredientes.getModel();
@@ -139,7 +155,6 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblBuscarIngrediente = new javax.swing.JLabel();
         pnlBusqueda = new javax.swing.JPanel();
         txtNombreIngrediente = new javax.swing.JTextField();
         cmbUnidadMedida = new javax.swing.JComboBox<>();
@@ -151,14 +166,14 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
         txtVolver = new javax.swing.JButton();
         btnAumentarStock = new javax.swing.JButton();
         btnEliminarStock = new javax.swing.JButton();
+        lblBuscarIngrediente = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(241, 209, 165));
 
-        lblBuscarIngrediente.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
-        lblBuscarIngrediente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblBuscarIngrediente.setText("BUSCAR INGREDIENTE");
-
+        pnlBusqueda.setBackground(new java.awt.Color(241, 209, 165));
         pnlBusqueda.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar Ingrediente"));
+        pnlBusqueda.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         cmbUnidadMedida.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CUALQUIERA" }));
 
@@ -166,6 +181,8 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
 
         lblUnidadMedida.setText("UnIdad de medida");
 
+        btnBuscar.setBackground(new java.awt.Color(220, 145, 79));
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnBuscar.setText("BUSCAR");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,6 +211,8 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblIngredientes);
 
+        txtVolver.setBackground(new java.awt.Color(220, 145, 79));
+        txtVolver.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtVolver.setText("VOLVER");
         txtVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,6 +220,8 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
             }
         });
 
+        btnAumentarStock.setBackground(new java.awt.Color(220, 145, 79));
+        btnAumentarStock.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAumentarStock.setText("Aumentar Stock");
         btnAumentarStock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,6 +229,8 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
             }
         });
 
+        btnEliminarStock.setBackground(new java.awt.Color(220, 145, 79));
+        btnEliminarStock.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnEliminarStock.setText("Eliminar Stock");
         btnEliminarStock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,39 +238,51 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
             }
         });
 
+        lblBuscarIngrediente.setBackground(new java.awt.Color(241, 209, 165));
+        lblBuscarIngrediente.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
+        lblBuscarIngrediente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBuscarIngrediente.setText("BUSCAR INGREDIENTE");
+
         javax.swing.GroupLayout pnlBusquedaLayout = new javax.swing.GroupLayout(pnlBusqueda);
         pnlBusqueda.setLayout(pnlBusquedaLayout);
         pnlBusquedaLayout.setHorizontalGroup(
             pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBusquedaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblBuscarIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(pnlBusquedaLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
+                    .addGroup(pnlBusquedaLayout.createSequentialGroup()
+                        .addComponent(btnEliminarStock)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAumentarStock)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(pnlBusquedaLayout.createSequentialGroup()
                         .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNombreIngrediente)
-                            .addComponent(txtNombreIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(83, 83, 83)
-                        .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblUnidadMedida)
-                            .addComponent(cmbUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(42, 42, 42)
-                        .addComponent(btnBuscar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(27, 27, 27))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBusquedaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEliminarStock)
-                .addGap(72, 72, 72)
-                .addComponent(btnAumentarStock)
-                .addGap(89, 89, 89)
-                .addComponent(txtVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
+                            .addGroup(pnlBusquedaLayout.createSequentialGroup()
+                                .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblNombreIngrediente)
+                                    .addComponent(txtNombreIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(83, 83, 83)
+                                .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblUnidadMedida)
+                                    .addComponent(cmbUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(42, 42, 42)
+                                .addComponent(btnBuscar)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(27, 27, 27))))
         );
         pnlBusquedaLayout.setVerticalGroup(
             pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBusquedaLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addContainerGap()
+                .addComponent(lblBuscarIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57)
                 .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombreIngrediente)
                     .addComponent(lblUnidadMedida))
@@ -256,9 +291,9 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
                     .addComponent(txtNombreIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(130, 130, 130)
+                .addGap(121, 121, 121)
                 .addGroup(pnlBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtVolver)
                     .addComponent(btnAumentarStock)
@@ -270,18 +305,11 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pnlBusqueda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblBuscarIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(pnlBusqueda, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(lblBuscarIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(pnlBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );

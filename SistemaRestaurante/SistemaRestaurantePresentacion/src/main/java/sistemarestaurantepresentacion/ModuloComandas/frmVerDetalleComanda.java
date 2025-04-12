@@ -378,8 +378,10 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
     private void btnEntregadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntregadaActionPerformed
         try {
             for (DetallesComanda detallesComanda : comandaSeleccionada.getDetallesComanda()) {
+                Integer cantidadProducto =+ detallesComanda.getCantidadProducto();
                 for (IngredienteProducto ingredienteProducto : detallesComanda.getProducto().getIngredientes()) {
                     //actualizar stock
+                    Float cantidadActualizar = cantidadProducto.floatValue()*ingredienteProducto.getCantidadIngrediente();
                     ingredientesBO.disminuirStock(ingredienteProducto.getIngrediente(), ingredienteProducto.getCantidadIngrediente());
                 }
             }

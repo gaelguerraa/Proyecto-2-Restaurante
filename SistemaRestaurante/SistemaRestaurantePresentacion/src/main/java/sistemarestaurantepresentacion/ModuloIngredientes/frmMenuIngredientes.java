@@ -27,20 +27,21 @@ public class FrmMenuIngredientes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblBuscarIngrediente = new javax.swing.JLabel();
         pnlMenuIngredientes = new javax.swing.JPanel();
         btnRegistrarIngrediente = new javax.swing.JButton();
         btnBuscarIngrediente = new javax.swing.JButton();
         btnVolverMenuPrincipal = new javax.swing.JButton();
+        lblBuscarIngrediente = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(241, 209, 165));
 
-        lblBuscarIngrediente.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
-        lblBuscarIngrediente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblBuscarIngrediente.setText("INGREDIENTE");
-
+        pnlMenuIngredientes.setBackground(new java.awt.Color(241, 209, 165));
         pnlMenuIngredientes.setBorder(javax.swing.BorderFactory.createTitledBorder("Menu"));
+        pnlMenuIngredientes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
+        btnRegistrarIngrediente.setBackground(new java.awt.Color(220, 145, 79));
+        btnRegistrarIngrediente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRegistrarIngrediente.setText("REGISTRAR INGREDIENTE");
         btnRegistrarIngrediente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -48,6 +49,8 @@ public class FrmMenuIngredientes extends javax.swing.JFrame {
             }
         });
 
+        btnBuscarIngrediente.setBackground(new java.awt.Color(220, 145, 79));
+        btnBuscarIngrediente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnBuscarIngrediente.setText("BUSCAR INGREDIENTE");
         btnBuscarIngrediente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -55,6 +58,8 @@ public class FrmMenuIngredientes extends javax.swing.JFrame {
             }
         });
 
+        btnVolverMenuPrincipal.setBackground(new java.awt.Color(220, 145, 79));
+        btnVolverMenuPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnVolverMenuPrincipal.setText("VOLVER");
         btnVolverMenuPrincipal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,51 +67,46 @@ public class FrmMenuIngredientes extends javax.swing.JFrame {
             }
         });
 
+        lblBuscarIngrediente.setBackground(new java.awt.Color(241, 209, 165));
+        lblBuscarIngrediente.setFont(new java.awt.Font("Verdana", 1, 36)); // NOI18N
+        lblBuscarIngrediente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBuscarIngrediente.setText("INGREDIENTES");
+
         javax.swing.GroupLayout pnlMenuIngredientesLayout = new javax.swing.GroupLayout(pnlMenuIngredientes);
         pnlMenuIngredientes.setLayout(pnlMenuIngredientesLayout);
         pnlMenuIngredientesLayout.setHorizontalGroup(
             pnlMenuIngredientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblBuscarIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnlMenuIngredientesLayout.createSequentialGroup()
-                .addGap(301, 301, 301)
+                .addGap(313, 313, 313)
                 .addGroup(pnlMenuIngredientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnRegistrarIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnBuscarIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnVolverMenuPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(330, Short.MAX_VALUE))
+                    .addComponent(btnVolverMenuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(324, Short.MAX_VALUE))
         );
         pnlMenuIngredientesLayout.setVerticalGroup(
             pnlMenuIngredientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMenuIngredientesLayout.createSequentialGroup()
-                .addGap(73, 73, 73)
+                .addComponent(lblBuscarIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(88, 88, 88)
                 .addComponent(btnRegistrarIngrediente)
                 .addGap(18, 18, 18)
                 .addComponent(btnBuscarIngrediente)
                 .addGap(74, 74, 74)
                 .addComponent(btnVolverMenuPrincipal)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(125, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblBuscarIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(pnlMenuIngredientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+            .addComponent(pnlMenuIngredientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblBuscarIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(pnlMenuIngredientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(pnlMenuIngredientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
