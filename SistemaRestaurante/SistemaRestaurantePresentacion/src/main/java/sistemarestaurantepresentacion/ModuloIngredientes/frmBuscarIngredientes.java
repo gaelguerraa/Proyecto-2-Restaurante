@@ -11,11 +11,12 @@ import sistemarestaurantenegocio.IIngredientesBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
 
 public class FrmBuscarIngredientes extends javax.swing.JFrame {
+
     private ControlNavegacionIngredientes control;
     private IIngredientesBO ingredientesBO;
     private Ingrediente ingredienteSeleccionado;
     private static final Logger LOG = Logger.getLogger(FrmBuscarIngredientes.class.getName());
-    
+
     /**
      * Creates new form frmBuscarIngredientes
      */
@@ -28,9 +29,9 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
         setTitle("Buscar ingredientes");
         setLocationRelativeTo(null);
     }
-    
-    private void seleccionarIngredienteAumentarStock(){
-        this.tblIngredientes.getSelectionModel().addListSelectionListener(e->{
+
+    private void seleccionarIngredienteAumentarStock() {
+        this.tblIngredientes.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int filaSeleccionada = this.tblIngredientes.getSelectedRow();
                 if (filaSeleccionada != -1) {
@@ -38,23 +39,23 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
                     String nombreIngrediente = this.tblIngredientes.getValueAt(filaSeleccionada, 0).toString();
                     String unidadMedida = this.tblIngredientes.getValueAt(filaSeleccionada, 1).toString();
 
-                    String stockString = JOptionPane.showInputDialog(this, "Ingrese la cantidad de "+unidadMedida+" para "+nombreIngrediente);
-                    
+                    String stockString = JOptionPane.showInputDialog(this, "Ingrese la cantidad de " + unidadMedida + " para " + nombreIngrediente);
+
                     try {
                         Float stockFloat = Float.valueOf(stockString);
                         ingredienteSeleccionado = new Ingrediente(nombreIngrediente, UnidadMedidaIngrediente.valueOf(unidadMedida), stockFloat);
                         ingredientesBO.aumentarStock(ingredienteSeleccionado.getId(), stockFloat);
                     } catch (NegocioException ex) {
-                        LOG.severe("Error: "+ex.getMessage());
+                        LOG.severe("Error: " + ex.getMessage());
                     }
                 }
             }
-        
+
         });
     }
-    
-    private void seleccionarIngredienteEliminarStock(){
-        this.tblIngredientes.getSelectionModel().addListSelectionListener(e->{
+
+    private void seleccionarIngredienteEliminarStock() {
+        this.tblIngredientes.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int filaSeleccionada = this.tblIngredientes.getSelectedRow();
                 if (filaSeleccionada != -1) {
@@ -62,90 +63,87 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
                     String nombreIngrediente = this.tblIngredientes.getValueAt(filaSeleccionada, 0).toString();
                     String unidadMedida = this.tblIngredientes.getValueAt(filaSeleccionada, 1).toString();
 
-                    String stockString = JOptionPane.showInputDialog(this, "Ingrese la cantidad de "+unidadMedida+" a eliminar para "+nombreIngrediente);
-                    
-                    
+                    String stockString = JOptionPane.showInputDialog(this, "Ingrese la cantidad de " + unidadMedida + " a eliminar para " + nombreIngrediente);
+
                     try {
                         Float stockFloat = Float.valueOf(stockString);
                         ingredienteSeleccionado = new Ingrediente(nombreIngrediente, UnidadMedidaIngrediente.valueOf(unidadMedida), stockFloat);
                         ingredientesBO.disminuirStock(ingredienteSeleccionado.getId(), -stockFloat);
                     } catch (NegocioException ex) {
-                        LOG.severe("Error: "+ex.getMessage());
+                        LOG.severe("Error: " + ex.getMessage());
                     }
                 }
             }
-        
+
         });
     }
-    
-    private void filtrarIngredientes() throws NegocioException{
+
+    private void filtrarIngredientes() throws NegocioException {
         String nombreIngrediente = this.txtNombreIngrediente.getText();
         String unidadMedida = this.cmbUnidadMedida.getSelectedItem().toString().toUpperCase();
         try {
             List<Ingrediente> ingredientesConsultados;
-            
 
             //Consultar todos los ingredientes
-            if (nombreIngrediente.isEmpty() && unidadMedida=="CUALQUIERA") {
+            if (nombreIngrediente.isEmpty() && unidadMedida == "CUALQUIERA") {
                 ingredientesConsultados = ingredientesBO.consultarIngredientes();
-                this.llenarTabla(ingredientesConsultados); 
-            }else if (!nombreIngrediente.isEmpty() && unidadMedida == "CUALQUIERA") {
+                this.llenarTabla(ingredientesConsultados);
+            } else if (!nombreIngrediente.isEmpty() && unidadMedida == "CUALQUIERA") {
                 ingredientesConsultados = ingredientesBO.consultarIngredientesPorNombre(nombreIngrediente);
-                this.llenarTabla(ingredientesConsultados); 
-            }else if (nombreIngrediente.isEmpty() && unidadMedida!=null) {
+                this.llenarTabla(ingredientesConsultados);
+            } else if (nombreIngrediente.isEmpty() && unidadMedida != null) {
                 ingredientesConsultados = ingredientesBO.consultarIngredientesPorUnidadMedida(unidadMedida);
-                this.llenarTabla(ingredientesConsultados); 
-            }else if (!nombreIngrediente.isEmpty() && unidadMedida!=null) {
+                this.llenarTabla(ingredientesConsultados);
+            } else if (!nombreIngrediente.isEmpty() && unidadMedida != null) {
                 ingredientesConsultados = ingredientesBO.consultarIngredientePorNombreYMedida(nombreIngrediente, unidadMedida);
-                this.llenarTabla(ingredientesConsultados); 
+                this.llenarTabla(ingredientesConsultados);
             }
 
-            
         } catch (NegocioException e) {
-            LOG.severe("Error: "+e.getMessage());
-            JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
+            LOG.severe("Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
         }
-        
+
     }
-    
-    private void llenarTablaCompleta() throws NegocioException{
-        DefaultTableModel modeloTabla = (DefaultTableModel)this.tblIngredientes.getModel();
+
+    private void llenarTablaCompleta() throws NegocioException {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblIngredientes.getModel();
         modeloTabla.setRowCount(0);
-        List<Ingrediente> ingredientesConsultados=ingredientesBO.consultarIngredientes();
-        
-        for(Ingrediente ingrediente : ingredientesConsultados){
-               Object[] fila = {
-                   ingrediente.getNombre(),
-                   ingrediente.getUnidadMedida().name(),
-                   ingrediente.getStock()
-                   
-               };
-               modeloTabla.addRow(fila);
-           }
+        List<Ingrediente> ingredientesConsultados = ingredientesBO.consultarIngredientes();
+
+        for (Ingrediente ingrediente : ingredientesConsultados) {
+            Object[] fila = {
+                ingrediente.getNombre(),
+                ingrediente.getUnidadMedida().name(),
+                ingrediente.getStock()
+
+            };
+            modeloTabla.addRow(fila);
+        }
     }
-    
-    private void llenarTabla(List<Ingrediente> ingredientesConsultados) throws NegocioException{
-        DefaultTableModel modeloTabla = (DefaultTableModel)this.tblIngredientes.getModel();
+
+    private void llenarTabla(List<Ingrediente> ingredientesConsultados) throws NegocioException {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblIngredientes.getModel();
         modeloTabla.setRowCount(0);
-        
-        for(Ingrediente ingrediente : ingredientesConsultados){
-               Object[] fila = {
-                   ingrediente.getNombre(),
-                   ingrediente.getUnidadMedida().name(),
-                   ingrediente.getStock()
-                   
-               };
-               modeloTabla.addRow(fila);
-           }
+
+        for (Ingrediente ingrediente : ingredientesConsultados) {
+            Object[] fila = {
+                ingrediente.getNombre(),
+                ingrediente.getUnidadMedida().name(),
+                ingrediente.getStock()
+
+            };
+            modeloTabla.addRow(fila);
+        }
     }
-    
-    private void llenarComboBoxMedida(){
-        
-        for(UnidadMedidaIngrediente unidadMedida : UnidadMedidaIngrediente.values()){
+
+    private void llenarComboBoxMedida() {
+
+        for (UnidadMedidaIngrediente unidadMedida : UnidadMedidaIngrediente.values()) {
             this.cmbUnidadMedida.addItem(unidadMedida.toString());
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -334,43 +332,42 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
 
     private void btnAumentarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAumentarStockActionPerformed
         // TODO add your handling code here:
-        this.tblIngredientes.getSelectionModel().addListSelectionListener(e->{
+        this.tblIngredientes.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int filaSeleccionada = this.tblIngredientes.getSelectedRow();
                 if (filaSeleccionada != -1) {
                     //Recuperar valores de la fila
                     String nombreIngrediente = this.tblIngredientes.getValueAt(filaSeleccionada, 0).toString();
                     String unidadMedida = this.tblIngredientes.getValueAt(filaSeleccionada, 1).toString();
+                    String stockString = JOptionPane.showInputDialog(this, "Ingrese la cantidad de " + unidadMedida + " para " + nombreIngrediente);
 
-                    
-                }
-            }
-        
-        });
-        String stockString = JOptionPane.showInputDialog(this, "Ingrese la cantidad de "+unidadMedida+" para "+nombreIngrediente);
-                    
                     try {
                         Float stockFloat = Float.valueOf(stockString);
                         ingredienteSeleccionado = new Ingrediente(nombreIngrediente, UnidadMedidaIngrediente.valueOf(unidadMedida), stockFloat);
                         ingredientesBO.aumentarStock(ingredienteSeleccionado.getId(), stockFloat);
                     } catch (NegocioException ex) {
-                        LOG.severe("Error: "+ex.getMessage());
+                        LOG.severe("Error: " + ex.getMessage());
                     }
-        JOptionPane.showMessageDialog(this, "Seleccione un ingrediente");
-        this.seleccionarIngredienteAumentarStock();
+                    JOptionPane.showMessageDialog(this, "Seleccione un ingrediente");
+                    this.seleccionarIngredienteAumentarStock();
+
+                }
+            }
+
+        });
+
     }//GEN-LAST:event_btnAumentarStockActionPerformed
 
     private void btnEliminarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarStockActionPerformed
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(this, "Seleccione un ingrediente");
         this.seleccionarIngredienteEliminarStock();
-        
+
     }//GEN-LAST:event_btnEliminarStockActionPerformed
 
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAumentarStock;
