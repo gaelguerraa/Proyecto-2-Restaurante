@@ -381,8 +381,8 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
                 Integer cantidadProducto =+ detallesComanda.getCantidadProducto();
                 for (IngredienteProducto ingredienteProducto : detallesComanda.getProducto().getIngredientes()) {
                     //actualizar stock
-                    Float cantidadActualizar = cantidadProducto.floatValue()*ingredienteProducto.getCantidadIngrediente();
-                    ingredientesBO.disminuirStock(ingredienteProducto.getIngrediente(), ingredienteProducto.getCantidadIngrediente());
+                    Float cantidadActualizar = cantidadProducto*ingredienteProducto.getCantidadIngrediente();
+                    ingredientesBO.disminuirStock(ingredienteProducto.getIngrediente(), cantidadActualizar);
                 }
             }
             // actualizar estado de comanda

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package sistemarestaurantepersistencia.DAOS_implementaciones;
 
 import java.util.List;
@@ -10,17 +6,15 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import sistemarestaurantedominio.Ingrediente;
-import sistemarestaurantedominio.UnidadMedidaIngrediente;
 import sistemarestaurantedominio.dtos.NuevoIngredienteDTO;
 import sistemarestaurantepersistencia.interfaces.IIngredientesDAO;
 
 /**
- *
- * @author gael_
+ * Implementación de la interfaz IIngredientesDAO para el manejo de la persistencia de ingredientes.
+ * Proporciona métodos para consultar, guardar, actualizar y buscar ingredientes en la base de datos.
  */
 public class IngredientesDAO implements IIngredientesDAO {
 
@@ -65,17 +59,15 @@ public class IngredientesDAO implements IIngredientesDAO {
         List<Ingrediente> listaResultadoBusquedaIngredientes = query.getResultList();
 
         return listaResultadoBusquedaIngredientes;
-    
     }
 
     @Override
     public List<Ingrediente> obtenerIngredientesPorUnidadMedida(String unidadMedida) {
-        EntityManager  em = ManejadorConexiones.getEntityManager();
+        EntityManager em = ManejadorConexiones.getEntityManager();
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Ingrediente> criteria = builder.createQuery(Ingrediente.class);
         Root<Ingrediente> root = criteria.from(Ingrediente.class);
         
-        //No recuerdo si root.get() se ponia el atributo o el nombre de la columna, puse el de el atributo me hizo mas logica
         criteria = criteria.select(root).where(builder.like(root.get("unidadMedida"), "%"+unidadMedida.toUpperCase()+"%"));
         
         TypedQuery query = em.createQuery(criteria);
@@ -83,12 +75,17 @@ public class IngredientesDAO implements IIngredientesDAO {
         List<Ingrediente> listaResultadoBusquedaIngredientes = query.getResultList();
         
         return listaResultadoBusquedaIngredientes;
-        
     }
-    
+
+    /**
+     * Busca ingredientes cuyo nombre y unidad de medida coincidan con los valores proporcionados.
+     * @param nombre El nombre del ingrediente a buscar.
+     * @param unidadMedida La unidad de medida a buscar.
+     * @return Lista de ingredientes que coinciden con los criterios de búsqueda.
+     */
     @Override
     public List<Ingrediente> obtenerIngredientePorNombreYMedida(String nombre, String unidadMedida) {
-        EntityManager  em = ManejadorConexiones.getEntityManager();
+        EntityManager em = ManejadorConexiones.getEntityManager();
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Ingrediente> criteria = builder.createQuery(Ingrediente.class);
         Root<Ingrediente> root = criteria.from(Ingrediente.class);
@@ -96,26 +93,29 @@ public class IngredientesDAO implements IIngredientesDAO {
         Predicate condicionNombre = builder.like(root.get("nombre"), "%"+nombre.toLowerCase()+"%");
         Predicate condicionUnidadMedida = builder.like(root.get("unidadMedida"), "%"+unidadMedida.toUpperCase()+"%");
         
-        criteria = criteria.select(root).where(builder.and(condicionNombre,condicionUnidadMedida));
+        criteria = criteria.select(root).where(builder.and(condicionNombre, condicionUnidadMedida));
         
         List<Ingrediente> ingredienteEncontrado = em.createQuery(criteria).getResultList();
         em.close();
         
         return ingredienteEncontrado;        
     }
-    
-    //Verificar si funciona
+
+    /**
+     * Aumenta el stock de un ingrediente específico.
+     * @param ingredienteStock Ingrediente al cual se le va a aumentar el stock.
+     * @param cantidadAumentar Cantidad que se va a sumar al stock actual.
+     * @return Número de registros afectados.
+     */
     @Override
     public Integer aumentarStock(Ingrediente ingredienteStock, Float cantidadAumentar) {
-        EntityManager  em = ManejadorConexiones.getEntityManager();
+        EntityManager em = ManejadorConexiones.getEntityManager();
         
-        //Registros afectados
         int resultado = 0; 
         em.getTransaction().begin();
         String jpqlQuery = """
                            UPDATE Ingrediente i SET i.stock = i.stock + :cantidadAumentar
                            WHERE i.id = :idIngrediente
-                           
                            """;
         Query query = em.createQuery(jpqlQuery);
         query.setParameter("idIngrediente", ingredienteStock.getId());
@@ -128,17 +128,21 @@ public class IngredientesDAO implements IIngredientesDAO {
         return resultado;
     }
 
+    /**
+     * Disminuye el stock de un ingrediente específico.
+     * @param ingredienteStock Ingrediente al cual se le va a disminuir el stock.
+     * @param cantidadDisminuir Cantidad que se va a restar del stock actual.
+     * @return Número de registros afectados.
+     */
     @Override
     public Integer disminuirStock(Ingrediente ingredienteStock, Float cantidadDisminuir) {
-        EntityManager  em = ManejadorConexiones.getEntityManager();
+        EntityManager em = ManejadorConexiones.getEntityManager();
         
-        //Registros afectados
         int resultado = 0; 
         em.getTransaction().begin();
         String jpqlQuery = """
                            UPDATE Ingrediente i SET i.stock = i.stock - :cantidadDisminuir
                            WHERE i.id = :idIngrediente
-                           
                            """;
         Query query = em.createQuery(jpqlQuery);
         query.setParameter("idIngrediente", ingredienteStock.getId());
@@ -150,8 +154,4 @@ public class IngredientesDAO implements IIngredientesDAO {
         
         return resultado;
     }
-
-
-    
-    
 }

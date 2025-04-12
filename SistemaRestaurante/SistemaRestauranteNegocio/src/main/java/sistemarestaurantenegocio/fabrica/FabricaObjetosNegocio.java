@@ -35,54 +35,84 @@ import sistemarestaurantepersistencia.interfaces.IMesasDAO;
 import sistemarestaurantepersistencia.interfaces.IProductosDAO;
 
 /**
- *
- * @author gael_
+ * Fábrica de objetos de negocio del sistema de restaurante.
+ * Esta clase se encarga de instanciar y devolver implementaciones
+ * concretas de las interfaces de la capa de negocio utilizando
+ * sus respectivos DAOs.
+ * 
  */
 public class FabricaObjetosNegocio {
-    public static IProductosBO crearProductosBO(){
+
+    /**
+     * Crea una instancia de ProductosBO con su DAO correspondiente.
+     * 
+     * @return IProductosBO instancia del objeto de negocio.
+     */
+    public static IProductosBO crearProductosBO() {
         IProductosDAO productosDAO = new ProductosDAO();
-        IProductosBO productosBO = new ProductosBO(productosDAO);
-        return productosBO;
+        return new ProductosBO(productosDAO);
     }
-    
-    public static IClientesFrecuentesBO crearClientesFrecuentesBO(){
+
+    /**
+     * Crea una instancia de ClientesFrecuentesBO con su DAO correspondiente.
+     * 
+     * @return IClientesFrecuentesBO instancia del objeto de negocio.
+     */
+    public static IClientesFrecuentesBO crearClientesFrecuentesBO() {
         IClientesFrecuentesDAO clientesFrecuentesDAO = new ClientesFrecuentesDAO();
-        IClientesFrecuentesBO clientesFrecuentesBO = new ClientesFrecuentesBO(clientesFrecuentesDAO);
-        return clientesFrecuentesBO;
+        return new ClientesFrecuentesBO(clientesFrecuentesDAO);
     }
-    
-    public static IIngredientesProductosBO crearIngredientesProductosBO(){
+
+    /**
+     * Crea una instancia de IngredientesProductosBO con sus DAOs correspondientes.
+     * 
+     * @return IIngredientesProductosBO instancia del objeto de negocio.
+     */
+    public static IIngredientesProductosBO crearIngredientesProductosBO() {
         IIngredientesProductosDAO ingredientesProductosDAO = new IngredientesProductosDAO();
         IngredientesDAO ingredientesDAO = new IngredientesDAO();
         ProductosDAO productosDAO = new ProductosDAO();
-        IIngredientesProductosBO ingredientesProductosBO = new IngredientesProductosBO(ingredientesProductosDAO, ingredientesDAO, productosDAO);
-        return ingredientesProductosBO;
+        return new IngredientesProductosBO(ingredientesProductosDAO, ingredientesDAO, productosDAO);
     }
-    
-    public static IIngredientesBO crearIngredientesBO() throws NegocioException{
+
+    /**
+     * Crea una instancia de IngredientesBO con su DAO correspondiente.
+     * 
+     * @return IIngredientesBO instancia del objeto de negocio.
+     * @throws NegocioException si ocurre un error en la lógica de negocio.
+     */
+    public static IIngredientesBO crearIngredientesBO() throws NegocioException {
         IIngredientesDAO ingredientesDAO = new IngredientesDAO();
-        IIngredientesBO ingredientesBO = new IngredientesBO(ingredientesDAO);
-        return ingredientesBO;
+        return new IngredientesBO(ingredientesDAO);
     }
-    
-    public static IComandasBO crearComandasBO(){
+
+    /**
+     * Crea una instancia de ComandasBO con su DAO correspondiente.
+     * 
+     * @return IComandasBO instancia del objeto de negocio.
+     */
+    public static IComandasBO crearComandasBO() {
         IComandasDAO comandasDAO = new ComandasDAO();
-        IComandasBO comandasBO = new ComandasBO(comandasDAO);
-        return comandasBO;
+        return new ComandasBO(comandasDAO);
     }
-    
-    public static IMesasBO crearMesasBO(){
+
+    /**
+     * Crea una instancia de MesasBO con su DAO correspondiente.
+     * 
+     * @return IMesasBO instancia del objeto de negocio.
+     */
+    public static IMesasBO crearMesasBO() {
         IMesasDAO mesasDAO = new MesasDAO();
-        IMesasBO mesasBO = new MesasBO(mesasDAO);
-        return mesasBO;
+        return new MesasBO(mesasDAO);
     }
-    
-    public static IDetallesComandasBO crearDetallesComadasBO(){
+
+    /**
+     * Crea una instancia de DetallesComandasBO con su DAO correspondiente.
+     * 
+     * @return IDetallesComandasBO instancia del objeto de negocio.
+     */
+    public static IDetallesComandasBO crearDetallesComadasBO() {
         IDetallesComandasDAO detallesComandasDAO = new DetallesComandasDAO();
-        IDetallesComandasBO detallesComandasBO = new DetallesComandasBO(detallesComandasDAO);
-        return detallesComandasBO;
+        return new DetallesComandasBO(detallesComandasDAO);
     }
-   
 }
-
-

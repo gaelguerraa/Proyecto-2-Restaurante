@@ -11,8 +11,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.DetallesComanda;
@@ -163,7 +161,13 @@ public class ComandasDAO implements IComandasDAO {
         Long total = query.getSingleResult();
         return total.intValue() + 1; // Se suma 1 para el siguiente folio
     }
-
+    
+     /**
+     * Método que busca una comanda por su folio.
+     * @param folio Folio de la comanda a buscar.
+     * @return Comanda correspondiente al folio proporcionado.
+     */
+    
     @Override
     public Comanda buscarPorFolio(String folio) {
         EntityManager em = ManejadorConexiones.getEntityManager();
@@ -175,7 +179,12 @@ public class ComandasDAO implements IComandasDAO {
         Comanda comanda = query.getSingleResult();
         return comanda;
     }
-
+    
+     /**
+     * Método que obtiene los productos de una comanda dado su folio.
+     * @param folioComanda Folio de la comanda de la cual se quieren obtener los productos.
+     * @return Lista de productos asociados a la comanda en forma de DTOs.
+     */
     @Override
     public List<ProductoComandaDTO> obtenerProductosComanda(String folioComanda) {
         Comanda comanda = buscarPorFolio(folioComanda);
