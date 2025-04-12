@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package sistemarestaurantepresentacion.ModuloReportes;
 
 import java.time.LocalDateTime;
@@ -18,10 +14,6 @@ import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
 
-/**
- *
- * @author jorge
- */
 public class frmReportesClientesFrecuentes extends javax.swing.JFrame {
 
     private ControlNavegacionReportes control;

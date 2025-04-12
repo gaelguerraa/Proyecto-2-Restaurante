@@ -11,7 +11,9 @@ import java.time.LocalDate;
  * @author jorge
  */
 public class frmReportesComandasSeleccionarFecha extends javax.swing.JFrame {
+
     private ControlNavegacionReportes control;
+
     /**
      * Creates new form frmReportesComandasSeleccionarFecha
      */
@@ -185,13 +187,12 @@ public class frmReportesComandasSeleccionarFecha extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         LocalDate fechaInicio = this.fechaInicio.getDate();
         LocalDate fechaFin = this.fechaFin.getDate();
+        // validacion que el formato sea correcto
         if (fechaInicio != null && fechaFin != null && !fechaInicio.isAfter(fechaFin)) {
-//        List<Comanda> comandas = comandasDAO.buscarPorRangoFechas(fechaInicio, fechaFin);
-        control.mostrarReporteComandas(fechaInicio,fechaFin);
-    }
+            control.mostrarReporteComandas(fechaInicio, fechaFin);
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

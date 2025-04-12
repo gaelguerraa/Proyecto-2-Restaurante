@@ -302,6 +302,11 @@ public class ClientesFrecuentesDAO implements IClientesFrecuentesDAO {
                 .getResultList();
     }
 
+    /**
+     * Metodo que obtiene un id de una comanda y segun el monto total, se calcula y se suman los puntos al cliente correspondiente
+     * @param idComanda recibe un id de una comanda marcada como entregada
+     * @throws PersistenceException Lanza esta excepcion en caso de que no fue posible darle los puntos al cliente
+     */
     @Override
     public void procesarPuntosClientePorComandaEntregada(Long idComanda) throws PersistenceException {
         EntityManager em = ManejadorConexiones.getEntityManager();

@@ -6,8 +6,10 @@ import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.DetallesComanda;
 import sistemarestaurantedominio.EstadoComanda;
 import sistemarestaurantedominio.Mesa;
+import sistemarestaurantedominio.dtos.ActualizarComandaDTO;
 import sistemarestaurantedominio.dtos.NuevaComandaDTO;
 import sistemarestaurantedominio.dtos.ProductoComandaDTO;
+import sistemarestaurantenegocio.excepciones.NegocioException;
 
 public interface IComandasBO {
     public abstract Comanda registrarComanda(NuevaComandaDTO nuevaComanda);    
@@ -21,4 +23,6 @@ public interface IComandasBO {
     public abstract Comanda buscarPorFolio(String folio);
     public abstract List<ProductoComandaDTO> obtenerProductosComanda(String folio);
     public abstract List<ProductoComandaDTO> obtenerProductosDetalladosComanda(String folio);
+    public abstract void actualizarComanda(ActualizarComandaDTO comandaDTO) throws NegocioException;
+    public void actualizarTotalComanda(Long idComanda, Float nuevoTotal) throws NegocioException;
 }

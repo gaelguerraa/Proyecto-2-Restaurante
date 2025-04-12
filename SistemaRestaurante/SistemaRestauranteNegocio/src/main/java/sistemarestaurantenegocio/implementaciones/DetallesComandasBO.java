@@ -1,19 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package sistemarestaurantenegocio.implementaciones;
 
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sistemarestaurantedominio.DetallesComanda;
 import sistemarestaurantedominio.dtos.NuevoDetalleComandaDTO;
 import sistemarestaurantenegocio.IDetallesComandasBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
+import sistemarestaurantepersistencia.exception.PersistenciaException;
 import sistemarestaurantepersistencia.interfaces.IDetallesComandasDAO;
 
-/**
- *
- * @author gael_
- */
 public class DetallesComandasBO implements IDetallesComandasBO {
 
     private IDetallesComandasDAO detallesComandasDAO;
@@ -41,6 +37,24 @@ public class DetallesComandasBO implements IDetallesComandasBO {
             throw new NegocioException("El precio no puede ser nulo o menor a 0.");
          }
          return detallesComandasDAO.guardarDetalleComanda(detalleComanda);
+    }
+
+    @Override
+    public List<DetallesComanda> obtenerDetallesComanda(Long id) throws NegocioException {
+        try {
+            return detallesComandasDAO.obtenerDetallesComanda(id);
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("no se pudieron obtener los detalles de la comanda!");
+        }
+    }
+
+    @Override
+    public void eliminarDetallesComanda(Long id) throws NegocioException {
+        try {
+            detallesComandasDAO.eliminarDetallesPorComanda(id);
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("no se pudieron eliminar los detalles de la comanda!");
+        }
     }
     
 }

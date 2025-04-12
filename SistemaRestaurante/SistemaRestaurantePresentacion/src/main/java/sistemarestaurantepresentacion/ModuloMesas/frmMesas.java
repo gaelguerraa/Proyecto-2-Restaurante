@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package sistemarestaurantepresentacion.ModuloMesas;
 
 import javax.swing.JOptionPane;
@@ -9,10 +5,7 @@ import sistemarestaurantenegocio.IMesasBO;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
 import sistemarestaurantepresentacion.frmMenuPrincipal;
 
-/**
- *
- * @author jorge
- */
+
 public class frmMesas extends javax.swing.JFrame {
 
     private IMesasBO mesasBO;

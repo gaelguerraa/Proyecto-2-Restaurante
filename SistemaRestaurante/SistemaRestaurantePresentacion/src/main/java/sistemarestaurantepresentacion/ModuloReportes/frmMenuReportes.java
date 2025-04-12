@@ -11,7 +11,9 @@ import sistemarestaurantepresentacion.ModuloReportes.ControlNavegacionReportes;
  * @author jorge
  */
 public class frmMenuReportes extends javax.swing.JFrame {
+
     private ControlNavegacionReportes control;
+
     /**
      * Creates new form frmMenuComandas
      */
@@ -162,10 +164,9 @@ public class frmMenuReportes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnComandasActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-       control.reporteClientes();
+        control.reporteClientes();
     }//GEN-LAST:event_btnClientesActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClientes;

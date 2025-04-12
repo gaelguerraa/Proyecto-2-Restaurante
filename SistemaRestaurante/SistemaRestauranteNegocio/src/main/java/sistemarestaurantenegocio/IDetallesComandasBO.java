@@ -4,6 +4,7 @@
  */
 package sistemarestaurantenegocio;
 
+import java.util.List;
 import sistemarestaurantedominio.DetallesComanda;
 import sistemarestaurantedominio.dtos.NuevoDetalleComandaDTO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
@@ -14,5 +15,9 @@ import sistemarestaurantenegocio.excepciones.NegocioException;
  */
 public interface IDetallesComandasBO {
     public abstract DetallesComanda guardarDetalleComanda(NuevoDetalleComandaDTO detalleComanda) throws NegocioException;
+    
+    public abstract List<DetallesComanda> obtenerDetallesComanda(Long id) throws NegocioException;
+    
+    public abstract void eliminarDetallesComanda(Long id) throws NegocioException;
     
 }

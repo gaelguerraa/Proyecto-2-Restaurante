@@ -4,8 +4,10 @@
  */
 package sistemarestaurantepersistencia.interfaces;
 
+import java.util.List;
 import sistemarestaurantedominio.DetallesComanda;
 import sistemarestaurantedominio.dtos.NuevoDetalleComandaDTO;
+import sistemarestaurantepersistencia.exception.PersistenciaException;
 
 /**
  *
@@ -13,4 +15,10 @@ import sistemarestaurantedominio.dtos.NuevoDetalleComandaDTO;
  */
 public interface IDetallesComandasDAO {
     public abstract DetallesComanda guardarDetalleComanda(NuevoDetalleComandaDTO detalleComanda);
+    
+    public abstract List<DetallesComanda> obtenerDetallesComanda(Long id) throws PersistenciaException;
+    
+    public abstract void eliminarDetallesPorComanda(Long idComanda) throws PersistenciaException;
 }
+
+

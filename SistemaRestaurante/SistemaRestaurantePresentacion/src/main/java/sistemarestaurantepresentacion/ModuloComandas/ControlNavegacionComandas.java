@@ -29,7 +29,6 @@ public class ControlNavegacionComandas {
     private ControlNavegacionClientes controlClientes;
     private ControlNavegacionProductos controlProductos;
 
-
     public ControlNavegacionComandas() throws NegocioException {
         comandasBO = FabricaObjetosNegocio.crearComandasBO();
         productosBO = FabricaObjetosNegocio.crearProductosBO();
@@ -52,7 +51,7 @@ public class ControlNavegacionComandas {
     //Esta por verse como queda esto
     public void crearComanda() {
         this.frameMenuComandas.dispose();
-        this.frameCrearComanda = new frmCrearComanda(this, comandasBO, productosBO, detallesComandasBO);
+        this.frameCrearComanda = new frmCrearComanda(this, comandasBO, productosBO, detallesComandasBO, null);
         frameCrearComanda.setVisible(true);
 //        this.frameAgregarProductoComanda = new frmAgregarProductoComanda(this, comandaActual);
 
@@ -63,10 +62,10 @@ public class ControlNavegacionComandas {
         this.frameVerComandas = new frmVerComandas(this, comandasBO);
         frameVerComandas.setVisible(true);
     }
-    
-    public void detallesComanda(Comanda comandaSeleccionada){
+
+    public void detallesComanda(Comanda comandaSeleccionada) {
         this.frameVerComandas.dispose();
-        this.frameDetalleComanda = new frmVerDetalleComanda(this.ingredientesBO,this.detallesComandasBO,comandaSeleccionada, this, comandasBO, clientesBO);
+        this.frameDetalleComanda = new frmVerDetalleComanda(this.ingredientesBO, this.detallesComandasBO, comandaSeleccionada, this, comandasBO, clientesBO);
         this.frameDetalleComanda.setVisible(true);
     }
 
@@ -87,12 +86,18 @@ public class ControlNavegacionComandas {
         return controlClientes.regresarClienteSeleccionado();
 
     }
-    
+
     //
-    public Producto obtenerProducto(){
+    public Producto obtenerProducto() {
         controlProductos = new ControlNavegacionProductos();
         return controlProductos.regresarProducto();
     }
-    
+
+    public void editarComanda(String folio) {
+        this.frameCrearComanda = new frmCrearComanda(this, comandasBO, productosBO, detallesComandasBO, folio);
+        frameCrearComanda.setVisible(true);
+        frameDetalleComanda.dispose();
+
+    }
 
 }

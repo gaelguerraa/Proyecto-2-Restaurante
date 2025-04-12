@@ -143,7 +143,7 @@ public class FrmRegistrarIngrediente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        // TODO add your handling code here:
+
         control.IniciarFrmMenuIngredientes();
         dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed

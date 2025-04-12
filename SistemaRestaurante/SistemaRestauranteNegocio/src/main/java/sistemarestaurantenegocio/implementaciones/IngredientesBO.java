@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package sistemarestaurantenegocio.implementaciones;
 
 import java.util.List;
@@ -12,10 +8,6 @@ import sistemarestaurantenegocio.IIngredientesBO;
 import sistemarestaurantenegocio.excepciones.NegocioException;
 import sistemarestaurantepersistencia.interfaces.IIngredientesDAO;
 
-/**
- *
- * @author jalt2
- */
 public class IngredientesBO implements IIngredientesBO{
     
     private IIngredientesDAO ingredienteDAO;

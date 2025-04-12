@@ -1,20 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package sistemarestaurantepresentacion.ModuloClientes;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import sistemarestaurantedominio.ClienteFrecuente;
 import sistemarestaurantenegocio.IClientesFrecuentesBO;
 import sistemarestaurantenegocio.fabrica.FabricaObjetosNegocio;
 import sistemarestaurantepresentacion.frmMenuPrincipal;
 
-/**
- *
- * @author jorge
- */
 public class ControlNavegacionClientes {
 
     frmMenuClientes frameMenuClientes;

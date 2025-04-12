@@ -33,6 +33,9 @@ public class frmReportesComandas extends javax.swing.JFrame {
         setTitle("Reporte de comandas");
     }
 
+    /**
+     * Metodo que llena la tabla con comandas y sus datos en base a las fechas otorgadas
+     */
     private void llenarTablaComandas() {
         List<NuevaComandaDTO> comandas = comandasBO.consultarComandasPorRangoFechas(fechaInicio, fechaFin);
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblTabla.getModel();

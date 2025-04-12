@@ -2,13 +2,19 @@ package sistemarestaurantenegocio.implementaciones;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.PersistenceException;
 import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.DetallesComanda;
 import sistemarestaurantedominio.EstadoComanda;
 import sistemarestaurantedominio.Mesa;
+import sistemarestaurantedominio.dtos.ActualizarComandaDTO;
 import sistemarestaurantedominio.dtos.NuevaComandaDTO;
 import sistemarestaurantedominio.dtos.ProductoComandaDTO;
 import sistemarestaurantenegocio.IComandasBO;
+import sistemarestaurantenegocio.excepciones.NegocioException;
+import sistemarestaurantepersistencia.exception.PersistenciaException;
 import sistemarestaurantepersistencia.interfaces.IComandasDAO;
 
 
@@ -68,6 +74,26 @@ public class ComandasBO implements IComandasBO {
     @Override
     public Integer actualizarEstadoComanda(Comanda comanda, EstadoComanda estado) {
         return comandasDAO.actualizarEstadoComanda(comanda, estado);
+    }
+
+    @Override
+    public void actualizarComanda(ActualizarComandaDTO comandaDTO) throws NegocioException{
+        try{
+            comandasDAO.actualizarComanda(comandaDTO);
+        }
+        catch(PersistenceException ex){
+            throw new NegocioException("No fue posible actualizar la comanda" + ex.getMessage());
+        }
+        
+    }
+
+    @Override
+    public void actualizarTotalComanda(Long idComanda, Float nuevoTotal) throws NegocioException {
+        try {
+            comandasDAO.actualizarTotalComanda(idComanda, nuevoTotal);
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("No fue posible actualizar el precio" + ex.getMessage());
+        }
     }
     
 }
