@@ -19,7 +19,7 @@ public interface IIngredientesDAO  {
     public abstract List<Ingrediente> obtenerIngredientesPorNombre(String nombre);
     public abstract List<Ingrediente> obtenerIngredientesPorUnidadMedida(String unidadMedida);
     public abstract List<Ingrediente> obtenerIngredientePorNombreYMedida(String nombre, String unidadMedida);
-    public abstract Integer aumentarStock(Ingrediente ingredienteStock,Float cantidadAumentar);
-    public abstract Integer disminuirStock(Ingrediente ingredienteStock, Float cantidadDisminuir);
+    public abstract Integer aumentarStock(Long idIngrediente,Float cantidadAumentar);
+    public abstract Integer disminuirStock(Long idIngrediente, Float cantidadDisminuir);
     
 }

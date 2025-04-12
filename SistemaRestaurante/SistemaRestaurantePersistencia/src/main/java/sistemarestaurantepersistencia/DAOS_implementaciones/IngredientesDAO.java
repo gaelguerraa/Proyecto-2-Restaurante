@@ -108,7 +108,7 @@ public class IngredientesDAO implements IIngredientesDAO {
      * @return Número de registros afectados.
      */
     @Override
-    public Integer aumentarStock(Ingrediente ingredienteStock, Float cantidadAumentar) {
+    public Integer aumentarStock(Long idIngrediente, Float cantidadAumentar) {
         EntityManager em = ManejadorConexiones.getEntityManager();
         
         int resultado = 0; 
@@ -118,40 +118,56 @@ public class IngredientesDAO implements IIngredientesDAO {
                            WHERE i.id = :idIngrediente
                            """;
         Query query = em.createQuery(jpqlQuery);
-        query.setParameter("idIngrediente", ingredienteStock.getId());
+        query.setParameter("idIngrediente", idIngrediente);
         query.setParameter("cantidadAumentar", cantidadAumentar);
        
         resultado = query.executeUpdate();
-        
+        em.flush(); // Asegura que los cambios se envíen a la base de datos
+
+        em.clear(); // Limpia el contexto de persistencia para evitar inconsistencias
         em.getTransaction().commit();
+        System.out.println("Filas afectadas: "+resultado);
         
         return resultado;
     }
 
     /**
      * Disminuye el stock de un ingrediente específico.
-     * @param ingredienteStock Ingrediente al cual se le va a disminuir el stock.
+     * @param idIngrediente id del ingrediente
      * @param cantidadDisminuir Cantidad que se va a restar del stock actual.
      * @return Número de registros afectados.
      */
     @Override
-    public Integer disminuirStock(Ingrediente ingredienteStock, Float cantidadDisminuir) {
+    public Integer disminuirStock(Long idIngrediente, Float cantidadDisminuir) {
         EntityManager em = ManejadorConexiones.getEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            // Re-obtener la entidad gestionada
+            Ingrediente ingrediente = em.find(Ingrediente.class, idIngrediente);
+
+            if (ingrediente == null) {
+                em.getTransaction().rollback();
+                return 0;
+            }
+
+            Float nuevoStock = ingrediente.getStock() - cantidadDisminuir;
+            ingrediente.setStock(nuevoStock);
+
+            em.getTransaction().commit();
+            return 1;
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            return -1;
+        } finally {
+            if (em.isOpen()){
+                em.close();
+            }
+
+        }
+    
         
-        int resultado = 0; 
-        em.getTransaction().begin();
-        String jpqlQuery = """
-                           UPDATE Ingrediente i SET i.stock = i.stock - :cantidadDisminuir
-                           WHERE i.id = :idIngrediente
-                           """;
-        Query query = em.createQuery(jpqlQuery);
-        query.setParameter("idIngrediente", ingredienteStock.getId());
-        query.setParameter("cantidadDisminuir", cantidadDisminuir);
-       
-        resultado = query.executeUpdate();
-        
-        em.getTransaction().commit();
-        
-        return resultado;
     }
 }

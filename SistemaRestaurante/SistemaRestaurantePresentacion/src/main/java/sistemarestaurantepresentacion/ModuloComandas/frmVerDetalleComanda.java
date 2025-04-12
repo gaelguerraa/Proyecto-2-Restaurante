@@ -42,7 +42,7 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
      */
     public frmVerDetalleComanda(IIngredientesBO ingredientesBO, IDetallesComandasBO detallesComandasBO, Comanda comandaSeleccionada, ControlNavegacionComandas control, IComandasBO comandasBO, IClientesFrecuentesBO clientesBO) {
         initComponents();
-        this.comandaSeleccionada = comandaSeleccionada;
+        this.comandaSeleccionada = comandasBO.buscarPorFolio(comandaSeleccionada.getFolio());
         this.comandasBO = comandasBO;
         this.clientesBO = clientesBO;
         this.detallesComandasBO = detallesComandasBO;
@@ -382,7 +382,7 @@ public class frmVerDetalleComanda extends javax.swing.JFrame {
                 for (IngredienteProducto ingredienteProducto : detallesComanda.getProducto().getIngredientes()) {
                     //actualizar stock
                     Float cantidadActualizar = cantidadProducto*ingredienteProducto.getCantidadIngrediente();
-                    ingredientesBO.disminuirStock(ingredienteProducto.getIngrediente(), cantidadActualizar);
+                    ingredientesBO.disminuirStock(ingredienteProducto.getIngrediente().getId(), cantidadActualizar);
                 }
             }
             // actualizar estado de comanda

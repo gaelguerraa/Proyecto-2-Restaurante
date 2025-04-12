@@ -8,7 +8,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import sistemarestaurantedominio.Comanda;
 import sistemarestaurantedominio.DetallesComanda;
+import sistemarestaurantedominio.Producto;
 import sistemarestaurantedominio.dtos.NuevoDetalleComandaDTO;
 import sistemarestaurantepersistencia.exception.PersistenciaException;
 import sistemarestaurantepersistencia.interfaces.IDetallesComandasDAO;
@@ -29,14 +31,17 @@ public class DetallesComandasDAO implements IDetallesComandasDAO {
 
         EntityManager em = ManejadorConexiones.getEntityManager();
         em.getTransaction().begin();
-
+        
+        Comanda comanda = em.find(Comanda.class, detalleComanda.getComanda().getId());
+        Producto producto = em.find(Producto.class, detalleComanda.getProduto().getId());
+        
         DetallesComanda dc = new DetallesComanda();
         dc.setCantidadProducto(detalleComanda.getCantidad());
         dc.setPrecioUnitarioProducto(detalleComanda.getPrecioActual());
         dc.setImporteTotal(detalleComanda.getImporte());
         dc.setNota(detalleComanda.getNota());
-        dc.setComanda(detalleComanda.getComanda());
-        dc.setProducto(detalleComanda.getProduto());
+        dc.setComanda(comanda);
+        dc.setProducto(producto);
 
         em.persist(dc);
         em.getTransaction().commit();

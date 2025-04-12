@@ -94,23 +94,6 @@ public class IngredientesBO implements IIngredientesBO {
     }
 
     /**
-     * Aumenta el stock de un ingrediente.
-     * 
-     * @param ingredienteStock Ingrediente al que se aumentará el stock.
-     * @param cantidadAumentar Cantidad a aumentar.
-     * @return Cantidad actualizada de stock.
-     * @throws NegocioException si la cantidad es menor o igual a 0.
-     */
-    @Override
-    public Integer aumentarStock(Ingrediente ingredienteStock, Float cantidadAumentar) throws NegocioException {
-        if (cantidadAumentar <= CERO) {
-            throw new NegocioException("La cantidad a aumentar debe ser mayor a 0");
-        }
-        
-        return ingredienteDAO.aumentarStock(ingredienteStock, cantidadAumentar);
-    }
-
-    /**
      * Consulta un ingrediente por nombre y unidad de medida.
      * 
      * @param nombre Nombre del ingrediente.
@@ -125,18 +108,20 @@ public class IngredientesBO implements IIngredientesBO {
 
     /**
      * Disminuye el stock de un ingrediente.
-     * 
-     * @param ingredienteStock Ingrediente al que se disminuirá el stock.
+     * @param idIngrediente id del ingrediente
      * @param cantidadDisminuir Cantidad a disminuir.
      * @return Cantidad actualizada de stock.
      * @throws NegocioException si la cantidad a disminuir es mayor al stock actual.
      */
     @Override
-    public Integer disminuirStock(Ingrediente ingredienteStock, Float cantidadDisminuir) throws NegocioException {
-        if (cantidadDisminuir > ingredienteStock.getStock()) {
-            throw new NegocioException("La cantidad no puede ser mayor al stock actual");
-        }
+    public Integer disminuirStock(Long idIngrediente, Float cantidadDisminuir) throws NegocioException {
         
-        return ingredienteDAO.disminuirStock(ingredienteStock, cantidadDisminuir);
+        return ingredienteDAO.disminuirStock(idIngrediente, cantidadDisminuir);
     }
-}
+
+    @Override
+    public Integer aumentarStock(Long idIngrediente, Float cantidadAumentar) throws NegocioException {
+        return ingredienteDAO.aumentarStock(idIngrediente, cantidadAumentar);
+    }
+
+}    

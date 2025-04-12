@@ -20,6 +20,6 @@ public interface IIngredientesBO {
     public abstract List<Ingrediente> consultarIngredientesPorNombre(String Nombre) throws NegocioException;
     public abstract List<Ingrediente> consultarIngredientesPorUnidadMedida(String unidadMedida) throws NegocioException;
     public abstract List<Ingrediente> consultarIngredientePorNombreYMedida(String nombre, String unidadMedida)throws NegocioException;
-    public abstract Integer aumentarStock(Ingrediente ingredienteStock, Float cantidadAumentar)throws NegocioException;
-    public abstract Integer disminuirStock(Ingrediente ingredienteStock, Float cantidadDisminuir)throws NegocioException;
+    public abstract Integer aumentarStock(Long idIngrediente, Float cantidadAumentar)throws NegocioException;
+    public abstract Integer disminuirStock(Long idIngrediente, Float cantidadDisminuir)throws NegocioException;
 }

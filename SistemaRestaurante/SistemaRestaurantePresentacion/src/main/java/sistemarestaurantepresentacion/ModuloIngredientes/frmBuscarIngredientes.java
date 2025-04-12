@@ -43,7 +43,7 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
                     try {
                         Float stockFloat = Float.valueOf(stockString);
                         ingredienteSeleccionado = new Ingrediente(nombreIngrediente, UnidadMedidaIngrediente.valueOf(unidadMedida), stockFloat);
-                        ingredientesBO.aumentarStock(ingredienteSeleccionado, stockFloat);
+                        ingredientesBO.aumentarStock(ingredienteSeleccionado.getId(), stockFloat);
                     } catch (NegocioException ex) {
                         LOG.severe("Error: "+ex.getMessage());
                     }
@@ -68,7 +68,7 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
                     try {
                         Float stockFloat = Float.valueOf(stockString);
                         ingredienteSeleccionado = new Ingrediente(nombreIngrediente, UnidadMedidaIngrediente.valueOf(unidadMedida), stockFloat);
-                        ingredientesBO.disminuirStock(ingredienteSeleccionado, -stockFloat);
+                        ingredientesBO.disminuirStock(ingredienteSeleccionado.getId(), -stockFloat);
                     } catch (NegocioException ex) {
                         LOG.severe("Error: "+ex.getMessage());
                     }
@@ -334,6 +334,28 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
 
     private void btnAumentarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAumentarStockActionPerformed
         // TODO add your handling code here:
+        this.tblIngredientes.getSelectionModel().addListSelectionListener(e->{
+            if (!e.getValueIsAdjusting()) {
+                int filaSeleccionada = this.tblIngredientes.getSelectedRow();
+                if (filaSeleccionada != -1) {
+                    //Recuperar valores de la fila
+                    String nombreIngrediente = this.tblIngredientes.getValueAt(filaSeleccionada, 0).toString();
+                    String unidadMedida = this.tblIngredientes.getValueAt(filaSeleccionada, 1).toString();
+
+                    
+                }
+            }
+        
+        });
+        String stockString = JOptionPane.showInputDialog(this, "Ingrese la cantidad de "+unidadMedida+" para "+nombreIngrediente);
+                    
+                    try {
+                        Float stockFloat = Float.valueOf(stockString);
+                        ingredienteSeleccionado = new Ingrediente(nombreIngrediente, UnidadMedidaIngrediente.valueOf(unidadMedida), stockFloat);
+                        ingredientesBO.aumentarStock(ingredienteSeleccionado.getId(), stockFloat);
+                    } catch (NegocioException ex) {
+                        LOG.severe("Error: "+ex.getMessage());
+                    }
         JOptionPane.showMessageDialog(this, "Seleccione un ingrediente");
         this.seleccionarIngredienteAumentarStock();
     }//GEN-LAST:event_btnAumentarStockActionPerformed
