@@ -25,6 +25,7 @@ public class FrmBuscarIngredientes extends javax.swing.JFrame {
         this.ingredientesBO = ingredientesBO;
         this.llenarComboBoxMedida();
         setTitle("Buscar ingredientes");
+        setLocationRelativeTo(null);
     }
     
     private void seleccionarIngredienteAumentarStock(){

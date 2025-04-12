@@ -28,6 +28,7 @@ public class frmCambiarPrecioProducto extends javax.swing.JFrame {
         setTitle("Cambiar Precio a Producto");
         initComponents();
         LlenarTablaProductos();
+        setLocationRelativeTo(null);
     }
     
      public void LlenarTablaProductos(){

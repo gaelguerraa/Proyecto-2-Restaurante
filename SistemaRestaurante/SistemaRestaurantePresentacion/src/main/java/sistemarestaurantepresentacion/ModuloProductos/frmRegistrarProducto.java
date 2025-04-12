@@ -33,6 +33,7 @@ public class frmRegistrarProducto extends javax.swing.JFrame {
         this.productosBO=productosBO;
         LlenarComboBoxTipoProducto();
         setTitle("Registro de productos");
+        setLocationRelativeTo(null);
 
     }
     

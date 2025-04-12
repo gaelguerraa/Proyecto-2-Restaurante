@@ -22,6 +22,7 @@ public class FrmRegistrarIngrediente extends javax.swing.JFrame {
         this.ingredientesBO=ingredientesBO;
         this.llenarComboBoxMedida();
         setTitle("Registro ingredientes");
+        setLocationRelativeTo(null);
     }
 
     /**

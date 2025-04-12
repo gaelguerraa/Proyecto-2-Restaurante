@@ -15,6 +15,7 @@ public class FrmMenuIngredientes extends javax.swing.JFrame {
         this.control=control;
         initComponents();
         setTitle("Menu ingredientes");
+        setLocationRelativeTo(null);
     }
 
     /**

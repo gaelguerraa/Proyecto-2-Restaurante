@@ -37,6 +37,7 @@ public class frmAnadirIngredienteProducto extends javax.swing.JFrame {
         initComponents();
         LlenarComboBoxIngrediente();
         LlenarTablaProductos();
+        setLocationRelativeTo(null);
     }
     
     public void LlenarTablaProductos(){

@@ -9,6 +9,7 @@ package sistemarestaurantepresentacion.ModuloIngredientes;
         this.control=control;
         initComponents();
         setTitle("Registro exitoso");
+        setLocationRelativeTo(null);
     }
 
     /**
